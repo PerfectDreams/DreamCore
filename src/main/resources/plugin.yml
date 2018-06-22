@@ -1,0 +1,4 @@
+name: DreamCore
+main: net.perfectdreams.dreamcore.DreamCore
+version: 1.0.0
+softdepend: ["Multiverse-Core", "ProtocolLib"]
