@@ -451,7 +451,7 @@ public class NbtFactory {
         boolean suppress = true;
         
         try {
-            input = stream.getInput();
+            input = stream.openStream();
             data = new DataInputStream(new BufferedInputStream(
                 option == StreamOptions.GZIP_COMPRESSION ? new GZIPInputStream(input) : input
             ));
@@ -483,7 +483,7 @@ public class NbtFactory {
         boolean suppress = true;
         
         try {
-            output = stream.getOutput();
+            output = stream.openStream();
             data = new DataOutputStream(
                 option == StreamOptions.GZIP_COMPRESSION ? new GZIPOutputStream(output) : output
             );
