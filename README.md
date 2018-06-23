@@ -4,7 +4,7 @@
 <br>
   <a href="https://perfectdreams.net"><img src="https://img.shields.io/badge/website-perfectdreams-blue.svg"></a>
 <a href="https://perfectdreams.net/discord"><img src="https://img.shields.io/badge/discord-perfectdreams-7289da.svg"></a>
-<a href="https://perfectdreams.net/loja"><img src="https://img.shields.io/badge/support-perfectdreams-yellow.svg"></a>
+<a href="https://perfectdreams.net/loja"><img src="https://img.shields.io/badge/donate-perfectdreams-yellow.svg"></a>
 <a href="https://circleci.com/gh/PerfectDreams/DreamCore"><img src="https://circleci.com/gh/PerfectDreams/DreamCore.svg?style=shield"></a>
 <a href="https://mrpowergamerbr.com/"><img src="https://img.shields.io/badge/website-mrpowergamerbr-blue.svg"></a>
 <a href="https://github.com/PerfectDreams/DreamCore/LICENSE"><img src="https://img.shields.io/badge/license-AGPL%20v3-orange.svg"></a>
