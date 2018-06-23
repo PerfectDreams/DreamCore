@@ -71,21 +71,21 @@
             <artifactId>spigot</artifactId>
             <version>1.12.2</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}\libs\patched_1.12.2.jar</systemPath>
+            <systemPath>${project.basedir}/libs/patched_1.12.2.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>com.sk89q.worldedit</groupId>
             <artifactId>worldedit-bukkit</artifactId>
             <version>6.1.9-SNAPSHOT</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}\libs\worldedit-bukkit-6.1.9-SNAPSHOT-dist.jar</systemPath>
+            <systemPath>${project.basedir}/libs/worldedit-bukkit-6.1.9-SNAPSHOT-dist.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>com.sk89q.worldguard</groupId>
             <artifactId>worldguard-legacy</artifactId>
             <version>6.2.2-SNAPSHOT</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}\libs\worldguard-legacy-6.2.2-SNAPSHOT-dist.jar</systemPath>
+            <systemPath>${project.basedir}/libs/worldguard-legacy-6.2.2-SNAPSHOT-dist.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>com.github.ProtocolSupport</groupId>
