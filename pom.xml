@@ -21,6 +21,10 @@
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
         <repository>
+            <id>perfectdreams-repo</id>
+            <url>https://raw.githubusercontent.com/PerfectDreams/DreamMavenRepository/master/</url>
+        </repository>
+        <repository>
             <id>vault-repo</id>
             <url>http://nexus.hc.to/content/repositories/pub_releases</url>
         </repository>
@@ -67,25 +71,22 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.spigot</groupId>
-            <artifactId>spigot</artifactId>
-            <version>1.12.2</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/libs/patched_1.12.2.jar</systemPath>
+            <groupId>com.destroystokyo.paper</groupId>
+            <artifactId>paper</artifactId>
+            <version>1.12.2-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.sk89q.worldedit</groupId>
-            <artifactId>worldedit-bukkit</artifactId>
-            <version>6.1.9-SNAPSHOT</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/libs/worldedit-bukkit-6.1.9-SNAPSHOT-dist.jar</systemPath>
+            <artifactId>worldedit-core</artifactId>
+            <version>6.1.4-SNAPSHOT</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.sk89q.worldguard</groupId>
             <artifactId>worldguard-legacy</artifactId>
-            <version>6.2.2-SNAPSHOT</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/libs/worldguard-legacy-6.2.2-SNAPSHOT-dist.jar</systemPath>
+            <version>6.2</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.github.ProtocolSupport</groupId>
