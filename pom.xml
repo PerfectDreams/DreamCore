@@ -17,6 +17,10 @@
 
     <repositories>
         <repository>
+            <id>spigot-repo</id>
+            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+        </repository>
+        <repository>
             <id>vault-repo</id>
             <url>http://nexus.hc.to/content/repositories/pub_releases</url>
         </repository>
@@ -40,6 +44,18 @@
             <id>okkero</id>
             <url>http://nexus.okkero.com/repository/maven-releases/</url>
         </repository>
+        <repository>
+            <id>dmulloy2-repo</id>
+            <url>http://repo.dmulloy2.net/nexus/repository/public/</url>
+        </repository>
+        <repository>
+            <id>lang-utils-repo</id>
+            <url>https://raw.github.com/MascusJeoraly/LanguageUtils/mvn-repo/</url>
+        </repository>
+        <repository>
+            <id>sk89q</id>
+            <url>https://maven.sk89q.com/repo/</url>
+        </repository>
     </repositories>
 
     <pluginRepositories>
@@ -50,47 +66,38 @@
     </pluginRepositories>
 
     <dependencies>
-         <dependency>
+        <dependency>
             <groupId>com.spigot</groupId>
             <artifactId>spigot</artifactId>
-            <version>1.12.1</version>
+            <version>1.12.2</version>
             <scope>system</scope>
-            <systemPath>C:\Users\Whistler\Documents\Minecraft Servers\PocketDreams v2\PocketDreams Survival\cache\patched_1.12.2.jar</systemPath>
+            <systemPath>${project.basedir}\libs\patched_1.12.2.jar</systemPath>
         </dependency>
         <dependency>
-            <groupId>protocolsupport</groupId>
-            <artifactId>protocolsupport</artifactId>
-            <version>1.0.0</version>
+            <groupId>com.sk89q.worldedit</groupId>
+            <artifactId>worldedit-bukkit</artifactId>
+            <version>6.1.9-SNAPSHOT</version>
             <scope>system</scope>
-            <systemPath>C:\Users\Whistler\Documents\Minecraft Servers\PocketDreams v2\PocketDreams Survival\plugins\ProtocolSupport.jar</systemPath>
+            <systemPath>${project.basedir}\libs\worldedit-bukkit-6.1.9-SNAPSHOT-dist.jar</systemPath>
         </dependency>
         <dependency>
-            <groupId>protocollib</groupId>
-            <artifactId>protocollib</artifactId>
-            <version>1.0.0</version>
+            <groupId>com.sk89q.worldguard</groupId>
+            <artifactId>worldguard-legacy</artifactId>
+            <version>6.2.2-SNAPSHOT</version>
             <scope>system</scope>
-            <systemPath>C:\Users\Whistler\Documents\Minecraft Servers\PocketDreams v2\PocketDreams Survival\plugins\ProtocolLib.jar</systemPath>
+            <systemPath>${project.basedir}\libs\worldguard-legacy-6.2.2-SNAPSHOT-dist.jar</systemPath>
         </dependency>
         <dependency>
-            <groupId>worldedit</groupId>
-            <artifactId>worldedit</artifactId>
-            <version>1.0.0</version>
-            <scope>system</scope>
-            <systemPath>C:\Users\Whistler\Documents\Minecraft Servers\PocketDreams v2\PocketDreams Survival\plugins\worldedit-bukkit-6.1.7.3.jar</systemPath>
+            <groupId>com.github.ProtocolSupport</groupId>
+            <artifactId>ProtocolSupport</artifactId>
+            <version>507cbc1086</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>worldguard</groupId>
-            <artifactId>worldguard</artifactId>
-            <version>1.0.0</version>
-            <scope>system</scope>
-            <systemPath>C:\Users\Whistler\Documents\Minecraft Servers\PocketDreams v2\PocketDreams Survival\plugins\worldguard-6.2.1.jar</systemPath>
-        </dependency>
-        <dependency>
-            <groupId>langutils</groupId>
-            <artifactId>langutils</artifactId>
-            <version>1.0.0</version>
-            <scope>system</scope>
-            <systemPath>C:\Users\Whistler\Documents\Minecraft Servers\PocketDreams v2\PocketDreams Survival\plugins\LangUtils.jar</systemPath>
+            <groupId>com.comphenix.protocol</groupId>
+            <artifactId>ProtocolLib-API</artifactId>
+            <version>4.3.0</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>net.milkbowl.vault</groupId>
@@ -144,7 +151,6 @@
     </dependencies>
 
     <build>
-        <sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
         <plugins>
             <plugin>
                 <artifactId>kotlin-maven-plugin</artifactId>
@@ -201,14 +207,6 @@
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                </configuration>
             </plugin>
         </plugins>
     </build>
