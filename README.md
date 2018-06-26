@@ -13,6 +13,7 @@
 <a href="https://twitter.com/intent/user?screen_name=perfectdreamsmc"><img src="https://img.shields.io/badge/👍 Curtir-PerfectDreams 🎮-3B5998.svg?longCache=true"></a>
 <a href="https://twitter.com/intent/user?screen_name=perfectdreamsmc"><img src="https://img.shields.io/twitter/follow/perfectdreamsmc.svg?style=social&label=Seguir%20PerfectDreams"></a>
 <a href="https://twitter.com/intent/user?screen_name=MrPowerGamerBR"><img src="https://img.shields.io/twitter/follow/mrpowergamerbr.svg?style=social&label=Seguir%20MrPowerGamerBR"></a>
+<a href="https://mrpowergamerbr.com/"><img src="https://img.shields.io/badge/website-mrpowergamerbr-blue.svg"></a>
 </p>
 <p align="center">
 <a href="https://perfectdreams.net/open-source">
