@@ -28,7 +28,7 @@
 </p>
 <p align="center">
 <a href="https://github.com/PerfectDreams/DreamCore/stargazers"><img src="https://img.shields.io/github/stars/PerfectDreams/DreamCore.svg?style=social&label=Stars"></a>
-<a href="https://github.com/PerfectDreams/DreamCore/watchers"><img src="https://img.shields.io/github/stars/PerfectDreams/DreamCore.svg?style=social&label=Watch"></a>
+<a href="https://github.com/PerfectDreams/DreamCore/watchers"><img src="https://img.shields.io/github/watchers/PerfectDreams/DreamCore.svg?style=social&label=Watch"></a>
 </p>
 <p align="center">O núcleo que contém todos os sonhos que nossos plugins precisam!</p>
 
