@@ -2,6 +2,7 @@ package net.perfectdreams.dreamcore.utils
 
 import com.sk89q.worldedit.bukkit.BukkitUtil
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin
+import com.sk89q.worldguard.protection.ApplicableRegionSet
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.block.Block
@@ -33,11 +34,26 @@ object WorldGuardUtils {
 		return set.any { it.id.equals(region, ignoreCase = true) }
 	}
 
-	fun getRegionsAt(loc: Location): ArrayList<String> {
+	/**
+	 * Retorna todas as regiões do WorldGuard em uma localização específica
+	 *
+	 * @return um set com todas as regiões na localização
+	 */
+	fun getRegionsAt(loc: Location): ApplicableRegionSet {
 		val guard = worldGuard
 		val v = BukkitUtil.toVector(loc)
 		val manager = guard!!.getRegionManager(loc.world)
 		val set = manager.getApplicableRegions(v)
-		return set.mapTo(ArrayList<String>()) { it.id }
+		return set
+	}
+
+	/**
+	 * Retorna ID de todas as regiões do WorldGuard em uma localização específica
+	 *
+	 * @return um set com todas as regiões na localização
+	 * @see getRegionsAt
+	 */
+	fun getRegionIdsAt(loc: Location): List<String> {
+		return getRegionsAt(loc).map { it.id }
 	}
 }
