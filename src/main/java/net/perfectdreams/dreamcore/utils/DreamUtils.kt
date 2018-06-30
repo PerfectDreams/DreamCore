@@ -280,7 +280,7 @@ val Location.blacklistedTeleport: Boolean
 		if (DreamCore.dreamConfig.blacklistedWorldsTeleport.contains(this.world.name)) {
 			return true
 		}
-		val regions = WorldGuardUtils.getRegionsAt(this)
+		val regions = WorldGuardUtils.getRegionIdsAt(this)
 		return regions.any { DreamCore.dreamConfig.blacklistedRegionsTeleport.contains(it) }
 	}
 
