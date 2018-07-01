@@ -251,7 +251,7 @@ object DreamUtils {
 	 * @param player instância do player
 	 * @returns      as informações criadas do usuário
 	 */
-	fun createPerfectDreamsPlayerInfo(player: Player): Document? {
+	fun createPerfectDreamsPlayerInfo(player: Player): Document {
 		return createPerfectDreamsPlayerInfo(player.uniqueId, player.name)
 	}
 
