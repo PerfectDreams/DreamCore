@@ -10,6 +10,7 @@ import com.mongodb.MongoClientOptions
 import com.mongodb.ServerAddress
 import com.mongodb.client.MongoCollection
 import com.mongodb.client.MongoDatabase
+import com.mongodb.client.model.Filters
 import com.mongodb.client.model.ReplaceOptions
 import com.mongodb.event.ServerHeartbeatFailedEvent
 import com.mongodb.event.ServerHeartbeatStartedEvent
@@ -18,6 +19,7 @@ import com.mongodb.event.ServerMonitorListener
 import net.md_5.bungee.api.chat.BaseComponent
 import net.perfectdreams.dreamcore.DreamCore
 import net.perfectdreams.dreamcore.utils.codecs.LocationCodec
+import org.bson.Document
 import org.bson.codecs.configuration.CodecRegistries
 import org.bson.codecs.configuration.CodecRegistries.fromProviders
 import org.bson.codecs.configuration.CodecRegistries.fromRegistries
@@ -59,6 +61,8 @@ object DreamUtils {
 	val jsonParser = JsonParser()
 	val pojoCodecProvider: PojoCodecProvider
 	val pojoCodecRegistry: CodecRegistry
+	val database: MongoDatabase
+	val usersCollection: MongoCollection<Document>
 
 	init {
 		pojoCodecProvider = PojoCodecProvider.builder()
@@ -191,11 +195,110 @@ object DreamUtils {
 					}
 				}
 		gson = gsonBuilder.create()
+
+		database = getMongoDatabase("perfectdreams")
+		usersCollection = database.getCollection("users")
 	}
 
 	fun getMongoDatabase(name: String): MongoDatabase {
 		val database = mongoClient.getDatabase(name)
 		return database.withCodecRegistry(pojoCodecRegistry)
+	}
+
+	/**
+	 * Retorna as informações de um usuário do PerfectDreams
+	 *
+	 * @param player instância do player
+	 * @returns      as informações do usuário do PerfectDreams
+	 */
+	fun getPerfectDreamsPlayerInfo(player: Player): Document? {
+		return getPerfectDreamsPlayerInfo(player.uniqueId)
+	}
+
+	/**
+	 * Retorna as informações de um usuário do PerfectDreams
+	 *
+	 * @param username nome do player
+	 * @returns        as informações do usuário do PerfectDreams
+	 */
+	fun getPerfectDreamsPlayerInfo(username: String): Document? {
+		return usersCollection.find(Filters.eq("username", username)).firstOrNull()
+	}
+
+	/**
+	 * Retorna as informações de um usuário do PerfectDreams a partir do username em lower case
+	 *
+	 * @param lowerCaseUsername nome do player em lower case
+	 * @returns                 as informações do usuário do PerfectDreams
+	 */
+	fun getPerfectDreamsPlayerInfoByLowerCaseUsername(lowerCaseUsername: String): Document? {
+		return usersCollection.find(Filters.eq("lowerCaseUsername", lowerCaseUsername)).firstOrNull()
+	}
+
+	/**
+	 * Retorna as informações de um usuário do PerfectDreams a partir do UUID do jogador
+	 *
+	 * @param uuid UUID do jogador
+	 * @returns    as informações do usuário do PerfectDreams
+	 */
+	fun getPerfectDreamsPlayerInfo(uuid: UUID): Document? {
+		return usersCollection.find(Filters.eq("_id", uuid)).firstOrNull()
+	}
+
+	/**
+	 * Cria as informações de um jogador do PerfectDreams
+	 *
+	 * @param player instância do player
+	 * @returns      as informações criadas do usuário
+	 */
+	fun createPerfectDreamsPlayerInfo(player: Player): Document? {
+		return createPerfectDreamsPlayerInfo(player.uniqueId, player.name)
+	}
+
+	/**
+	 * Cria as informações de um jogador do PerfectDreams
+	 *
+	 * @param uuid     UUID do player
+	 * @param username nome do player
+	 * @returns        as informações criadas do usuário
+	 */
+	fun createPerfectDreamsPlayerInfo(uuid: UUID, username: String): Document {
+		val document = Document()
+		document["_id"] = uuid
+		document["username"] = username
+		document["lowerCaseUsername"] = username.toLowerCase()
+
+		return document
+	}
+
+	/**
+	 * Retorna o username do usuário a partir do UUID dele
+	 *
+	 * @param uuid uuid do usuário
+	 * @returns    o username do usuário
+	 */
+	fun getUsernameFromUniqueId(uuid: UUID): String? {
+		return getPerfectDreamsPlayerInfo(uuid)?.getString("username")
+	}
+
+	/**
+	 * Retorna o UUID do usuário a partir do nome dele
+	 *
+	 * @param username username do usuário
+	 * @returns        o UUID do usuário
+	 */
+	fun getUniqueIdFromUsername(username: String): UUID? {
+		return getPerfectDreamsPlayerInfo(username)?.get("_id", UUID::class.java)
+	}
+
+	/**
+	 * Retorna o username do usuário a partir do username em lowercase dele
+	 *
+	 * @param lowerCaseUsername o nome do usuário em lowercase
+	 * @returns                 o real nome do usuário
+	 */
+	fun getPrettyUsernameFromUsername(lowerCaseUsername: String): String? {
+		return getPerfectDreamsPlayerInfoByLowerCaseUsername(lowerCaseUsername)?.getString("username")
 	}
 
 	class MongoServerMonitor : ServerMonitorListener {
