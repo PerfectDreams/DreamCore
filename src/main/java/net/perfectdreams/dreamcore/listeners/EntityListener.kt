@@ -10,26 +10,29 @@ import org.bukkit.event.entity.EntityDeathEvent
 class EntityListener : Listener {
 	@EventHandler
 	fun onEntityAdd(e: EntityAddToWorldEvent) {
-		if (e.entity !is ArmorStand)
+		val entity = e.entity
+
+		if (entity !is ArmorStand)
 			return
 
-		val markedForRemoval = ArmorStandHologram.ARMOR_STANDS_UNIQUE_IDS[e.entity.uniqueId] ?: return
+		val markedForRemoval = ArmorStandHologram.ARMOR_STANDS_UNIQUE_IDS[entity.uniqueId] ?: return
 
 		if (markedForRemoval) {
-			e.entity.remove()
-
+			ArmorStandHologram.ARMOR_STANDS_UNIQUE_IDS.remove(entity.uniqueId)
 			ArmorStandHologram.updateFile()
 		}
 	}
 
 	@EventHandler
 	fun onEntityKill(e: EntityDeathEvent) {
-		if (e.entity !is ArmorStand)
+		val entity = e.entity
+
+		if (entity !is ArmorStand)
 			return
 
-		if (ArmorStandHologram.ARMOR_STANDS_UNIQUE_IDS.contains(e.entity.uniqueId)) {
-			e.entity.remove()
-
+		if (ArmorStandHologram.ARMOR_STANDS_UNIQUE_IDS.contains(entity.uniqueId)) {
+			entity.remove()
+			ArmorStandHologram.ARMOR_STANDS_UNIQUE_IDS.remove(entity.uniqueId)
 			ArmorStandHologram.updateFile()
 		}
 	}
