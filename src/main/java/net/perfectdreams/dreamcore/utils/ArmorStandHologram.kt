@@ -43,6 +43,9 @@ class ArmorStandHologram(var location: Location, internal var line: String?) {
 		 * Carrega todos os IDs das armor stands
 		 */
 		fun loadArmorStandsUniqueIds() {
+			if (!ARMOR_STAND_FILE.exists())
+				return
+
 			ARMOR_STANDS_UNIQUE_IDS.addAll(
 					ARMOR_STAND_FILE.readLines().map { UUID.fromString(it) }
 			)
@@ -57,6 +60,9 @@ class ArmorStandHologram(var location: Location, internal var line: String?) {
 			}
 
 			ARMOR_STANDS_UNIQUE_IDS.clear()
+			ARMOR_STAND_FILE.writeText(
+					ARMOR_STANDS_UNIQUE_IDS.joinToString("\n")
+			)
 		}
 	}
 
