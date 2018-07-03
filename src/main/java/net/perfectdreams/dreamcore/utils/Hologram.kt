@@ -12,7 +12,7 @@ import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 
 /**
- * Class to spawn holograms in 1.12.2
+ * Class to spawn holograms in 1.12.2 using packets
  * @author MrPowerGamerBR
  */
 class Hologram(var location: Location, internal var line: String?) {

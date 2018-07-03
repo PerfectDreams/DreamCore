@@ -313,6 +313,44 @@ object DreamUtils {
 		override fun serverHearbeatStarted(p0: ServerHeartbeatStartedEvent) {
 		}
 	}
+
+	/**
+	 * Verifica se o código está sendo executado na thread principal do servidor, se sim, um UnsupportedOperationException será criado
+	 *
+	 * @param fatal (opcional) se o exception deverá ficar entre um try ... catch
+	 */
+	fun assertAsyncThread(fatal: Boolean = false) {
+		if (Bukkit.isPrimaryThread()) {
+			if (fatal) {
+				throw UnsupportedOperationException("Async operation in main thread!")
+			} else {
+				try {
+					throw UnsupportedOperationException("Async operation in main thread!")
+				} catch (e: UnsupportedOperationException) {
+					e.printStackTrace()
+				}
+			}
+		}
+	}
+
+	/**
+	 * Verifica se o código está sendo executado na thread principal do servidor, se não, um UnsupportedOperationException será criado
+	 *
+	 * @param fatal (opcional) se o exception deverá ficar entre um try ... catch
+	 */
+	fun assertMainThread(fatal: Boolean = false) {
+		if (!Bukkit.isPrimaryThread()) {
+			if (fatal) {
+				throw UnsupportedOperationException("Asynchronous access is unsupported!")
+			} else {
+				try {
+					throw UnsupportedOperationException("Asynchronous access is unsupported!")
+				} catch (e: UnsupportedOperationException) {
+					e.printStackTrace()
+				}
+			}
+		}
+	}
 }
 
 fun broadcast(message: String, permission: String = Server.BROADCAST_CHANNEL_USERS): Int {

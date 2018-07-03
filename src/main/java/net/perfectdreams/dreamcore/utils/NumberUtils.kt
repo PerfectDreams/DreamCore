@@ -6,7 +6,6 @@ import java.util.*
  * Adapted from bhlangonijr of Stack Overflow - http://stackoverflow.com/a/19759564
  */
 private object RomanNumeralHelper {
-
 	val map: TreeMap<Int, String> = TreeMap()
 
 	init {
