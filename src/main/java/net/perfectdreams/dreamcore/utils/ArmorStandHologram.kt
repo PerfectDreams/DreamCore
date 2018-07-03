@@ -56,7 +56,7 @@ class ArmorStandHologram(var location: Location, internal var line: String?) {
 		 */
 		fun killAllStoredArmorStands() {
 			ARMOR_STANDS_UNIQUE_IDS.forEach {
-				Bukkit.getEntity(it).remove()
+				Bukkit.getEntity(it)?.remove()
 			}
 
 			ARMOR_STANDS_UNIQUE_IDS.clear()
