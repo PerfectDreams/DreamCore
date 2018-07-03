@@ -16,8 +16,8 @@ import java.util.*
  */
 class ArmorStandHologram(var location: Location, internal var line: String?) {
 	companion object {
-		val ARMOR_STANDS_UNIQUE_IDS = mutableSetOf<UUID>()
-		val ARMOR_STANDS_REMOVE_IDS = mutableSetOf<UUID>()
+		// armor stand unique ID -> marked for removal
+		val ARMOR_STANDS_UNIQUE_IDS = mutableMapOf<UUID, Boolean>()
 
 		private val ARMOR_STAND_FILE by lazy {
 			val plugin = Bukkit.getPluginManager().getPlugin("DreamCore")
@@ -32,7 +32,7 @@ class ArmorStandHologram(var location: Location, internal var line: String?) {
 		 */
 		@Synchronized
 		fun addUniqueId(uniqueId: UUID) {
-			ARMOR_STANDS_UNIQUE_IDS.add(uniqueId)
+			ARMOR_STANDS_UNIQUE_IDS[uniqueId] = false
 			updateFile()
 		}
 
@@ -40,7 +40,7 @@ class ArmorStandHologram(var location: Location, internal var line: String?) {
 		fun updateFile() {
 			scheduler().schedule(Bukkit.getPluginManager().getPlugin("DreamCore"), SynchronizationContext.ASYNC) {
 				ARMOR_STAND_FILE.writeText(
-						ARMOR_STANDS_UNIQUE_IDS.joinToString("\n")
+						ARMOR_STANDS_UNIQUE_IDS.keys.joinToString("\n")
 				)
 			}
 		}
@@ -48,13 +48,15 @@ class ArmorStandHologram(var location: Location, internal var line: String?) {
 		/**
 		 * Carrega todos os IDs das armor stands
 		 */
-		fun loadArmorStandsMarkedForRemovalIds() {
+		fun loadArmorStandsIdsMarkedForRemoval() {
 			if (!ARMOR_STAND_FILE.exists())
 				return
 
-			ARMOR_STANDS_REMOVE_IDS.addAll(
-					ARMOR_STAND_FILE.readLines().map { UUID.fromString(it) }
-			)
+			val uniqueIds = ARMOR_STAND_FILE.readLines().map { UUID.fromString(it) }
+
+			uniqueIds.forEach {
+				ARMOR_STANDS_UNIQUE_IDS[it] = true
+			}
 		}
 	}
 

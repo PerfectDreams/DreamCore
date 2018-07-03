@@ -51,7 +51,7 @@ class DreamCore : JavaPlugin() {
 
 		DreamCoreCommand(configFile).register()
 
-		ArmorStandHologram.loadArmorStandsMarkedForRemovalIds()
+		ArmorStandHologram.loadArmorStandsIdsMarkedForRemoval()
 	}
 
 	override fun onDisable() {
