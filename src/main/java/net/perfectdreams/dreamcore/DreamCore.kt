@@ -2,6 +2,7 @@ package net.perfectdreams.dreamcore
 
 import com.github.salomonbrys.kotson.fromJson
 import net.perfectdreams.dreamcore.commands.DreamCoreCommand
+import net.perfectdreams.dreamcore.listeners.EntityListener
 import net.perfectdreams.dreamcore.utils.*
 import net.perfectdreams.dreamcore.utils.commands.AbstractCommand
 import net.perfectdreams.dreamcore.utils.socket.SocketServer
@@ -38,6 +39,9 @@ class DreamCore : JavaPlugin() {
 		PhoenixScoreboard.init()
 		if (Bukkit.getPluginManager().getPlugin("ProtocolLib") != null)
 			SignGUIUtils.registerSignGUIListener()
+
+		Bukkit.getPluginManager().registerEvents(EntityListener(), this)
+
 		// Iniciar funções do Vault dentro de um try ... catch
 		// É necessário ficar dentro de um try ... catch para caso o servidor não tenha algum
 		// hook do Vault (por exemplo, não possuir um hook para o chat)
@@ -47,8 +51,7 @@ class DreamCore : JavaPlugin() {
 
 		DreamCoreCommand(configFile).register()
 
-		ArmorStandHologram.loadArmorStandsUniqueIds()
-		ArmorStandHologram.killAllStoredArmorStands()
+		ArmorStandHologram.loadArmorStandsMarkedForRemovalIds()
 	}
 
 	override fun onDisable() {

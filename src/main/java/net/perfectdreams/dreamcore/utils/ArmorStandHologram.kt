@@ -16,7 +16,9 @@ import java.util.*
  */
 class ArmorStandHologram(var location: Location, internal var line: String?) {
 	companion object {
-		private val ARMOR_STANDS_UNIQUE_IDS = mutableSetOf<UUID>()
+		val ARMOR_STANDS_UNIQUE_IDS = mutableSetOf<UUID>()
+		val ARMOR_STANDS_REMOVE_IDS = mutableSetOf<UUID>()
+
 		private val ARMOR_STAND_FILE by lazy {
 			val plugin = Bukkit.getPluginManager().getPlugin("DreamCore")
 			plugin.dataFolder.mkdirs()
@@ -31,7 +33,11 @@ class ArmorStandHologram(var location: Location, internal var line: String?) {
 		@Synchronized
 		fun addUniqueId(uniqueId: UUID) {
 			ARMOR_STANDS_UNIQUE_IDS.add(uniqueId)
+			updateFile()
+		}
 
+		@Synchronized
+		fun updateFile() {
 			scheduler().schedule(Bukkit.getPluginManager().getPlugin("DreamCore"), SynchronizationContext.ASYNC) {
 				ARMOR_STAND_FILE.writeText(
 						ARMOR_STANDS_UNIQUE_IDS.joinToString("\n")
@@ -42,26 +48,12 @@ class ArmorStandHologram(var location: Location, internal var line: String?) {
 		/**
 		 * Carrega todos os IDs das armor stands
 		 */
-		fun loadArmorStandsUniqueIds() {
+		fun loadArmorStandsMarkedForRemovalIds() {
 			if (!ARMOR_STAND_FILE.exists())
 				return
 
-			ARMOR_STANDS_UNIQUE_IDS.addAll(
+			ARMOR_STANDS_REMOVE_IDS.addAll(
 					ARMOR_STAND_FILE.readLines().map { UUID.fromString(it) }
-			)
-		}
-
-		/**
-		 * Remove todas as armor stands em hologramas do servidor
-		 */
-		fun killAllStoredArmorStands() {
-			ARMOR_STANDS_UNIQUE_IDS.forEach {
-				Bukkit.getEntity(it)?.remove()
-			}
-
-			ARMOR_STANDS_UNIQUE_IDS.clear()
-			ARMOR_STAND_FILE.writeText(
-					ARMOR_STANDS_UNIQUE_IDS.joinToString("\n")
 			)
 		}
 	}
@@ -76,6 +68,7 @@ class ArmorStandHologram(var location: Location, internal var line: String?) {
 		stand.isCustomNameVisible = true
 		stand.isMarker = true
 		stand.isVisible = false
+		stand.setGravity(false)
 
 		addUniqueId(stand.uniqueId)
 	}
