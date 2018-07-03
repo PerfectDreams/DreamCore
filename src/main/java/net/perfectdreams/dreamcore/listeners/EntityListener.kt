@@ -18,6 +18,7 @@ class EntityListener : Listener {
 		val markedForRemoval = ArmorStandHologram.ARMOR_STANDS_UNIQUE_IDS[entity.uniqueId] ?: return
 
 		if (markedForRemoval) {
+			entity.remove()
 			ArmorStandHologram.ARMOR_STANDS_UNIQUE_IDS.remove(entity.uniqueId)
 			ArmorStandHologram.updateFile()
 		}
@@ -31,7 +32,6 @@ class EntityListener : Listener {
 			return
 
 		if (ArmorStandHologram.ARMOR_STANDS_UNIQUE_IDS.contains(entity.uniqueId)) {
-			entity.remove()
 			ArmorStandHologram.ARMOR_STANDS_UNIQUE_IDS.remove(entity.uniqueId)
 			ArmorStandHologram.updateFile()
 		}
