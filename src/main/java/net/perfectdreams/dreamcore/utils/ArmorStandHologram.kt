@@ -73,7 +73,9 @@ class ArmorStandHologram(var location: Location, internal var line: String?) {
 
 		val stand = location.world.spawnEntity(location, EntityType.ARMOR_STAND) as ArmorStand
 		stand.customName = line
+		stand.isCustomNameVisible = true
 		stand.isMarker = true
+		stand.isVisible = false
 
 		addUniqueId(stand.uniqueId)
 	}
