@@ -1,0 +1,75 @@
+package net.perfectdreams.dreamcore.utils
+
+import org.bukkit.Material
+import java.util.HashSet
+import javax.sound.sampled.FloatControl.Type.VOLUME
+
+
+
+object MaterialUtils {
+	// O jogador consegue ficar dentro destes materiais
+	val HOLLOW_MATERIALS = mutableSetOf<Material>()
+	val TRANSPARENT_MATERIALS = mutableSetOf<Material>()
+
+	init {
+		// Materiais de Material.isTransparent()
+		HOLLOW_MATERIALS.add(Material.AIR)
+		HOLLOW_MATERIALS.add(Material.SAPLING)
+		HOLLOW_MATERIALS.add(Material.POWERED_RAIL)
+		HOLLOW_MATERIALS.add(Material.DETECTOR_RAIL)
+		HOLLOW_MATERIALS.add(Material.LONG_GRASS)
+		HOLLOW_MATERIALS.add(Material.DEAD_BUSH)
+		HOLLOW_MATERIALS.add(Material.YELLOW_FLOWER)
+		HOLLOW_MATERIALS.add(Material.RED_ROSE)
+		HOLLOW_MATERIALS.add(Material.BROWN_MUSHROOM)
+		HOLLOW_MATERIALS.add(Material.RED_MUSHROOM)
+		HOLLOW_MATERIALS.add(Material.TORCH)
+		HOLLOW_MATERIALS.add(Material.FIRE)
+		HOLLOW_MATERIALS.add(Material.REDSTONE_WIRE)
+		HOLLOW_MATERIALS.add(Material.CROPS)
+		HOLLOW_MATERIALS.add(Material.LADDER)
+		HOLLOW_MATERIALS.add(Material.RAILS)
+		HOLLOW_MATERIALS.add(Material.LEVER)
+		HOLLOW_MATERIALS.add(Material.REDSTONE_TORCH_OFF)
+		HOLLOW_MATERIALS.add(Material.REDSTONE_TORCH_ON)
+		HOLLOW_MATERIALS.add(Material.STONE_BUTTON)
+		HOLLOW_MATERIALS.add(Material.SNOW)
+		HOLLOW_MATERIALS.add(Material.SUGAR_CANE_BLOCK)
+		HOLLOW_MATERIALS.add(Material.PORTAL)
+		HOLLOW_MATERIALS.add(Material.DIODE_BLOCK_OFF)
+		HOLLOW_MATERIALS.add(Material.DIODE_BLOCK_ON)
+		HOLLOW_MATERIALS.add(Material.PUMPKIN_STEM)
+		HOLLOW_MATERIALS.add(Material.MELON_STEM)
+		HOLLOW_MATERIALS.add(Material.VINE)
+		HOLLOW_MATERIALS.add(Material.WATER_LILY)
+		HOLLOW_MATERIALS.add(Material.NETHER_WARTS)
+		HOLLOW_MATERIALS.add(Material.ENDER_PORTAL)
+		HOLLOW_MATERIALS.add(Material.COCOA)
+		HOLLOW_MATERIALS.add(Material.TRIPWIRE_HOOK)
+		HOLLOW_MATERIALS.add(Material.TRIPWIRE)
+		HOLLOW_MATERIALS.add(Material.FLOWER_POT)
+		HOLLOW_MATERIALS.add(Material.CARROT)
+		HOLLOW_MATERIALS.add(Material.POTATO)
+		HOLLOW_MATERIALS.add(Material.WOOD_BUTTON)
+		HOLLOW_MATERIALS.add(Material.SKULL)
+		HOLLOW_MATERIALS.add(Material.REDSTONE_COMPARATOR_OFF)
+		HOLLOW_MATERIALS.add(Material.REDSTONE_COMPARATOR_ON)
+		HOLLOW_MATERIALS.add(Material.ACTIVATOR_RAIL)
+		HOLLOW_MATERIALS.add(Material.CARPET)
+		HOLLOW_MATERIALS.add(Material.DOUBLE_PLANT)
+
+		// Outros materiais adicionados pelo Essentials
+		HOLLOW_MATERIALS.add(Material.SEEDS)
+		HOLLOW_MATERIALS.add(Material.SIGN_POST)
+		HOLLOW_MATERIALS.add(Material.WOODEN_DOOR)
+		HOLLOW_MATERIALS.add(Material.WALL_SIGN)
+		HOLLOW_MATERIALS.add(Material.STONE_PLATE)
+		HOLLOW_MATERIALS.add(Material.IRON_DOOR_BLOCK)
+		HOLLOW_MATERIALS.add(Material.WOOD_PLATE)
+		HOLLOW_MATERIALS.add(Material.FENCE_GATE)
+
+		TRANSPARENT_MATERIALS.addAll(HOLLOW_MATERIALS)
+		TRANSPARENT_MATERIALS.add(Material.WATER)
+		TRANSPARENT_MATERIALS.add(Material.STATIONARY_WATER)
+	}
+}

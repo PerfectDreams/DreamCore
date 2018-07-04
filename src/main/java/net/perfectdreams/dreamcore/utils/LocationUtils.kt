@@ -2,13 +2,42 @@ package net.perfectdreams.dreamcore.utils
 
 import net.perfectdreams.dreamcore.utils.LocationUtils.isLocationBetweenLocations
 import org.bukkit.Location
+import org.bukkit.Material
+import org.bukkit.World
 import org.bukkit.block.BlockFace
 import org.bukkit.entity.Entity
+import java.util.ArrayList
+import kotlin.Boolean
+import kotlin.Comparator
+import kotlin.Float
+import kotlin.IllegalArgumentException
+import kotlin.Int
+import kotlin.arrayOf
+import kotlin.math.roundToInt
 
 object LocationUtils {
 	val axis = arrayOf(BlockFace.WEST, BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH)
 	val radial = arrayOf(BlockFace.EAST, BlockFace.SOUTH_EAST, BlockFace.SOUTH, BlockFace.SOUTH_WEST, BlockFace.WEST, BlockFace.NORTH_WEST, BlockFace.NORTH, BlockFace.NORTH_EAST)
+	const val RADIUS = 3
+	var VOLUME = arrayOf<Vector3D>()
 
+	init {
+		val pos = ArrayList<Vector3D>()
+		for (x in -RADIUS..RADIUS) {
+			for (y in -RADIUS..RADIUS) {
+				for (z in -RADIUS..RADIUS) {
+					pos.add(Vector3D(x, y, z))
+				}
+			}
+		}
+		pos.sortWith(
+				Comparator {
+					a, b -> a.x * a.x + a.y * a.y + a.z * a.z - (b.x * b.x + b.y * b.y + b.z * b.z)
+				}
+		)
+
+		VOLUME = pos.toTypedArray()
+	}
 	fun locationToFace(location: Location): BlockFace {
 		return yawToFace(location.yaw)
 	}
@@ -72,16 +101,116 @@ object LocationUtils {
 	}
 
 	fun isLocationBetweenLocations(location: Location, loc1: Location, loc2: Location): Boolean {
-        val minX = Math.min(loc1.x, loc2.x)
+		val minX = Math.min(loc1.x, loc2.x)
 		val minY = Math.min(loc1.y, loc2.y)
 		val minZ = Math.min(loc1.z, loc2.z)
 		val maxX = Math.max(loc1.x, loc2.x)
 		val maxY = Math.max(loc1.y, loc2.y)
 		val maxZ = Math.max(loc1.z, loc2.z)
-        return location.world == loc1.world && location.x in minX..maxX && location.y in minY..maxY && location.z in minZ..maxZ
+		return location.world == loc1.world && location.x in minX..maxX && location.y in minY..maxY && location.z in minZ..maxZ
 	}
-}
 
-fun Location.isBetween(loc1: Location, loc2: Location): Boolean {
-	return isLocationBetweenLocations(this, loc1, loc2)
+	fun isBlockAboveAir(world: World, x: Int, y: Int, z: Int): Boolean {
+		return if (y > world.maxHeight) {
+			true
+		} else MaterialUtils.HOLLOW_MATERIALS.contains(world.getBlockAt(x, y - 1, z).getType())
+	}
+
+	fun isBlockUnsafe(world: World, x: Int, y: Int, z: Int): Boolean {
+		if (isBlockDamaging(world, x, y, z)) {
+			return true
+		}
+		return isBlockAboveAir(world, x, y, z)
+	}
+
+	fun isBlockDamaging(world: World, x: Int, y: Int, z: Int): Boolean {
+		val below = world.getBlockAt(x, y - 1, z)
+		val type = below?.type
+		return when {
+			type == Material.LAVA || type == Material.STATIONARY_LAVA -> true
+			type == Material.FIRE -> true
+			type == Material.BED_BLOCK -> true
+			world.getBlockAt(x, y, z)?.type == Material.PORTAL -> true
+			else -> !MaterialUtils.HOLLOW_MATERIALS.contains(world.getBlockAt(x, y, z)?.type) || !MaterialUtils.HOLLOW_MATERIALS.contains(world.getBlockAt(x, y + 1, z)?.type)
+		}
+	}
+
+	fun getRoundedDestination(loc: Location): Location {
+		val world = loc.world
+		val x = loc.blockX
+		val y = loc.y.roundToInt()
+		val z = loc.blockZ
+		return Location(world, x + 0.5, y.toDouble(), z + 0.5, loc.yaw, loc.pitch)
+	}
+
+	fun getSafeDestination(loc: Location): Location {
+		val world = loc.world
+		var x = loc.blockX
+		var y = loc.y.roundToInt()
+		var z = loc.blockZ
+		val origX = x
+		val origY = y
+		val origZ = z
+		while (isBlockAboveAir(world, x, y, z)) {
+			y -= 1
+			if (y < 0) {
+				y = origY
+				break
+			}
+		}
+		if (isBlockUnsafe(world, x, y, z)) {
+			x = if (Math.round(loc.getX()).toInt() == origX) x - 1 else x + 1
+			z = if (Math.round(loc.getZ()).toInt() == origZ) z - 1 else z + 1
+		}
+		var i = 0
+		while (isBlockUnsafe(world, x, y, z)) {
+			i++
+			if (i >= VOLUME.size) {
+				x = origX
+				y = origY + RADIUS
+				z = origZ
+				break
+			}
+			x = origX + VOLUME[i].x
+			y = origY + VOLUME[i].y
+			z = origZ + VOLUME[i].z
+		}
+		while (isBlockUnsafe(world, x, y, z)) {
+			y += 1
+			if (y >= world.maxHeight) {
+				x += 1
+				break
+			}
+		}
+		while (isBlockUnsafe(world, x, y, z)) {
+			y -= 1
+			if (y <= 1) {
+				x += 1
+				y = world.getHighestBlockYAt(x, z)
+				if (x - 48 > loc.blockX) {
+					throw HoleInFloorException()
+				}
+			}
+		}
+		return Location(world, x + 0.5, y.toDouble(), z + 0.5, loc.yaw, loc.pitch)
+	}
+
+	fun shouldFly(loc: Location): Boolean {
+		val world = loc.world
+		val x = loc.blockX
+		var y = loc.y.roundToInt()
+		val z = loc.blockZ
+		var count = 0
+		while (isBlockUnsafe(world, x, y, z) && y > -1) {
+			y--
+			count++
+			if (count > 2) {
+				return true
+			}
+		}
+
+		return y < 0
+	}
+
+	class HoleInFloorException : IllegalArgumentException()
 }

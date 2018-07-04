@@ -1,6 +1,7 @@
 package net.perfectdreams.dreamcore.utils.extensions
 
 import com.sk89q.worldguard.protection.ApplicableRegionSet
+import net.perfectdreams.dreamcore.utils.LocationUtils
 import net.perfectdreams.dreamcore.utils.WorldGuardUtils
 import org.bukkit.Location
 
@@ -23,3 +24,23 @@ fun Location.isWithinRegion(region: String): Boolean {
  */
 val Location.worldGuardRegions: ApplicableRegionSet
 	get() = WorldGuardUtils.getRegionsAt(this)
+
+fun Location.isBetween(loc1: Location, loc2: Location): Boolean {
+	return LocationUtils.isLocationBetweenLocations(this, loc1, loc2)
+}
+
+val Location.isAboveAir: Boolean
+	get() = LocationUtils.isBlockAboveAir(this.world, this.blockX, this.blockY, this.blockZ)
+
+val Location.isUnsafe: Boolean
+	get() = LocationUtils.isBlockUnsafe(this.world, this.blockX, this.blockY, this.blockZ)
+
+val Location.isDamaging: Boolean
+	get() = LocationUtils.isBlockDamaging(this.world, this.blockX, this.blockY, this.blockZ)
+
+val Location.rounded: Boolean
+	get() = LocationUtils.isBlockDamaging(this.world, this.blockX, this.blockY, this.blockZ)
+
+fun Location.getRoundedDestination(): Location = LocationUtils.getRoundedDestination(this)
+
+fun Location.getSafeDestination(): Location = LocationUtils.getSafeDestination(this)

@@ -22,4 +22,7 @@ val PlayerInteractEvent.clickedOnBlock: Boolean
 	get() = this == Action.RIGHT_CLICK_BLOCK || this == Action.LEFT_CLICK_BLOCK
 
 val PlayerInteractEvent.clickedOnAir: Boolean
-	get() = !clickedOnBlock
+	get() = this == Action.LEFT_CLICK_AIR || this == Action.RIGHT_CLICK_AIR
+
+val PlayerInteractEvent.physical: Boolean
+	get() = this == Action.PHYSICAL
