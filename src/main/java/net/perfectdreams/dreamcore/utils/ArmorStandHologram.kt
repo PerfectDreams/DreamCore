@@ -72,6 +72,8 @@ class ArmorStandHologram(var location: Location, internal var line: String?) {
 		stand.isVisible = false
 		stand.setGravity(false)
 
+		armorStand = stand
+
 		addUniqueId(stand.uniqueId)
 	}
 

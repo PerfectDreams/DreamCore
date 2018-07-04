@@ -5,12 +5,28 @@ import org.bukkit.Material
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.InventoryHolder
 import org.bukkit.inventory.ItemStack
+import org.bukkit.inventory.PlayerInventory
 import org.bukkit.util.io.BukkitObjectInputStream
 import org.bukkit.util.io.BukkitObjectOutputStream
 import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.OutputStream
+
+object InventoryUtils {
+	/**
+	 * Limpa todo o inventário, incluindo a armadura
+	 *
+	 * @param inventory o inventário que será limpado
+	 */
+	fun clearEverything(inventory: PlayerInventory) {
+		inventory.clear()
+		inventory.helmet = null
+		inventory.chestplate = null
+		inventory.leggings = null
+		inventory.boots = null
+	}
+}
 
 fun Inventory.canHoldItem(stack: ItemStack?): Boolean {
 	if (stack == null) { return true }
