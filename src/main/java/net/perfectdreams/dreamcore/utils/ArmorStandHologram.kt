@@ -63,7 +63,9 @@ class ArmorStandHologram(var location: Location, internal var line: String?) {
 	var armorStand: ArmorStand? = null
 
 	fun spawn() {
-		armorStand?.remove()
+		if (isSpawned()) {
+			armorStand?.remove()
+		}
 
 		val stand = location.world.spawnEntity(location, EntityType.ARMOR_STAND) as ArmorStand
 		stand.customName = line
@@ -92,13 +94,38 @@ class ArmorStandHologram(var location: Location, internal var line: String?) {
 		line = newLine
 	}
 
-	fun addLineBelow(line: String): ArmorStandHologram {
-		val hologram = ArmorStandHologram(location.clone().add(0.0, -0.285, 0.0), line)
+	fun addLineBelow(line: String, yOffset: Double = -0.285): ArmorStandHologram {
+		val hologram = ArmorStandHologram(location.clone().add(0.0, yOffset, 0.0), line)
 		return hologram
 	}
 
-	fun addLineAbove(line: String): ArmorStandHologram {
-		val hologram = ArmorStandHologram(location.clone().add(0.0, 0.285, 0.0), line)
+	fun addLineAbove(line: String, yOffset: Double = 0.285): ArmorStandHologram {
+		val hologram = ArmorStandHologram(location.clone().add(0.0, yOffset, 0.0), line)
 		return hologram
+	}
+
+	fun isSpawned(): Boolean {
+		val stand = armorStand ?: return false
+
+		if (!ARMOR_STANDS_UNIQUE_IDS.containsKey(stand.uniqueId)) { // Se a armor stand existe, mas ela não existe na nossa lista de UUIDs
+			stand.remove()
+			return false
+		}
+
+		if (ARMOR_STANDS_UNIQUE_IDS[stand.uniqueId] == true) { // Se a armor stand existe, mas ela está marcada para ser removida
+			stand.remove()
+			ARMOR_STANDS_UNIQUE_IDS.remove(stand.uniqueId)
+			updateFile()
+			return false
+		}
+
+		if (!stand.isValid) { // Se a armor stand existe, mas ela não está mais válida
+			stand.remove()
+			ARMOR_STANDS_UNIQUE_IDS.remove(stand.uniqueId)
+			updateFile()
+			return false
+		}
+
+		return true
 	}
 }

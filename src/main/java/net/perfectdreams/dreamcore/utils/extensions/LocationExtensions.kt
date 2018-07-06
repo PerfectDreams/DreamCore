@@ -25,9 +25,7 @@ fun Location.isWithinRegion(region: String): Boolean {
 val Location.worldGuardRegions: ApplicableRegionSet
 	get() = WorldGuardUtils.getRegionsAt(this)
 
-fun Location.isBetween(loc1: Location, loc2: Location): Boolean {
-	return LocationUtils.isLocationBetweenLocations(this, loc1, loc2)
-}
+fun Location.isBetween(loc1: Location, loc2: Location): Boolean = LocationUtils.isLocationBetweenLocations(this, loc1, loc2)
 
 val Location.isAboveAir: Boolean
 	get() = LocationUtils.isBlockAboveAir(this.world, this.blockX, this.blockY, this.blockZ)
