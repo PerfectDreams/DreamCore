@@ -4,14 +4,9 @@ import com.github.salomonbrys.kotson.fromJson
 import net.perfectdreams.dreamcore.commands.DreamCoreCommand
 import net.perfectdreams.dreamcore.listeners.EntityListener
 import net.perfectdreams.dreamcore.utils.*
-import net.perfectdreams.dreamcore.utils.commands.AbstractCommand
 import net.perfectdreams.dreamcore.utils.socket.SocketServer
 import org.bukkit.Bukkit
 import org.bukkit.Location
-import org.bukkit.command.Command
-import org.bukkit.command.CommandSender
-import org.bukkit.entity.ArmorStand
-import org.bukkit.entity.Player
 import org.bukkit.plugin.java.JavaPlugin
 import java.io.File
 import kotlin.concurrent.thread
@@ -65,6 +60,8 @@ class DreamConfig {
 	var blacklistedWorldsTeleport: List<String> = mutableListOf()
 	var blacklistedRegionsTeleport: List<String> = mutableListOf()
 	var isStaffPermission = "perfectdreams.staff"
+	var databaseName = "perfectdreams"
+	var serverDatabaseName = "perfectdreams_survival"
 	lateinit var spawn: Location
 	lateinit var pantufaWebhook: String
 	lateinit var pantufaInfoWebhook: String

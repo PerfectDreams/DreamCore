@@ -196,7 +196,7 @@ object DreamUtils {
 				}
 		gson = gsonBuilder.create()
 
-		database = getMongoDatabase("perfectdreams")
+		database = getMongoDatabase(DreamCore.dreamConfig.databaseName)
 		usersCollection = database.getCollection("users")
 	}
 

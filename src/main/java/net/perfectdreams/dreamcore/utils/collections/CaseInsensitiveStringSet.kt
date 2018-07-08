@@ -24,10 +24,10 @@ package net.perfectdreams.dreamcore.utils.collections
 
 import com.google.common.collect.ForwardingSet
 
-class CaseInsensitveStringSet : ForwardingSet<String>() {
+class CaseInsensitiveStringSet : ForwardingSet<String>() {
 	private val backing = CaseInsensitiveStringMap<Any>()
 
-	override fun delegate(): Set<String> {
+	override fun delegate(): MutableSet<String> {
 		return backing.keys
 	}
 
@@ -38,6 +38,10 @@ class CaseInsensitveStringSet : ForwardingSet<String>() {
 		} catch (e: Exception) {
 			return false
 		}
+	}
+
+	override fun contains(element: String?): Boolean {
+		return backing.containsKey(element)
 	}
 
 	override fun addAll(collection: Collection<String>): Boolean {
