@@ -19,7 +19,6 @@ class PhoenixScoreboard {
 		scoreboard = Bukkit.getScoreboardManager().newScoreboard
 		scoreboard.registerNewObjective("alphys", "dummy")
 		scoreboard.getObjective("alphys").displaySlot = DisplaySlot.SIDEBAR
-		// scoreboard.getObjective("alphys").setDisplayName("SparklyPower");
 		scoreboard.registerNewTeam("line1")
 		scoreboard.getTeam("line1").addPlayer(line1)
 		scoreboard.registerNewTeam("line2")

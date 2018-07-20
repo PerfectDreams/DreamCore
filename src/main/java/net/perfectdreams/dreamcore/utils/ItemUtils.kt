@@ -1,24 +1,17 @@
 package net.perfectdreams.dreamcore.utils
 
 import com.comphenix.attribute.AttributeStorage
-import net.minecraft.server.v1_12_R1.NBTCompressedStreamTools
-import net.minecraft.server.v1_12_R1.NBTTagCompound
-import net.minecraft.server.v1_12_R1.NBTTagList
+import net.minecraft.server.v1_13_R1.NBTCompressedStreamTools
+import net.minecraft.server.v1_13_R1.NBTTagCompound
+import net.minecraft.server.v1_13_R1.NBTTagList
 import org.bukkit.Material
-import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack
+import org.bukkit.craftbukkit.v1_13_R1.inventory.CraftItemStack
 import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 import org.bukkit.util.io.BukkitObjectInputStream
 import org.bukkit.util.io.BukkitObjectOutputStream
 import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder
-import java.io.ByteArrayInputStream
-import java.io.ByteArrayOutputStream
-import java.io.DataInputStream
-import java.io.DataOutput
-import java.io.DataOutputStream
-import java.io.IOException
-import java.io.InputStream
-import java.io.OutputStream
+import java.io.*
 import java.math.BigInteger
 import java.util.*
 
@@ -92,7 +85,7 @@ fun String.fromBase64Item(): ItemStack {
 		e.printStackTrace()
 	}
 
-	val nmsItem = net.minecraft.server.v1_12_R1.ItemStack(nbtTagCompoundRoot)
+	val nmsItem = net.minecraft.server.v1_13_R1.ItemStack.a(nbtTagCompoundRoot)
 	return CraftItemStack.asBukkitCopy(nmsItem)
 }
 

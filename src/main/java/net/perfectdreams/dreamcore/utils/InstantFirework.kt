@@ -1,12 +1,12 @@
 package net.perfectdreams.dreamcore.utils
 
-import net.minecraft.server.v1_12_R1.EntityFireworks
-import net.minecraft.server.v1_12_R1.PacketPlayOutEntityStatus
-import net.minecraft.server.v1_12_R1.World
+import net.minecraft.server.v1_13_R1.EntityFireworks
+import net.minecraft.server.v1_13_R1.PacketPlayOutEntityStatus
+import net.minecraft.server.v1_13_R1.World
 import org.bukkit.FireworkEffect
 import org.bukkit.Location
-import org.bukkit.craftbukkit.v1_12_R1.CraftWorld
-import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer
+import org.bukkit.craftbukkit.v1_13_R1.CraftWorld
+import org.bukkit.craftbukkit.v1_13_R1.entity.CraftPlayer
 import org.bukkit.entity.Firework
 import org.bukkit.entity.Player
 
@@ -19,7 +19,7 @@ class InstantFirework(world: World, vararg players: Player) : EntityFireworks(wo
 		this.a(0.25f, 0.25f)
 	}
 
-	override fun B_() {
+	override fun tick() {
 		if (gone) {
 			return
 		}

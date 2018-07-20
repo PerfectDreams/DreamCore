@@ -1,18 +1,12 @@
 package net.perfectdreams.dreamcore.utils
 
-import net.perfectdreams.dreamcore.utils.LocationUtils.isLocationBetweenLocations
 import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.World
 import org.bukkit.block.BlockFace
 import org.bukkit.entity.Entity
 import java.util.ArrayList
-import kotlin.Boolean
 import kotlin.Comparator
-import kotlin.Float
-import kotlin.IllegalArgumentException
-import kotlin.Int
-import kotlin.arrayOf
 import kotlin.math.roundToInt
 
 object LocationUtils {
@@ -127,10 +121,11 @@ object LocationUtils {
 		val below = world.getBlockAt(x, y - 1, z)
 		val type = below?.type
 		return when {
-			type == Material.LAVA || type == Material.STATIONARY_LAVA -> true
+			type == Material.LAVA || type == Material.LAVA -> true
 			type == Material.FIRE -> true
-			type == Material.BED_BLOCK -> true
-			world.getBlockAt(x, y, z)?.type == Material.PORTAL -> true
+			type?.name?.endsWith("_BED") ?: false -> true
+			world.getBlockAt(x, y, z)?.type == Material.NETHER_PORTAL -> true
+			world.getBlockAt(x, y, z)?.type == Material.END_PORTAL -> true
 			else -> !MaterialUtils.HOLLOW_MATERIALS.contains(world.getBlockAt(x, y, z)?.type) || !MaterialUtils.HOLLOW_MATERIALS.contains(world.getBlockAt(x, y + 1, z)?.type)
 		}
 	}

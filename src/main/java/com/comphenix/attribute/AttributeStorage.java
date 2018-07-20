@@ -17,15 +17,14 @@
 
 package com.comphenix.attribute;
 
-import java.util.UUID;
-
-import org.bukkit.inventory.ItemStack;
-
 import com.comphenix.attribute.Attributes.Attribute;
 import com.comphenix.attribute.Attributes.AttributeType;
 import com.comphenix.attribute.Attributes.Operation;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
+import org.bukkit.inventory.ItemStack;
+
+import java.util.UUID;
 
 /**
  * Store meta-data in an ItemStack as attributes.
@@ -101,14 +100,14 @@ public class AttributeStorage {
     private int getBaseDamage(ItemStack stack) {
     	// Yes - we have to hard code these values. Cannot use Operation.ADD_PERCENTAGE either.
     	switch (stack.getType()) {
-    		case WOOD_SWORD:    return 4;
-    		case GOLD_SWORD:    return 4;
+    		case WOODEN_SWORD:    return 4;
+    		case GOLDEN_SWORD:    return 4;
     		case STONE_SWORD:   return 5;
     		case IRON_SWORD:    return 6;
     		case DIAMOND_SWORD: return 7;
     		
-    		case WOOD_AXE:      return 3;
-    		case GOLD_AXE:      return 3;
+    		case WOODEN_AXE:      return 3;
+    		case GOLDEN_AXE:      return 3;
     		case STONE_AXE:     return 4;
     		case IRON_AXE:      return 5;
     		case DIAMOND_AXE:   return 6;

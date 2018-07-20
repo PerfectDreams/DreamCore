@@ -99,7 +99,7 @@ object SignGUIUtils {
 
 		// Add the Position and BlockData to the BlockChange Packet
 		wrapperBlockChange.location = pos
-		wrapperBlockChange.blockData = WrappedBlockData.createData(Material.SIGN_POST)
+		wrapperBlockChange.blockData = WrappedBlockData.createData(Material.SIGN)
 
 		// Add the Position to the OpenSignEditor Packet
 		wrapperOpenSignEditor.location = pos
