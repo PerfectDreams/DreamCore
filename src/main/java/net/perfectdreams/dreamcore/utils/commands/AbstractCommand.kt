@@ -5,6 +5,7 @@ import org.bukkit.command.*
 import org.bukkit.entity.Player
 import java.util.*
 
+@Deprecated(message = "Por favor use ACF para criar comandos")
 abstract class AbstractCommand @JvmOverloads constructor(command: String, protected val usage: String? = null, protected val description: String? = null, protected val permMessage: String? = null, protected val alias: List<String>? = null) : CommandExecutor, TabExecutor {
 	private val command: String = command.toLowerCase()
 

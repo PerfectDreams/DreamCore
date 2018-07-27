@@ -61,6 +61,10 @@
             <id>sk89q</id>
             <url>https://maven.sk89q.com/repo/</url>
         </repository>
+        <repository>
+            <id>aikar</id>
+            <url>https://repo.aikar.co/content/groups/aikar/</url>
+        </repository>
     </repositories>
 
     <pluginRepositories>
@@ -129,6 +133,11 @@
             <artifactId>LangUtils</artifactId>
             <version>1.9</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>co.aikar</groupId>
+            <artifactId>acf-paper</artifactId> <!-- Change to other platform if not using bukkit -->
+            <version>0.5.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.mongodb</groupId>
@@ -257,6 +266,10 @@
                                 <relocation>
                                     <pattern>org.bson</pattern>
                                     <shadedPattern>net.perfectdreams.libs.org.bson</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>co.aikar.commands</pattern>
+                                    <shadedPattern>net.perfectdreams.libs.acf</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>

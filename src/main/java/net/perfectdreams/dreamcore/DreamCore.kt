@@ -1,5 +1,6 @@
 package net.perfectdreams.dreamcore
 
+import co.aikar.commands.PaperCommandManager
 import com.github.salomonbrys.kotson.fromJson
 import net.perfectdreams.dreamcore.commands.DreamCoreCommand
 import net.perfectdreams.dreamcore.listeners.EntityListener
@@ -44,7 +45,9 @@ class DreamCore : JavaPlugin() {
 		try { VaultUtils.setupEconomy() } catch (e: NoClassDefFoundError) {}
 		try { VaultUtils.setupPermissions() } catch (e: NoClassDefFoundError) {}
 
-		DreamCoreCommand(configFile).register()
+		val manager = PaperCommandManager(this)
+		manager.enableUnstableAPI("help")
+		manager.registerCommand(DreamCoreCommand(configFile));
 
 		ArmorStandHologram.loadArmorStandsIdsMarkedForRemoval()
 	}
