@@ -23,7 +23,11 @@
         </repository>
         <repository>
             <id>perfectdreams-repo</id>
-            <url>https://raw.githubusercontent.com/PerfectDreams/DreamMavenRepository/master/</url>
+            <url>https://repo.perfectdreams.net/</url>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
         </repository>
         <repository>
             <id>vault-repo</id>
