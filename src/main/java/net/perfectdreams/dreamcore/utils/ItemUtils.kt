@@ -28,8 +28,8 @@ object ItemUtils {
 		val tag = itemStack.getCompoundTag() ?: return itemStack
 		val compound = tag.getCompoundOrDefault(NbtTagsUtils.SERVER_DATA_COMPOUND_NAME)
 		compound.put(key, value)
-		itemStack.setCompoundTag(compound)
-		return itemStack
+		val newItem = itemStack.setCompoundTag(compound)
+		return newItem
 	}
 
 	fun hasMetadataWithKey(itemStack: ItemStack, key: String): Boolean {
@@ -80,9 +80,8 @@ fun ItemStack.setStorageData(data: String, key: UUID): ItemStack {
 
 	if (!tag.containsKey("PerfectDreams"))
 		tag.put(compound)
-
-	this.setCompoundTag(tag)
-	return this
+	
+	return this.setCompoundTag(tag)
 }
 
 @Deprecated(message = "Please use ItemExtensions.getCompoundTag()")
