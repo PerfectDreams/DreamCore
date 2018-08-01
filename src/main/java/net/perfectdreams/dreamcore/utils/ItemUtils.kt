@@ -1,9 +1,11 @@
 package net.perfectdreams.dreamcore.utils
 
-import com.comphenix.attribute.AttributeStorage
 import net.minecraft.server.v1_13_R1.NBTCompressedStreamTools
 import net.minecraft.server.v1_13_R1.NBTTagCompound
 import net.minecraft.server.v1_13_R1.NBTTagList
+import net.perfectdreams.dreamcore.utils.extensions.getCompoundTag
+import net.perfectdreams.dreamcore.utils.extensions.setCompoundTag
+import net.perfectdreams.dreamcore.utils.tags.NbtTagsUtils
 import org.bukkit.Material
 import org.bukkit.craftbukkit.v1_13_R1.inventory.CraftItemStack
 import org.bukkit.inventory.ItemFlag
@@ -15,6 +17,25 @@ import java.io.*
 import java.math.BigInteger
 import java.util.*
 
+object ItemUtils {
+	fun getStoredMetadata(itemStack: ItemStack, key: String): String? {
+		val tag = itemStack.getCompoundTag() ?: return null
+		val compound = tag.getCompound(NbtTagsUtils.SERVER_DATA_COMPOUND_NAME) ?: return null
+		return compound.getString(key)
+	}
+
+	fun storeMetadata(itemStack: ItemStack, key: String, value: String): ItemStack {
+		val tag = itemStack.getCompoundTag() ?: return itemStack
+		val compound = tag.getCompoundOrDefault(NbtTagsUtils.SERVER_DATA_COMPOUND_NAME)
+		compound.put(key, value)
+		itemStack.setCompoundTag(compound)
+		return itemStack
+	}
+
+	fun hasMetadataWithKey(itemStack: ItemStack, key: String): Boolean {
+		return getStoredMetadata(itemStack, key) != null
+	}
+}
 
 fun ItemStack.rename(name: String): ItemStack {
 	val meta = this.itemMeta
@@ -51,17 +72,25 @@ fun ItemStack.removeFlag(vararg flag: ItemFlag): ItemStack {
 	return this
 }
 
+@Deprecated(message = "Please use ItemExtensions.setCompoundTag(...)")
 fun ItemStack.setStorageData(data: String, key: UUID): ItemStack {
-	val attrStorage = AttributeStorage.newTarget(this, key)
-	attrStorage.setData(data)
-	var applied = attrStorage.target
-	applied = applied.addFlag(ItemFlag.HIDE_ATTRIBUTES)
-	return applied
+	val tag = this.getCompoundTag() ?: return this
+	val compound = tag.getCompoundOrDefault(NbtTagsUtils.SERVER_DATA_COMPOUND_NAME)
+	compound.put(key.toString(), data)
+
+	if (!tag.containsKey("PerfectDreams"))
+		tag.put(compound)
+
+	this.setCompoundTag(tag)
+	return this
 }
 
+@Deprecated(message = "Please use ItemExtensions.getCompoundTag()")
 fun ItemStack.getStorageData(key: UUID): String? {
-	val attrStorage = AttributeStorage.newTarget(this, key)
-	return attrStorage.getData(null)
+	val tag = this.getCompoundTag() ?: return null
+	val compound = tag.getCompound(NbtTagsUtils.SERVER_DATA_COMPOUND_NAME) ?: return null
+
+	return compound.getString(key.toString())
 }
 
 fun ItemStack.toBase64(): String {

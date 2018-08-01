@@ -1,6 +1,7 @@
 package net.perfectdreams.dreamcore
 
 import co.aikar.commands.PaperCommandManager
+import com.comphenix.attribute.NbtFactory
 import com.github.salomonbrys.kotson.fromJson
 import net.perfectdreams.dreamcore.commands.DreamCoreCommand
 import net.perfectdreams.dreamcore.listeners.EntityListener
@@ -46,14 +47,17 @@ class DreamCore : JavaPlugin() {
 		try { VaultUtils.setupPermissions() } catch (e: NoClassDefFoundError) {}
 
 		val manager = PaperCommandManager(this)
-		manager.enableUnstableAPI("help")
-		manager.registerCommand(DreamCoreCommand(configFile));
+		manager.registerCommand(DreamCoreCommand(configFile))
 
 		ArmorStandHologram.loadArmorStandsIdsMarkedForRemoval()
 	}
 
 	override fun onDisable() {
 	}
+}
+
+fun main(args: Array<String>) {
+	val nbtFactory = NbtFactory()
 }
 
 class DreamConfig {

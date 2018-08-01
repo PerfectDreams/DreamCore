@@ -17,6 +17,21 @@
 
 package com.comphenix.attribute;
 
+import com.google.common.base.Splitter;
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
+import com.google.common.collect.Lists;
+import com.google.common.collect.MapMaker;
+import com.google.common.io.ByteSink;
+import com.google.common.io.ByteSource;
+import com.google.common.io.Closeables;
+import com.google.common.io.Files;
+import com.google.common.primitives.Primitives;
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.Server;
+import org.bukkit.inventory.ItemStack;
+
 import java.io.BufferedInputStream;
 import java.io.DataInput;
 import java.io.DataInputStream;
@@ -40,22 +55,6 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
-
-import com.google.common.io.ByteSink;
-import com.google.common.io.ByteSource;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.Server;
-import org.bukkit.inventory.ItemStack;
-
-import com.google.common.base.Splitter;
-import com.google.common.collect.BiMap;
-import com.google.common.collect.HashBiMap;
-import com.google.common.collect.Lists;
-import com.google.common.collect.MapMaker;
-import com.google.common.io.Closeables;
-import com.google.common.io.Files;
-import com.google.common.primitives.Primitives;
 
 public class NbtFactory {   
     // Convert between NBT id and the equivalent class in java
@@ -323,7 +322,7 @@ public class NbtFactory {
     /**
      * Construct an instance of the NBT factory by deducing the class of NBTBase.
      */
-    private NbtFactory() {
+    public NbtFactory() {
         if (BASE_CLASS == null) {
             try {
                 // Keep in mind that I do use hard-coded field names - but it's okay as long as we're dealing 

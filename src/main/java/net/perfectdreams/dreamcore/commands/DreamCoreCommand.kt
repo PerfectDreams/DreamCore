@@ -12,7 +12,6 @@ import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import java.io.File
 
-
 @CommandAlias("dreamcore")
 @CommandPermission("dreamcore.setup")
 class DreamCoreCommand(val configFile: File) : BaseCommand() {
