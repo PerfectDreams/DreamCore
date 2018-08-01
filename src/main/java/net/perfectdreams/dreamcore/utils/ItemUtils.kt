@@ -32,7 +32,7 @@ object ItemUtils {
 		return newItem
 	}
 
-	fun hasMetadataWithKey(itemStack: ItemStack, key: String): Boolean {
+	fun hasStoredMetadataWithKey(itemStack: ItemStack, key: String): Boolean {
 		return getStoredMetadata(itemStack, key) != null
 	}
 }
@@ -80,7 +80,7 @@ fun ItemStack.setStorageData(data: String, key: UUID): ItemStack {
 
 	if (!tag.containsKey("PerfectDreams"))
 		tag.put(compound)
-	
+
 	return this.setCompoundTag(tag)
 }
 
