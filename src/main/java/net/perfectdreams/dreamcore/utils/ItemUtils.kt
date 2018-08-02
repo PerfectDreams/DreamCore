@@ -20,7 +20,8 @@ import java.util.*
 object ItemUtils {
 	fun getStoredMetadata(itemStack: ItemStack, key: String): String? {
 		val tag = itemStack.getCompoundTag() ?: return null
-		val compound = tag.getCompound(NbtTagsUtils.SERVER_DATA_COMPOUND_NAME) ?: return null
+		if (!hasStoredMetadataWithKey(itemStack, NbtTagsUtils.SERVER_DATA_COMPOUND_NAME)) return null
+		val compound = tag.getCompound(NbtTagsUtils.SERVER_DATA_COMPOUND_NAME)
 		return compound.getString(key)
 	}
 
@@ -28,8 +29,11 @@ object ItemUtils {
 		val tag = itemStack.getCompoundTag() ?: return itemStack
 		val compound = tag.getCompoundOrDefault(NbtTagsUtils.SERVER_DATA_COMPOUND_NAME)
 		compound.put(key, value)
-		val newItem = itemStack.setCompoundTag(compound)
-		return newItem
+
+		if (!tag.containsKey("PerfectDreams"))
+			tag.put(compound)
+
+		return itemStack.setCompoundTag(compound)
 	}
 
 	fun hasStoredMetadataWithKey(itemStack: ItemStack, key: String): Boolean {
