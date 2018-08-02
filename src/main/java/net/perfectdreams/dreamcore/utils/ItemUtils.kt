@@ -37,7 +37,8 @@ object ItemUtils {
 	}
 
 	fun hasStoredMetadataWithKey(itemStack: ItemStack, key: String): Boolean {
-		return getStoredMetadata(itemStack, key) != null
+		val tag = itemStack.getCompoundTag() ?: return false
+		return tag.containsKey(key)
 	}
 }
 
