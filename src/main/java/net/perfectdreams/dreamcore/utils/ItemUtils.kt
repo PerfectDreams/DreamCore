@@ -33,7 +33,7 @@ object ItemUtils {
 		if (!tag.containsKey("PerfectDreams"))
 			tag.put(compound)
 
-		return itemStack.setCompoundTag(compound)
+		return itemStack.setCompoundTag(tag)
 	}
 
 	fun hasStoredMetadataWithKey(itemStack: ItemStack, key: String): Boolean {
