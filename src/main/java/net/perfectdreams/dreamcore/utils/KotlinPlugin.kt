@@ -1,5 +1,7 @@
 package net.perfectdreams.dreamcore.utils
 
+import co.aikar.commands.BaseCommand
+import co.aikar.commands.PaperCommandManager
 import net.perfectdreams.dreamcore.utils.commands.AbstractCommand
 import org.bukkit.event.HandlerList
 import org.bukkit.plugin.java.JavaPlugin
@@ -12,6 +14,7 @@ import org.bukkit.plugin.java.JavaPlugin
 open class KotlinPlugin : JavaPlugin() {
 	// Lista de comandos registrados por este plugin
 	val commandList = mutableListOf<AbstractCommand>()
+	val commandManager by lazy { PaperCommandManager(this) }
 
 	override fun onEnable() {
 		softEnable()
@@ -45,5 +48,14 @@ open class KotlinPlugin : JavaPlugin() {
 	fun registerCommand(command: AbstractCommand) {
 		command.register()
 		commandList.add(command)
+	}
+
+	/**
+	 * Registra um comando
+	 *
+	 * @param command comando
+	 */
+	fun registerCommand(command: BaseCommand) {
+		commandManager.registerCommand(command)
 	}
 }
