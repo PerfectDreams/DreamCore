@@ -9,11 +9,12 @@ import org.bukkit.Bukkit
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.io.PrintWriter
+import java.net.InetAddress
 import java.net.ServerSocket
 
 class SocketServer(val socketPort: Int) {
 	fun start() {
-		val listener = ServerSocket(socketPort)
+		val listener = ServerSocket(socketPort, 0, InetAddress.getLoopbackAddress())
 		try {
 			while (true) {
 				val socket = listener.accept()
