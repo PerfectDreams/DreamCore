@@ -14,12 +14,11 @@ import java.io.File
 
 @CommandAlias("dreamcore")
 @CommandPermission("dreamcore.setup")
-class DreamCoreCommand(val configFile: File) : BaseCommand() {
+class DreamCoreCommand(val m: DreamCore) : BaseCommand() {
 	@Subcommand("set_spawn")
 	fun setSpawn(player: Player) {
 		DreamCore.dreamConfig.spawn = player.location
-
-		configFile.writeText(DreamUtils.gson.toJson(DreamCore.dreamConfig))
+		m.config.set("spawn-location", player.location)
 
 		player.sendMessage("§aSpawn atualizado!")
 	}

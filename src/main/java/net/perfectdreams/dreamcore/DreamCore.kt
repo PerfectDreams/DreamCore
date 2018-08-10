@@ -16,19 +16,31 @@ import kotlin.concurrent.thread
 
 class DreamCore : JavaPlugin() {
 	companion object {
-		var dreamConfig = DreamConfig()
+		lateinit var dreamConfig: DreamConfig
 	}
 
 	override fun onEnable() {
-		val configFile = File(dataFolder, "config.json")
+		saveDefaultConfig()
 
-		if (!configFile.exists()) {
-			println("config.json não existe! Desligando servidor... :(")
+		if (!config.contains("server-name")) {
+			logger.severe { "Você esqueceu de colocar o \"server-name\" na configuração! Desligando servidor... :(" }
 			Bukkit.shutdown()
 			return
 		}
 
-		dreamConfig = DreamUtils.gson.fromJson(configFile.readText())
+		// Carregar configuração
+		val dreamConfig = DreamConfig(config.getString("server-name"), config.getString("bungee-name")).apply {
+			dreamConfig.withoutPermission = config.getString("without-permission", "§cVocê não tem permissão para fazer isto!")
+			dreamConfig.blacklistedWorldsTeleport = config.getStringList("blacklisted-worlds-teleport")
+			dreamConfig.blacklistedRegionsTeleport = config.getStringList("blacklisted-regions-teleport")
+			dreamConfig.isStaffPermission = config.getString("staff-permission", "perfectdreams.staff")
+			dreamConfig.databaseName = config.getString("database-name", "perfectdreams")
+			dreamConfig.serverDatabaseName = config.getString("server-database-name", "dummy")
+			dreamConfig.spawn = config.getSerializable("spawn-location", Location::class.java)
+			dreamConfig.pantufaWebhook = config.getString("webhooks.warn")
+			dreamConfig.pantufaInfoWebhook = config.getString("webhooks.info")
+			dreamConfig.pantufaErrorWebhook = config.getString("webhooks.error")
+		}
 
 		if (dreamConfig.socketPort != -1) {
 			thread { SocketServer(dreamConfig.socketPort).start() }
@@ -49,31 +61,11 @@ class DreamCore : JavaPlugin() {
 		try { VaultUtils.setupPermissions() } catch (e: NoClassDefFoundError) {}
 
 		val manager = PaperCommandManager(this)
-		manager.registerCommand(DreamCoreCommand(configFile))
+		manager.registerCommand(DreamCoreCommand(this))
 
 		ArmorStandHologram.loadArmorStandsIdsMarkedForRemoval()
 	}
 
 	override fun onDisable() {
 	}
-}
-
-fun main(args: Array<String>) {
-	val nbtFactory = NbtFactory()
-}
-
-class DreamConfig {
-	lateinit var serverName: String
-	lateinit var bungeeName: String
-	var withoutPermission = "§cVocê não tem permissão para fazer isto!"
-	var blacklistedWorldsTeleport: List<String> = mutableListOf()
-	var blacklistedRegionsTeleport: List<String> = mutableListOf()
-	var isStaffPermission = "perfectdreams.staff"
-	var databaseName = "perfectdreams"
-	var serverDatabaseName = "perfectdreams_survival"
-	lateinit var spawn: Location
-	lateinit var pantufaWebhook: String
-	lateinit var pantufaInfoWebhook: String
-	lateinit var pantufaErrorWebhook: String
-	var socketPort = -1
 }
