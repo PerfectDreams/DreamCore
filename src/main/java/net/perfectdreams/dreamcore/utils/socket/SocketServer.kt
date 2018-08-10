@@ -23,28 +23,25 @@ class SocketServer(val socketPort: Int) {
 		try {
 			while (true) {
 				val socket = listener.accept()
-				launch {
-					try {
+				scheduler().schedule(Bukkit.getPluginManager().getPlugin("DreamCore"), SynchronizationContext.ASYNC) {
+					socket.use { socket ->
 						val fromClient = BufferedReader(InputStreamReader(socket.getInputStream(), "UTF-8"))
 						val reply = fromClient.readLine()
 						val jsonObject = DreamUtils.jsonParser.parse(reply).obj
 						val response = JsonObject()
 
-						scheduler().schedule(Bukkit.getPluginManager().getPlugin("DreamCore"), SynchronizationContext.SYNC) {
-							val event = SocketReceivedEvent(jsonObject, response)
-							Bukkit.getPluginManager().callEvent(event)
+						switchContext(SynchronizationContext.SYNC)
+						val event = SocketReceivedEvent(jsonObject, response)
+						Bukkit.getPluginManager().callEvent(event)
 
-							switchContext(SynchronizationContext.ASYNC)
-							val asyncEvent = AsyncSocketReceivedEvent(jsonObject, event.response)
-							Bukkit.getPluginManager().callEvent(asyncEvent)
+						switchContext(SynchronizationContext.ASYNC)
+						val asyncEvent = AsyncSocketReceivedEvent(jsonObject, event.response)
+						Bukkit.getPluginManager().callEvent(asyncEvent)
 
-							val out = PrintWriter(socket.getOutputStream(), true)
-							out.println(asyncEvent.response.toString() + "\n")
-							out.flush()
-							fromClient.close()
-						}
-					} finally {
-						socket.close()
+						val out = PrintWriter(socket.getOutputStream(), true)
+						out.println(asyncEvent.response.toString() + "\n")
+						out.flush()
+						fromClient.close()
 					}
 				}
 			}
