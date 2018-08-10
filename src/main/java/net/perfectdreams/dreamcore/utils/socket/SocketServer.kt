@@ -3,9 +3,12 @@ package net.perfectdreams.dreamcore.utils.socket
 import com.github.salomonbrys.kotson.obj
 import com.github.salomonbrys.kotson.set
 import com.google.gson.JsonObject
+import com.okkero.skedule.SynchronizationContext
+import com.okkero.skedule.schedule
 import kotlinx.coroutines.experimental.launch
 import kotlinx.coroutines.experimental.runBlocking
 import net.perfectdreams.dreamcore.utils.DreamUtils
+import net.perfectdreams.dreamcore.utils.scheduler
 import org.bukkit.Bukkit
 import java.io.BufferedReader
 import java.io.InputStreamReader
@@ -27,17 +30,19 @@ class SocketServer(val socketPort: Int) {
 						val jsonObject = DreamUtils.jsonParser.parse(reply).obj
 						val response = JsonObject()
 
-						val event = SocketReceivedEvent(jsonObject, response)
-						runBlocking {
+						scheduler().schedule(Bukkit.getPluginManager().getPlugin("DreamCore"), SynchronizationContext.SYNC) {
+							val event = SocketReceivedEvent(jsonObject, response)
 							Bukkit.getPluginManager().callEvent(event)
-						}
-						val asyncEvent = AsyncSocketReceivedEvent(jsonObject, event.response)
-						Bukkit.getPluginManager().callEvent(asyncEvent)
 
-						val out = PrintWriter(socket.getOutputStream(), true)
-						out.println(asyncEvent.response.toString() + "\n")
-						out.flush()
-						fromClient.close()
+							switchContext(SynchronizationContext.ASYNC)
+							val asyncEvent = AsyncSocketReceivedEvent(jsonObject, event.response)
+							Bukkit.getPluginManager().callEvent(asyncEvent)
+
+							val out = PrintWriter(socket.getOutputStream(), true)
+							out.println(asyncEvent.response.toString() + "\n")
+							out.flush()
+							fromClient.close()
+						}
 					} finally {
 						socket.close()
 					}
