@@ -63,6 +63,7 @@ object DreamUtils {
 	val pojoCodecRegistry: CodecRegistry
 	val database: MongoDatabase
 	val usersCollection: MongoCollection<Document>
+	val nmsVersion: String by lazy { Bukkit.getServer()::class.java.getPackage().name.split("\\.")[3] }
 
 	init {
 		pojoCodecProvider = PojoCodecProvider.builder()

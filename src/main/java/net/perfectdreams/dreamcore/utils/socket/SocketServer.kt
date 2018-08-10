@@ -4,6 +4,7 @@ import com.github.salomonbrys.kotson.obj
 import com.github.salomonbrys.kotson.set
 import com.google.gson.JsonObject
 import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.experimental.runBlocking
 import net.perfectdreams.dreamcore.utils.DreamUtils
 import org.bukkit.Bukkit
 import java.io.BufferedReader
@@ -24,13 +25,16 @@ class SocketServer(val socketPort: Int) {
 						val reply = fromClient.readLine()
 						val jsonObject = DreamUtils.jsonParser.parse(reply).obj
 						val response = JsonObject()
-						response["type"] = "noop"
 
 						val event = SocketReceivedEvent(jsonObject, response)
-						Bukkit.getPluginManager().callEvent(event)
+						runBlocking {
+							Bukkit.getPluginManager().callEvent(event)
+						}
+						val asyncEvent = SocketReceivedEvent(jsonObject, event.response)
+						Bukkit.getPluginManager().callEvent(asyncEvent)
 
 						val out = PrintWriter(socket.getOutputStream(), true)
-						out.println(response.toString() + "\n")
+						out.println(asyncEvent.response.toString() + "\n")
 						out.flush()
 						fromClient.close()
 					} finally {

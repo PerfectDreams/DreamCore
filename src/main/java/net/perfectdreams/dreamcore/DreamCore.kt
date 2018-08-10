@@ -5,6 +5,7 @@ import com.comphenix.attribute.NbtFactory
 import com.github.salomonbrys.kotson.fromJson
 import net.perfectdreams.dreamcore.commands.DreamCoreCommand
 import net.perfectdreams.dreamcore.listeners.EntityListener
+import net.perfectdreams.dreamcore.listeners.SocketListener
 import net.perfectdreams.dreamcore.utils.*
 import net.perfectdreams.dreamcore.utils.socket.SocketServer
 import org.bukkit.Bukkit
@@ -31,6 +32,7 @@ class DreamCore : JavaPlugin() {
 
 		if (dreamConfig.socketPort != -1) {
 			thread { SocketServer(dreamConfig.socketPort).start() }
+			Bukkit.getPluginManager().registerEvents(SocketListener(), this)
 		}
 
 		PhoenixScoreboard.init()
