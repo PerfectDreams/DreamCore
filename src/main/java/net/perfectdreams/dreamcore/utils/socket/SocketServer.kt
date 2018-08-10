@@ -12,6 +12,7 @@ import java.io.InputStreamReader
 import java.io.PrintWriter
 import java.net.InetAddress
 import java.net.ServerSocket
+import kotlin.concurrent.thread
 
 class SocketServer(val socketPort: Int) {
 	fun start() {
@@ -30,7 +31,7 @@ class SocketServer(val socketPort: Int) {
 						runBlocking {
 							Bukkit.getPluginManager().callEvent(event)
 						}
-						val asyncEvent = SocketReceivedEvent(jsonObject, event.response)
+						val asyncEvent = AsyncSocketReceivedEvent(jsonObject, event.response)
 						Bukkit.getPluginManager().callEvent(asyncEvent)
 
 						val out = PrintWriter(socket.getOutputStream(), true)
