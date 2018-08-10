@@ -7,7 +7,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent
 
 class AsyncSocketReceivedEvent(val json: JsonObject, var response: JsonObject) : Event() {
 	override fun getHandlers(): HandlerList {
-		return handlers
+		return AsyncSocketReceivedEvent.handlers
 	}
 
 	companion object {
