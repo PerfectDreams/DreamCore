@@ -29,18 +29,18 @@ class DreamCore : JavaPlugin() {
 		}
 
 		// Carregar configuração
-		val dreamConfig = DreamConfig(config.getString("server-name"), config.getString("bungee-name")).apply {
-			dreamConfig.withoutPermission = config.getString("without-permission", "§cVocê não tem permissão para fazer isto!")
-			dreamConfig.blacklistedWorldsTeleport = config.getStringList("blacklisted-worlds-teleport")
-			dreamConfig.blacklistedRegionsTeleport = config.getStringList("blacklisted-regions-teleport")
-			dreamConfig.isStaffPermission = config.getString("staff-permission", "perfectdreams.staff")
-			dreamConfig.databaseName = config.getString("database-name", "perfectdreams")
-			dreamConfig.serverDatabaseName = config.getString("server-database-name", "dummy")
-			dreamConfig.spawn = config.getSerializable("spawn-location", Location::class.java)
-			dreamConfig.pantufaWebhook = config.getString("webhooks.warn")
-			dreamConfig.pantufaInfoWebhook = config.getString("webhooks.info")
-			dreamConfig.pantufaErrorWebhook = config.getString("webhooks.error")
-			dreamConfig.socketPort = config.getInt("socket-port", -1)
+		dreamConfig = DreamConfig(config.getString("server-name"), config.getString("bungee-name")).apply {
+			this.withoutPermission = config.getString("without-permission", "§cVocê não tem permissão para fazer isto!")
+			this.blacklistedWorldsTeleport = config.getStringList("blacklisted-worlds-teleport")
+			this.blacklistedRegionsTeleport = config.getStringList("blacklisted-regions-teleport")
+			this.isStaffPermission = config.getString("staff-permission", "perfectdreams.staff")
+			this.databaseName = config.getString("database-name", "perfectdreams")
+			this.serverDatabaseName = config.getString("server-database-name", "dummy")
+			this.spawn = config.getSerializable("spawn-location", Location::class.java)
+			this.pantufaWebhook = config.getString("webhooks.warn")
+			this.pantufaInfoWebhook = config.getString("webhooks.info")
+			this.pantufaErrorWebhook = config.getString("webhooks.error")
+			this.socketPort = config.getInt("socket-port", -1)
 		}
 
 		if (dreamConfig.socketPort != -1) {

@@ -84,7 +84,6 @@ object DreamUtils {
 	val nmsVersion: String by lazy { Bukkit.getServer()::class.java.getPackage().name.split("\\.")[3] }
 
 	init {
-
 		val gsonBuilder = GsonBuilder()
 				.registerTypeAdapter<Location> {
 					serialize {
