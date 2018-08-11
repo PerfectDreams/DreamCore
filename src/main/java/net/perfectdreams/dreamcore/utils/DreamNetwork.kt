@@ -8,14 +8,15 @@ import net.perfectdreams.dreamcore.utils.Constants.PANTUFA_PORT
 import net.perfectdreams.dreamcore.utils.Constants.PERFECTDREAMS_BUNGEE_PORT
 import net.perfectdreams.dreamcore.utils.Constants.PERFECTDREAMS_LOBBY_PORT
 import net.perfectdreams.dreamcore.utils.socket.SocketUtils
+import net.perfectdreams.dreamcore.utils.socket.SocketUtils.sendAsync
 
-open class Server(val host: String, val socketPort: Int, val internalName: String, val fancyName: String, val name: String) {
+open class DreamNetwork {
 	companion object {
-		val LORITTA = Server(LOCAL_HOST, LORITTA_PORT, "loritta", "Loritta", "Loritta")
+		val LORITTA = DreamServer(LOCAL_HOST, LORITTA_PORT, "loritta", "Loritta", "Loritta")
 		val PANTUFA = PantufaServer(LOCAL_HOST, PANTUFA_PORT, "pantufa", "Pantufa", "Pantufa")
 		val PERFECTDREAMS_BUNGEE = MinecraftServer(LOCAL_HOST, PERFECTDREAMS_BUNGEE_PORT, "bungeecord", "PerfectDreams BungeeCord", "BungeeCord")
 		val PERFECTDREAMS_LOBBY = MinecraftServer(LOCAL_HOST, PERFECTDREAMS_LOBBY_PORT, "perfectdreams_lobby", "PerfectDreams Lobby", "Lobby")
-		val servers = mutableListOf<Server>()
+		val servers = mutableListOf<DreamServer>()
 
 		init {
 			servers.add(LORITTA)
@@ -27,9 +28,14 @@ open class Server(val host: String, val socketPort: Int, val internalName: Strin
 		fun getByInternalName(internalName: String) = servers.firstOrNull { it.internalName == internalName }
 	}
 
-	class MinecraftServer(host: String, socketPort: Int, internalName: String, fancyName: String, name: String) : Server(host, socketPort, internalName, fancyName, name)
+	open class DreamServer(val host: String, val socketPort: Int, val internalName: String, val fancyName: String, val name: String) {
+		fun sendAsync(jsonObject: JsonObject, success: ((JsonObject) -> Unit)? = null, error: (() -> Unit)? = null) = SocketUtils.sendAsync(jsonObject, host, socketPort, success, error)
+		fun send(jsonObject: JsonObject) = SocketUtils.send(jsonObject, host, socketPort)
+	}
 
-	class PantufaServer(host: String, socketPort: Int, internalName: String, fancyName: String, name: String) : Server(host, socketPort, internalName, fancyName, name) {
+	class MinecraftServer(host: String, socketPort: Int, internalName: String, fancyName: String, name: String) : DreamServer(host, socketPort, internalName, fancyName, name)
+
+	class PantufaServer(host: String, socketPort: Int, internalName: String, fancyName: String, name: String) : DreamServer(host, socketPort, internalName, fancyName, name) {
 		fun sendMessageAsync(channelId: String, message: String, success: ((JsonObject) -> Unit)? = null, error: (() -> Unit)? = null) {
 			return sendAsync(
 					jsonObject(
@@ -50,7 +56,4 @@ open class Server(val host: String, val socketPort: Int, val internalName: Strin
 			)
 		}
 	}
-
-	fun sendAsync(jsonObject: JsonObject, success: ((JsonObject) -> Unit)? = null, error: (() -> Unit)? = null) = SocketUtils.sendAsync(jsonObject, host, socketPort, success, error)
-	fun send(jsonObject: JsonObject) = SocketUtils.send(jsonObject, host, socketPort)
 }
