@@ -40,6 +40,7 @@ class DreamCore : JavaPlugin() {
 			dreamConfig.pantufaWebhook = config.getString("webhooks.warn")
 			dreamConfig.pantufaInfoWebhook = config.getString("webhooks.info")
 			dreamConfig.pantufaErrorWebhook = config.getString("webhooks.error")
+			dreamConfig.socketPort = config.getInt("socket-port", -1)
 		}
 
 		if (dreamConfig.socketPort != -1) {

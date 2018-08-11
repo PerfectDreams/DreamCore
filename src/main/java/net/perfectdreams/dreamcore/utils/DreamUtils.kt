@@ -54,34 +54,36 @@ object DreamUtils {
 	@JvmStatic
 	val random = SplittableRandom()
 	@JvmStatic
-	val mongoClient: MongoClient
+	private val mongoClientOptions by lazy {
+		MongoClientOptions.Builder()
+				.addServerMonitorListener(MongoServerMonitor())
+				.codecRegistry(pojoCodecRegistry)
+				.build()
+	}
+	@JvmStatic
+	val mongoClient by lazy { MongoClient(ServerAddress("localhost", 27017), mongoClientOptions) }
 	@JvmStatic
 	val gson: Gson
 	@JvmStatic
 	val jsonParser = JsonParser()
-	val pojoCodecProvider: PojoCodecProvider
-	val pojoCodecRegistry: CodecRegistry
-	val database: MongoDatabase
-	val usersCollection: MongoCollection<Document>
-	val nmsVersion: String by lazy { Bukkit.getServer()::class.java.getPackage().name.split("\\.")[3] }
-
-	init {
-		pojoCodecProvider = PojoCodecProvider.builder()
+	val pojoCodecProvider by lazy {
+		PojoCodecProvider.builder()
 				.automatic(true)
 				.build()
-
-		pojoCodecRegistry = fromRegistries(
+	}
+	val pojoCodecRegistry by lazy {
+		fromRegistries(
 				CodecRegistries.fromCodecs(LocationCodec()),
 				MongoClient.getDefaultCodecRegistry(),
 				fromProviders(pojoCodecProvider)
 		)
+	}
 
-		val clientOptions = MongoClientOptions.Builder()
-                .addServerMonitorListener(MongoServerMonitor())
-				.codecRegistry(pojoCodecRegistry)
-                .build()
+	val database: MongoDatabase by lazy { getMongoDatabase(DreamCore.dreamConfig.databaseName) }
+	val usersCollection by lazy { database.getCollection("users") }
+	val nmsVersion: String by lazy { Bukkit.getServer()::class.java.getPackage().name.split("\\.")[3] }
 
-		mongoClient = MongoClient(ServerAddress("localhost", 27017), clientOptions)
+	init {
 
 		val gsonBuilder = GsonBuilder()
 				.registerTypeAdapter<Location> {
@@ -196,9 +198,6 @@ object DreamUtils {
 					}
 				}
 		gson = gsonBuilder.create()
-
-		database = getMongoDatabase(DreamCore.dreamConfig.databaseName)
-		usersCollection = database.getCollection("users")
 	}
 
 	fun getMongoDatabase(name: String): MongoDatabase {
