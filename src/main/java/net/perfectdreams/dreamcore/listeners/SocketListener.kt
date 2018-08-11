@@ -7,20 +7,16 @@ import net.perfectdreams.dreamcore.utils.DreamUtils.gson
 import net.perfectdreams.dreamcore.utils.SocketCode
 import net.perfectdreams.dreamcore.utils.VaultUtils
 import net.perfectdreams.dreamcore.utils.onlinePlayers
-import net.perfectdreams.dreamcore.utils.socket.SocketReceivedEvent
-import net.perfectdreams.dreamcore.utils.socket.SocketUtils
+import net.perfectdreams.dreamcore.network.socket.SocketReceivedEvent
+import net.perfectdreams.dreamcore.network.socket.SocketUtils
 import org.bukkit.Bukkit
-import org.bukkit.Server
 import org.bukkit.command.CommandSender
-import org.bukkit.command.defaults.VersionCommand
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.permissions.Permission
 import org.bukkit.permissions.PermissionAttachment
 import org.bukkit.permissions.PermissionAttachmentInfo
 import org.bukkit.plugin.Plugin
-import sun.audio.AudioPlayer
-import sun.audio.AudioPlayer.player
 
 class SocketListener : Listener {
 	@EventHandler

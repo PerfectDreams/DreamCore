@@ -1,4 +1,4 @@
-package net.perfectdreams.dreamcore.utils
+package net.perfectdreams.dreamcore.network
 
 import com.github.salomonbrys.kotson.jsonObject
 import com.google.gson.JsonObject
@@ -7,8 +7,7 @@ import net.perfectdreams.dreamcore.utils.Constants.LORITTA_PORT
 import net.perfectdreams.dreamcore.utils.Constants.PANTUFA_PORT
 import net.perfectdreams.dreamcore.utils.Constants.PERFECTDREAMS_BUNGEE_PORT
 import net.perfectdreams.dreamcore.utils.Constants.PERFECTDREAMS_LOBBY_PORT
-import net.perfectdreams.dreamcore.utils.socket.SocketUtils
-import net.perfectdreams.dreamcore.utils.socket.SocketUtils.sendAsync
+import net.perfectdreams.dreamcore.network.socket.SocketUtils
 
 open class DreamNetwork {
 	companion object {
@@ -40,7 +39,8 @@ open class DreamNetwork {
 			return sendAsync(
 					jsonObject(
 							"type" to "sendMessage",
-							"textChannelId" to channelId
+							"textChannelId" to channelId,
+							"message" to message
 					),
 					success,
 					error
@@ -51,7 +51,8 @@ open class DreamNetwork {
 			return send(
 					jsonObject(
 							"type" to "sendMessage",
-							"textChannelId" to channelId
+							"textChannelId" to channelId,
+							"message" to message
 					)
 			)
 		}

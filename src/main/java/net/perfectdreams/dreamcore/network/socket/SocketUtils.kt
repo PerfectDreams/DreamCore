@@ -1,4 +1,4 @@
-package net.perfectdreams.dreamcore.utils.socket
+package net.perfectdreams.dreamcore.network.socket
 
 import com.github.salomonbrys.kotson.jsonObject
 import com.github.salomonbrys.kotson.obj

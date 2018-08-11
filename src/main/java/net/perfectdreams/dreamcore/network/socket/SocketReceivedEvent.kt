@@ -1,4 +1,4 @@
-package net.perfectdreams.dreamcore.utils.socket
+package net.perfectdreams.dreamcore.network.socket
 
 import com.google.gson.JsonObject
 import org.bukkit.event.Event

@@ -1,10 +1,8 @@
-package net.perfectdreams.dreamcore.utils.socket
+package net.perfectdreams.dreamcore.network.socket
 
 import com.github.salomonbrys.kotson.obj
-import com.github.salomonbrys.kotson.set
 import com.google.gson.JsonObject
 import kotlinx.coroutines.experimental.launch
-import kotlinx.coroutines.experimental.runBlocking
 import net.perfectdreams.dreamcore.utils.DreamUtils
 import org.bukkit.Bukkit
 import java.io.BufferedReader
@@ -12,7 +10,6 @@ import java.io.InputStreamReader
 import java.io.PrintWriter
 import java.net.InetAddress
 import java.net.ServerSocket
-import kotlin.concurrent.thread
 
 class SocketServer(val socketPort: Int) {
 	fun start() {
