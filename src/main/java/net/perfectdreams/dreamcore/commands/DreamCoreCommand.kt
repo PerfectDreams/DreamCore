@@ -19,6 +19,7 @@ class DreamCoreCommand(val m: DreamCore) : BaseCommand() {
 	fun setSpawn(player: Player) {
 		DreamCore.dreamConfig.spawn = player.location
 		m.config.set("spawn-location", player.location)
+		m.saveConfig()
 
 		player.sendMessage("§aSpawn atualizado!")
 	}
