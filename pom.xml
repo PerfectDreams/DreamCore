@@ -6,7 +6,7 @@
 
     <groupId>net.perfectdreams.dreamcore</groupId>
     <artifactId>DreamCore</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0-SNAPSHOT-ideafix</version>
     <packaging>jar</packaging>
 
     <properties>
@@ -124,6 +124,11 @@
             <artifactId>ProtocolLib</artifactId>
             <version>4.4.0-SNAPSHOT</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.dmulloy2</groupId>
+            <artifactId>PacketWrapper</artifactId>
+            <version>84d4c3d9f1</version>
         </dependency>
         <dependency>
             <groupId>net.milkbowl.vault</groupId>
