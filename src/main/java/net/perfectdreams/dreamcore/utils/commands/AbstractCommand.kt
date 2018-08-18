@@ -106,7 +106,11 @@ open class AbstractCommand(
 			if (params.size != method.parameterCount)
 				return false
 
-			method.invoke(abstractCommand, *params.toTypedArray())
+			try {
+				method.invoke(abstractCommand, *params.toTypedArray())
+			} catch (e: CommandException) {
+				sender.sendMessage(e.minecraftMessage ?: e.message ?: "§cAlgo de errado aconteceu ao usar o comando...")
+			}
 			return true
 		}
 
