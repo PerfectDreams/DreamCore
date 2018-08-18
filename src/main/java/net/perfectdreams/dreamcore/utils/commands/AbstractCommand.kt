@@ -108,7 +108,7 @@ open class AbstractCommand(
 
 			try {
 				method.invoke(abstractCommand, *params.toTypedArray())
-			} catch (e: CommandException) {
+			} catch (e: ExecutedCommandException) {
 				sender.sendMessage(e.minecraftMessage ?: e.message ?: "§cAlgo de errado aconteceu ao usar o comando...")
 			}
 			return true
