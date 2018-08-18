@@ -172,24 +172,33 @@ open class AbstractCommand(
 					injectArgumentAnnotation != null && injectArgumentAnnotation.type == ArgumentType.CUSTOM_ARGUMENT -> {
 						// Suporte a injected arguments personalizados
 						val argument = arguments.getOrNull(dynamicArgIdx)
-						val customInjector = CommandManager.argumentContexts.entries.firstOrNull { it.key == param.type }
+						val customInjector = CommandManager.argumentContexts.firstOrNull { it.clazz == param.type }
 						dynamicArgIdx++
 						if (customInjector == null || argument == null) {
 							params.add(null)
 						} else {
-							val value = customInjector.value.invoke(sender, argument)
+							val value = customInjector.callback.invoke(sender, argument)
+							params.add(value)
+						}
+					}
+					injectArgumentAnnotation != null && injectArgumentAnnotation.type == ArgumentType.CUSTOM -> {
+						val customInjector = CommandManager.contexts.firstOrNull { it.clazz == param.type && it.name == injectArgumentAnnotation.name }
+						if (customInjector == null) {
+							params.add(null)
+						} else {
+							val value = customInjector.callback.invoke(sender)
 							params.add(value)
 						}
 					}
 					injectArgumentAnnotation != null && injectArgumentAnnotation.type == ArgumentType.ARGUMENT_LIST -> {
 						params.add(arguments.joinToString(" "))
 					}
-					CommandManager.contexts.entries.any { it.key == param.type } -> {
-						val customInjector = CommandManager.contexts.entries.firstOrNull { it.key == param.type }
+					CommandManager.contexts.any { it.clazz == param.type && it.name == null } -> {
+						val customInjector = CommandManager.contexts.firstOrNull { it.clazz == param.type && it.name == null }
 						if (customInjector == null) {
 							params.add(null)
 						} else {
-							val value = customInjector.value.invoke(sender)
+							val value = customInjector.callback.invoke(sender)
 							params.add(value)
 						}
 					}

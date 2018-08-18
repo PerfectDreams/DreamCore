@@ -6,5 +6,6 @@ enum class ArgumentType {
 	ARGUMENT_LIST,
 	WORLD,
 	COMMAND_LABEL,
+	CUSTOM,
 	CUSTOM_ARGUMENT
 }
