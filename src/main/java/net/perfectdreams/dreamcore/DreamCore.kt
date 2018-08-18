@@ -59,8 +59,7 @@ class DreamCore : JavaPlugin() {
 		try { VaultUtils.setupEconomy() } catch (e: NoClassDefFoundError) {}
 		try { VaultUtils.setupPermissions() } catch (e: NoClassDefFoundError) {}
 
-		val manager = PaperCommandManager(this)
-		manager.registerCommand(DreamCoreCommand(this))
+		DreamCoreCommand(this).register()
 
 		ArmorStandHologram.loadArmorStandsIdsMarkedForRemoval()
 	}

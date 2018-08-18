@@ -31,7 +31,7 @@ open class KotlinPlugin : JavaPlugin() {
 	open fun softDisable() {
 		// Primeiro nós iremos desregistrar todos os comandos deste plugin
 		commandList.forEach{
-			it.unregister()
+			// it.unregister()
 		}
 
 		// E depois nós iremos desregistrar todos os eventos ao desligar
