@@ -11,6 +11,7 @@ import org.bukkit.command.CommandMap
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import java.lang.reflect.AnnotatedElement
+import java.lang.reflect.InvocationTargetException
 import java.lang.reflect.Method
 import kotlin.reflect.full.valueParameters
 import kotlin.reflect.jvm.kotlinFunction
@@ -108,8 +109,13 @@ open class AbstractCommand(
 
 			try {
 				method.invoke(abstractCommand, *params.toTypedArray())
-			} catch (e: ExecutedCommandException) {
-				sender.sendMessage(e.minecraftMessage ?: e.message ?: "§cAlgo de errado aconteceu ao usar o comando...")
+			} catch (e: InvocationTargetException) {
+				val targetException = e.targetException
+				if (targetException is ExecutedCommandException) {
+					sender.sendMessage(targetException.minecraftMessage ?: e.message ?: "§cAlgo de errado aconteceu ao usar o comando...")
+				} else {
+					throw e
+				}
 			}
 			return true
 		}
