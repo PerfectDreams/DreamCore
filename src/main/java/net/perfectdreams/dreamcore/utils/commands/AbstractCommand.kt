@@ -95,7 +95,7 @@ open class AbstractCommand(
 			for (i in 0 until skipArgs)
 				arguments.removeAt(0)
 
-			val params = getContextualArgumentList(method, sender, arguments)
+			val params = getContextualArgumentList(method, sender, commandLabel, arguments)
 
 			// Agora iremos "validar" o argument list antes de executar
 			for ((index, parameter) in method.kotlinFunction!!.valueParameters.withIndex()) {
@@ -128,7 +128,7 @@ open class AbstractCommand(
 			return true
 		}
 
-		fun getContextualArgumentList(method: Method, sender: CommandSender, arguments: MutableList<String>): List<Any?> {
+		fun getContextualArgumentList(method: Method, sender: CommandSender, commandLabel: String, arguments: MutableList<String>): List<Any?> {
 			var dynamicArgIdx = 0
 			val params = mutableListOf<Any?>()
 
@@ -136,6 +136,9 @@ open class AbstractCommand(
 				val typeName = param.type.simpleName.toLowerCase()
 				val injectArgumentAnnotation = param.getAnnotation(InjectArgument::class.java)
 				when {
+					injectArgumentAnnotation != null && injectArgumentAnnotation.type == ArgumentType.COMMAND_LABEL -> {
+						params.add(commandLabel)
+					}
 					injectArgumentAnnotation != null && injectArgumentAnnotation.type == ArgumentType.PLAYER_EXACT -> {
 						val argument = arguments.getOrNull(dynamicArgIdx)
 						dynamicArgIdx++

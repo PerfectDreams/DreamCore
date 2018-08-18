@@ -5,5 +5,6 @@ enum class ArgumentType {
 	PLAYER_EXACT,
 	ARGUMENT_LIST,
 	WORLD,
+	COMMAND_LABEL,
 	CUSTOM_ARGUMENT
 }
