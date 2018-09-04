@@ -1,11 +1,10 @@
 package net.perfectdreams.dreamcore
 
-import co.aikar.commands.PaperCommandManager
 import net.perfectdreams.dreamcore.commands.DreamCoreCommand
 import net.perfectdreams.dreamcore.listeners.EntityListener
 import net.perfectdreams.dreamcore.listeners.SocketListener
-import net.perfectdreams.dreamcore.utils.*
 import net.perfectdreams.dreamcore.network.socket.SocketServer
+import net.perfectdreams.dreamcore.utils.*
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.plugin.java.JavaPlugin
@@ -32,6 +31,7 @@ class DreamCore : JavaPlugin() {
 			this.blacklistedRegionsTeleport = config.getStringList("blacklisted-regions-teleport")
 			this.isStaffPermission = config.getString("staff-permission", "perfectdreams.staff")
 			this.databaseName = config.getString("database-name", "perfectdreams")
+			this.mongoDbIp = config.getString("mongodb-ip", "10.0.0.3")
 			this.serverDatabaseName = config.getString("server-database-name", "dummy")
 			if (config.contains("spawn-location"))
 				this.spawn = config.getSerializable("spawn-location", Location::class.java)

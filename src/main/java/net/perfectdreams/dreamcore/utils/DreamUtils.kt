@@ -61,7 +61,7 @@ object DreamUtils {
 				.build()
 	}
 	@JvmStatic
-	val mongoClient by lazy { MongoClient(ServerAddress("localhost", 27017), mongoClientOptions) }
+	val mongoClient by lazy { MongoClient(ServerAddress(DreamCore.dreamConfig.mongoDbIp, 27017), mongoClientOptions) }
 	@JvmStatic
 	val gson: Gson
 	@JvmStatic

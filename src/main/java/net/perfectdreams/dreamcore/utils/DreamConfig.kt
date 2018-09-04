@@ -9,6 +9,7 @@ class DreamConfig(val serverName: String, val bungeeName: String) {
 	var isStaffPermission = "perfectdreams.staff"
 	var databaseName = "perfectdreams"
 	var serverDatabaseName = "perfectdreams_survival"
+	var mongoDbIp = "10.0.0.3"
 	lateinit var spawn: Location
 	lateinit var pantufaWebhook: String
 	lateinit var pantufaInfoWebhook: String
