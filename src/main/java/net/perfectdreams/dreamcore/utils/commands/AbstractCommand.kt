@@ -124,15 +124,15 @@ open class AbstractCommand(
 			val permissionAnnotation = annotatedElement.getAnnotation(SubcommandPermission::class.java)
 			// println("Has permission annotation? $permissionAnnotation")
 
-			if (permissionAnnotation != null && sender?.hasPermission(permissionAnnotation.permission) ?: false) {
+			if (permissionAnnotation != null && sender?.hasPermission(permissionAnnotation.permission) == false) {
 				// Se o usuário não tem permissão...
 				if (permissionAnnotation.callbackName.isNotEmpty()) {
 					val callback = abstractCommand.withoutPermissionCallbacks[permissionAnnotation.callbackName] ?: throw RuntimeException("Callback ${permissionAnnotation.callbackName} não encontrado!")
-					callback.invoke(sender!!, commandLabel, args)
+					callback.invoke(sender, commandLabel, args)
 					return false
 				}
-				val message = permissionAnnotation.permission.replace("{UseDefaultMessage}", DreamCore.dreamConfig.withoutPermission)
-				sender?.sendMessage(message)
+				val message = permissionAnnotation.message.replace("{UseDefaultMessage}", DreamCore.dreamConfig.withoutPermission)
+				sender.sendMessage(message)
 				return false
 			}
 			return true
