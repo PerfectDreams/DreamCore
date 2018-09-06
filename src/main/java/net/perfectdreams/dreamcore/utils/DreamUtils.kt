@@ -37,7 +37,9 @@ import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.InventoryHolder
 import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
+import org.bukkit.inventory.meta.Damageable
 import org.bukkit.inventory.meta.LeatherArmorMeta
+import org.bukkit.inventory.meta.MapMeta
 import org.bukkit.plugin.Plugin
 import org.bukkit.plugin.PluginManager
 import org.bukkit.scheduler.BukkitScheduler
@@ -111,7 +113,6 @@ object DreamUtils {
 					serialize {
 						val jsonObject = JsonObject()
 						jsonObject["type"] = it.src.type.name
-						jsonObject["durability"] = it.src.durability
 						jsonObject["amount"] = it.src.amount
 
 						val enchantmentMap = JsonObject()
@@ -128,6 +129,16 @@ object DreamUtils {
 
 							jsonMeta["isUnbreakable"] = meta.isUnbreakable
 							jsonMeta["itemFlags"] = it.context.serialize(meta.itemFlags)
+
+							if (meta is Damageable) {
+								jsonMeta["damage"] = meta.damage
+							}
+
+							if (meta is MapMeta) {
+								val mapMeta = JsonObject()
+								mapMeta["mapId"] = meta.mapId
+								jsonMeta["map"] = mapMeta
+							}
 
 							if (meta is LeatherArmorMeta) {
 								val leatherMeta = JsonObject()
@@ -148,12 +159,11 @@ object DreamUtils {
 						val jsonObject = it.json.obj
 						val type = Material.valueOf(jsonObject["type"].string)
 						val amount = jsonObject["amount"].nullInt ?: 0
-						val durability = jsonObject["durability"].nullShort ?: 0
 						val enchantments = jsonObject["enchantments"].nullObj
 						val jsonMeta = jsonObject["itemMeta"].nullObj
 						val attributes = jsonObject["attributes"].nullObj
 
-						var itemStack = ItemStack(type, amount, durability)
+						var itemStack = ItemStack(type, amount)
 
 						if (enchantments != null) {
 							for ((enchantmentName, level) in it.context.deserialize<Map<String, Int>>(enchantments)) {
@@ -164,6 +174,13 @@ object DreamUtils {
 						if (jsonMeta != null) {
 							val meta = itemStack.itemMeta
 							meta.displayName = jsonMeta["displayName"].nullString
+
+							val damage = jsonObject["damage"].nullInt
+
+							if (damage != null) {
+								meta as Damageable
+								meta.damage = damage
+							}
 
 							if (jsonMeta.has("lore")) {
 								meta.lore = it.context.deserialize<List<String>>(jsonMeta["lore"])
@@ -182,6 +199,15 @@ object DreamUtils {
 
 								meta as LeatherArmorMeta
 								meta.color = Color.fromRGB(leatherMeta["r"].int, leatherMeta["g"].int, leatherMeta["b"].int)
+							}
+
+							if (jsonMeta.has("map")) {
+								val mapMeta = jsonMeta["map"].obj
+
+								meta as MapMeta
+								val mapId = mapMeta["mapId"].nullInt
+								if (mapId != null)
+									meta.mapId = mapId
 							}
 
 							itemStack.itemMeta = meta
