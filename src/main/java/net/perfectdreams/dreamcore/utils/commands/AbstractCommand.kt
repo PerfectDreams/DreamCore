@@ -201,6 +201,13 @@ open class AbstractCommand(
 						}
 					}
 					injectArgumentAnnotation != null && injectArgumentAnnotation.type == ArgumentType.ARGUMENT_LIST -> {
+						val duplicated = arguments.toMutableList()
+						for (idx in 0 until dynamicArgIdx) {
+							duplicated.removeAt(0)
+						}
+						params.add(duplicated.joinToString(" "))
+					}
+					injectArgumentAnnotation != null && injectArgumentAnnotation.type == ArgumentType.ALL_ARGUMENTS_LIST -> {
 						params.add(arguments.joinToString(" "))
 					}
 					CommandManager.contexts.any { it.clazz == param.type && it.name == null } -> {
