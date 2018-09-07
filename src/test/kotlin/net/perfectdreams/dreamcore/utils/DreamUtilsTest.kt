@@ -30,9 +30,9 @@ class DreamUtilsTest {
 	fun `test player info`() {
 		val playerInfo = DreamUtils.createPerfectDreamsPlayerInfo(player)
 
-		assertThat(playerInfo.getString("username")).isEqualTo(TEST_USERNAME)
-		assertThat(playerInfo.getString("lowerCaseUsername")).isEqualToIgnoringCase(TEST_USERNAME)
-		assertThat(playerInfo.get("_id", UUID::class.java)).isEqualTo(TEST_UUID)
+		assertThat(playerInfo.username).isEqualTo(TEST_USERNAME)
+		assertThat(playerInfo.lowerCaseUsername).isEqualToIgnoringCase(TEST_USERNAME)
+		assertThat(playerInfo.uniqueId).isEqualTo(TEST_UUID)
 	}
 
 	@Test
