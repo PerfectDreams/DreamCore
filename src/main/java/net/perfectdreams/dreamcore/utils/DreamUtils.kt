@@ -237,6 +237,7 @@ object DreamUtils {
 	 * @returns      as informações do usuário do PerfectDreams
 	 */
 	fun getPerfectDreamsPlayerInfo(player: Player) = getPerfectDreamsPlayerInfo(player.uniqueId)
+	inline fun <reified T> getPerfectDreamsPlayerInfo(player: Player): T? = getPerfectDreamsPlayerInfo<T>(player.uniqueId)
 
 	/**
 	 * Retorna as informações de um usuário do PerfectDreams
@@ -245,6 +246,7 @@ object DreamUtils {
 	 * @returns        as informações do usuário do PerfectDreams
 	 */
 	fun getPerfectDreamsPlayerInfo(username: String) = usersCollectionPlayerInfo.find(Filters.eq("username", username)).firstOrNull()
+	inline fun <reified T> getPerfectDreamsPlayerInfo(username: String) = usersCollectionPlayerInfo.withDocumentClass(T::class.java).find(Filters.eq("username", username)).firstOrNull()
 
 	/**
 	 * Retorna as informações de um usuário do PerfectDreams a partir do username em lower case
@@ -253,6 +255,7 @@ object DreamUtils {
 	 * @returns                 as informações do usuário do PerfectDreams
 	 */
 	fun getPerfectDreamsPlayerInfoByLowerCaseUsername(lowerCaseUsername: String) = usersCollectionPlayerInfo.find(Filters.eq("lowerCaseUsername", lowerCaseUsername)).firstOrNull()
+	inline fun <reified T> getPerfectDreamsPlayerInfoByLowerCaseUsername(lowerCaseUsername: String) = usersCollectionPlayerInfo.withDocumentClass(T::class.java).find(Filters.eq("lowerCaseUsername", lowerCaseUsername)).firstOrNull()
 
 	/**
 	 * Retorna as informações de um usuário do PerfectDreams a partir do UUID do jogador
@@ -261,6 +264,7 @@ object DreamUtils {
 	 * @returns    as informações do usuário do PerfectDreams
 	 */
 	fun getPerfectDreamsPlayerInfo(uuid: UUID) = usersCollectionPlayerInfo.find(Filters.eq("_id", uuid)).firstOrNull()
+	inline fun <reified T> getPerfectDreamsPlayerInfo(uuid: UUID) = usersCollectionPlayerInfo.withDocumentClass(T::class.java).find(Filters.eq("_id", uuid)).firstOrNull()
 
 	/**
 	 * Cria as informações de um jogador do PerfectDreams
@@ -269,6 +273,7 @@ object DreamUtils {
 	 * @returns      as informações criadas do usuário
 	 */
 	fun createPerfectDreamsPlayerInfo(player: Player) = createPerfectDreamsPlayerInfo(player.uniqueId, player.name)
+	inline fun <reified T> createPerfectDreamsPlayerInfo(player: Player) = createPerfectDreamsPlayerInfo<T>(player.uniqueId, player.name)
 
 	/**
 	 * Cria as informações de um jogador do PerfectDreams
@@ -278,6 +283,7 @@ object DreamUtils {
 	 * @returns        as informações criadas do usuário
 	 */
 	fun createPerfectDreamsPlayerInfo(uuid: UUID, username: String) = PlayerInfo(uuid, username, username.toLowerCase())
+	inline fun <reified T> createPerfectDreamsPlayerInfo(uuid: UUID, username: String) = T::class.java.getDeclaredConstructor(UUID::class.java, String::class.java, String::class.java).newInstance(uuid, username, username.toLowerCase())
 
 	/**
 	 * Retorna o username do usuário a partir do UUID dele
@@ -285,9 +291,7 @@ object DreamUtils {
 	 * @param uuid uuid do usuário
 	 * @returns    o username do usuário
 	 */
-	fun getUsernameFromUniqueId(uuid: UUID): String? {
-		return getPerfectDreamsPlayerInfo(uuid)?.username
-	}
+	fun getUsernameFromUniqueId(uuid: UUID) = getPerfectDreamsPlayerInfo(uuid)?.username
 
 	/**
 	 * Retorna o UUID do usuário a partir do nome dele
@@ -295,9 +299,7 @@ object DreamUtils {
 	 * @param username username do usuário
 	 * @returns        o UUID do usuário
 	 */
-	fun getUniqueIdFromUsername(username: String): UUID? {
-		return getPerfectDreamsPlayerInfo(username)?.uniqueId
-	}
+	fun getUniqueIdFromUsername(username: String) = getPerfectDreamsPlayerInfo(username)?.uniqueId
 
 	/**
 	 * Retorna o username do usuário a partir do username em lowercase dele
@@ -305,9 +307,7 @@ object DreamUtils {
 	 * @param lowerCaseUsername o nome do usuário em lowercase
 	 * @returns                 o real nome do usuário
 	 */
-	fun getPrettyUsernameFromUsername(lowerCaseUsername: String): String? {
-		return getPerfectDreamsPlayerInfoByLowerCaseUsername(lowerCaseUsername)?.username
-	}
+	fun getPrettyUsernameFromUsername(lowerCaseUsername: String) = getPerfectDreamsPlayerInfoByLowerCaseUsername(lowerCaseUsername)?.username
 
 	class MongoServerMonitor : ServerMonitorListener {
 		override fun serverHeartbeatFailed(p0: ServerHeartbeatFailedEvent) {
