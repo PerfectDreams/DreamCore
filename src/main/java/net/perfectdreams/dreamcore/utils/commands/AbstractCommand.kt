@@ -205,7 +205,8 @@ open class AbstractCommand(
 						for (idx in 0 until dynamicArgIdx) {
 							duplicated.removeAt(0)
 						}
-						params.add(duplicated.joinToString(" "))
+						if (duplicated.isNotEmpty())
+							params.add(duplicated.joinToString(" "))
 					}
 					injectArgumentAnnotation != null && injectArgumentAnnotation.type == ArgumentType.ALL_ARGUMENTS_LIST -> {
 						params.add(arguments.joinToString(" "))
