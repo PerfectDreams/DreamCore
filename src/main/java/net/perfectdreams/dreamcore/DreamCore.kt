@@ -1,6 +1,7 @@
 package net.perfectdreams.dreamcore
 
 import net.perfectdreams.dreamcore.commands.DreamCoreCommand
+import net.perfectdreams.dreamcore.eventmanager.DreamEventManager
 import net.perfectdreams.dreamcore.listeners.EntityListener
 import net.perfectdreams.dreamcore.listeners.SocketListener
 import net.perfectdreams.dreamcore.network.socket.SocketServer
@@ -13,7 +14,11 @@ import kotlin.concurrent.thread
 class DreamCore : JavaPlugin() {
 	companion object {
 		lateinit var dreamConfig: DreamConfig
+		val INSTANCE
+			get() = Bukkit.getPluginManager().getPlugin("DreamCore") as DreamCore
 	}
+
+	val dreamEventManager = DreamEventManager()
 
 	override fun onEnable() {
 		saveDefaultConfig()
@@ -62,6 +67,7 @@ class DreamCore : JavaPlugin() {
 		DreamCoreCommand(this).register()
 
 		ArmorStandHologram.loadArmorStandsIdsMarkedForRemoval()
+		dreamEventManager.startEventsTask()
 	}
 
 	override fun onDisable() {
