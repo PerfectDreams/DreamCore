@@ -16,6 +16,7 @@ open class ServerEvent(val eventName: String, val prefix: String) {
 	var delayBetween: Long = 0L
 	var requiredPlayers: Int = 0
 	var discordAnnouncementRole: String? = null
+	var discordChannelId: String? = null
 	val webhook by lazy {
 		DiscordWebhook(discordAnnouncementRole!!)
 	}
@@ -26,12 +27,13 @@ open class ServerEvent(val eventName: String, val prefix: String) {
 
 	open fun countdown() {
 		scheduler().schedule(DreamCore.INSTANCE) {
-			if (discordAnnouncementRole != null) {
+			if (discordAnnouncementRole != null && discordChannelId != null) {
 				DreamNetwork.PANTUFA.sendAsync(
 						jsonObject(
 								"type" to "sendEventStart",
 								"eventName" to eventName,
-								"roleId" to discordAnnouncementRole
+								"roleId" to discordAnnouncementRole,
+								"channelId" to discordChannelId
 						)
 				)
 			}
