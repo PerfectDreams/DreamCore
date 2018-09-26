@@ -16,8 +16,7 @@ class DreamEventManager {
 				for (event in upcoming) {
 					val diff = System.currentTimeMillis() - (event.lastTime + event.delayBetween)
 
-					if (0 >= diff && Bukkit.getOnlinePlayers().size >= event.requiredPlayers) {
-						event.running = true
+					if (diff >= 0 && Bukkit.getOnlinePlayers().size >= event.requiredPlayers) {
 						event.preStart()
 					}
 				}
