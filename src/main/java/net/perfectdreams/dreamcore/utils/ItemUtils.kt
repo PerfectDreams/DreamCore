@@ -8,11 +8,13 @@ import net.perfectdreams.dreamcore.utils.extensions.setCompoundTag
 import net.perfectdreams.dreamcore.utils.tags.NbtTagsUtils
 import org.bukkit.Material
 import org.bukkit.craftbukkit.v1_13_R2.inventory.CraftItemStack
+import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 import org.bukkit.util.io.BukkitObjectInputStream
 import org.bukkit.util.io.BukkitObjectOutputStream
 import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder
+import protocolsupport.api.TranslationAPI
 import java.io.*
 import java.math.BigInteger
 import java.util.*
@@ -39,6 +41,16 @@ object ItemUtils {
 	fun hasStoredMetadataWithKey(itemStack: ItemStack, key: String): Boolean {
 		val tag = itemStack.getCompoundTag() ?: return false
 		return tag.containsKey(key)
+	}
+
+	fun getTranslatedDisplayName(itemStack: ItemStack, player: Player): String {
+		return getTranslatedDisplayName(itemStack, player.locale)
+	}
+
+	fun getTranslatedDisplayName(itemStack: ItemStack, locale: String): String {
+		if (itemStack.itemMeta.hasDisplayName())
+			return itemStack.itemMeta.displayName
+		return TranslationAPI.getTranslationString(locale, MaterialUtils.getTranslationKey(itemStack.type))
 	}
 }
 

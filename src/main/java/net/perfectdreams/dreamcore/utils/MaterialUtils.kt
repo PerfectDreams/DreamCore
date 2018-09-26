@@ -70,4 +70,10 @@ object MaterialUtils {
 		TRANSPARENT_MATERIALS.addAll(HOLLOW_MATERIALS)
 		TRANSPARENT_MATERIALS.add(Material.WATER)
 	}
+
+	fun getTranslationKey(material: Material): String {
+		val namespacedKey = material.key
+		val root = if (material.isBlock) "block" else "item"
+		return root + "." + namespacedKey.namespace + "." + namespacedKey.key
+	}
 }
