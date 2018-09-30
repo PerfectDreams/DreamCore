@@ -46,6 +46,10 @@
             <url>https://dl.bintray.com/kotlin/kotlin-dev/</url>
         </repository>
         <repository>
+            <id>kotlin-exposed</id>
+            <url>https://dl.bintray.com/kotlin/exposed/</url>
+        </repository>
+        <repository>
             <id>wesjd-repo</id>
             <url>https://nexus.wesjd.net/repository/thirdparty/</url>
         </repository>
@@ -157,6 +161,21 @@
             <groupId>org.mongodb</groupId>
             <artifactId>mongo-java-driver</artifactId>
             <version>3.7.0-rc0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+            <version>2.7.8</version>
+        </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.2.5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains.exposed</groupId>
+            <artifactId>exposed</artifactId>
+            <version>0.10.5</version>
         </dependency>
         <dependency>
             <groupId>com.okkero.skedule</groupId>

@@ -10,6 +10,10 @@ class DreamConfig(val serverName: String, val bungeeName: String) {
 	var databaseName = "perfectdreams"
 	var serverDatabaseName = "perfectdreams_survival"
 	var mongoDbIp = "10.0.0.3"
+	var postgreSqlIp = "10.0.0.6"
+	var postgreSqlPort = 3306
+	lateinit var postgreSqlUser: String
+	lateinit var postgreSqlPassword: String
 	lateinit var spawn: Location
 	lateinit var pantufaWebhook: String
 	lateinit var pantufaInfoWebhook: String
