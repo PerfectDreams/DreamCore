@@ -77,6 +77,14 @@
             <id>bstats</id>
             <url>https://repo.bstats.org/content/repositories/releases/</url>
         </repository>
+        <repository>
+            <id>ess3</id>
+            <url>http://repo.ess3.net/content/repositories/bukkitsnapshot/</url>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+        </repository>
     </repositories>
 
     <pluginRepositories>
