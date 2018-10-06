@@ -206,7 +206,7 @@
         <dependency>
             <groupId>com.okkero.skedule</groupId>
             <artifactId>skedule</artifactId>
-            <version>1.2.3</version>
+            <version>1.2.4-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.github.kevinsawicki</groupId>
