@@ -2,7 +2,8 @@ package net.perfectdreams.dreamcore.network.socket
 
 import com.github.salomonbrys.kotson.obj
 import com.google.gson.JsonObject
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import net.perfectdreams.dreamcore.utils.DreamUtils
 import org.bukkit.Bukkit
 import java.io.BufferedReader
@@ -17,7 +18,7 @@ class SocketServer(val socketPort: Int) {
 		try {
 			while (true) {
 				val socket = listener.accept()
-				launch {
+				GlobalScope.launch {
 					try {
 						val fromClient = BufferedReader(InputStreamReader(socket.getInputStream(), "UTF-8"))
 						val reply = fromClient.readLine()
