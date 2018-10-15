@@ -100,7 +100,7 @@ open class AbstractCommand(
 
 			// Agora iremos "validar" o argument list antes de executar
 			for ((index, parameter) in method.kotlinFunction!!.valueParameters.withIndex()) {
-				if (!parameter.type.isMarkedNullable && params[index] == null)
+				if (!parameter.type.isMarkedNullable && params.getOrNull(index) == null)
 					return false
 			}
 
