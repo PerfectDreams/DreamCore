@@ -20,6 +20,7 @@ import net.md_5.bungee.api.chat.BaseComponent
 import net.perfectdreams.dreamcore.DreamCore
 import net.perfectdreams.dreamcore.pojo.PlayerInfo
 import net.perfectdreams.dreamcore.utils.codecs.LocationCodec
+import net.perfectdreams.dreamcore.utils.extensions.storeMetadata
 import org.bson.codecs.configuration.CodecRegistries
 import org.bson.codecs.configuration.CodecRegistries.fromProviders
 import org.bson.codecs.configuration.CodecRegistries.fromRegistries
@@ -217,7 +218,7 @@ object DreamUtils {
 
 						if (attributes != null) {
 							for ((key, element) in attributes.entrySet()) {
-								itemStack = itemStack.setStorageData(element.string, UUID.fromString(key))
+								itemStack = itemStack.storeMetadata(key, element.string)
 							}
 						}
 						return@deserialize itemStack
