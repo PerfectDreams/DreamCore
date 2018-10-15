@@ -201,12 +201,14 @@ open class AbstractCommand(
 						}
 					}
 					injectArgumentAnnotation != null && injectArgumentAnnotation.type == ArgumentType.ARGUMENT_LIST -> {
-						val duplicated = arguments.toMutableList()
-						for (idx in 0 until dynamicArgIdx) {
-							duplicated.removeAt(0)
+						if (dynamicArgIdx != 0) {
+							val duplicated = arguments.toMutableList()
+							for (idx in 0 until dynamicArgIdx) {
+								duplicated.removeAt(0)
+							}
+							if (duplicated.isNotEmpty())
+								params.add(duplicated.joinToString(" "))
 						}
-						if (duplicated.isNotEmpty())
-							params.add(duplicated.joinToString(" "))
 					}
 					injectArgumentAnnotation != null && injectArgumentAnnotation.type == ArgumentType.ALL_ARGUMENTS_LIST -> {
 						params.add(arguments.joinToString(" "))
