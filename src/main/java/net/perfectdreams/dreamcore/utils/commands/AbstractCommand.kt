@@ -152,9 +152,7 @@ open class AbstractCommand(
 					injectArgumentAnnotation != null && injectArgumentAnnotation.type == ArgumentType.PLAYER_EXACT -> {
 						val argument = arguments.getOrNull(dynamicArgIdx)
 						dynamicArgIdx++
-						if (argument == null) {
-							params.add(null)
-						} else {
+						if (argument != null) {
 							val player = Bukkit.getPlayerExact(argument)
 							params.add(player)
 						}
@@ -162,9 +160,7 @@ open class AbstractCommand(
 					injectArgumentAnnotation != null && injectArgumentAnnotation.type == ArgumentType.PLAYER -> {
 						val argument = arguments.getOrNull(dynamicArgIdx)
 						dynamicArgIdx++
-						if (argument == null) {
-							params.add(null)
-						} else {
+						if (argument != null) {
 							val player = Bukkit.getPlayer(argument)
 							params.add(player)
 						}
@@ -172,9 +168,7 @@ open class AbstractCommand(
 					injectArgumentAnnotation != null && injectArgumentAnnotation.type == ArgumentType.WORLD -> {
 						val argument = arguments.getOrNull(dynamicArgIdx)
 						dynamicArgIdx++
-						if (argument == null) {
-							params.add(null)
-						} else {
+						if (argument != null) {
 							val player = Bukkit.getWorld(argument)
 							params.add(player)
 						}
