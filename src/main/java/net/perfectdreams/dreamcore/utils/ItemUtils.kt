@@ -32,7 +32,7 @@ object ItemUtils {
 		val compound = tag.getCompoundOrDefault(NbtTagsUtils.SERVER_DATA_COMPOUND_NAME)
 		compound.put(key, value)
 
-		if (!tag.containsKey("PerfectDreams"))
+		if (!tag.containsKey(NbtTagsUtils.SERVER_DATA_COMPOUND_NAME))
 			tag.put(compound)
 
 		return itemStack.setCompoundTag(tag)
