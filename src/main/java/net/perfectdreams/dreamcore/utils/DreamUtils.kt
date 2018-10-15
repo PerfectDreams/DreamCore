@@ -217,14 +217,11 @@ object DreamUtils {
 							itemStack.itemMeta = meta
 						}
 
-						println("Attributes = $attributes")
 						if (attributes != null) {
 							for ((key, element) in attributes.entrySet()) {
-								println("$key is $element")
 								itemStack = itemStack.storeMetadata(key, element.string)
 							}
 						}
-						println("${itemStack} = ${itemStack.getCompoundTag()}")
 						return@deserialize itemStack
 					}
 				}

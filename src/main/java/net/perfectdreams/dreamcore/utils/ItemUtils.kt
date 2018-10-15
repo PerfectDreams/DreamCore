@@ -91,22 +91,12 @@ fun ItemStack.removeFlag(vararg flag: ItemFlag): ItemStack {
 
 @Deprecated(message = "Please use ItemExtensions.setCompoundTag(...)")
 fun ItemStack.setStorageData(data: String, key: UUID): ItemStack {
-	val tag = this.getCompoundTag() ?: return this
-	val compound = tag.getCompoundOrDefault(NbtTagsUtils.SERVER_DATA_COMPOUND_NAME)
-	compound.put(key.toString(), data)
-
-	if (!tag.containsKey("PerfectDreams"))
-		tag.put(compound)
-
-	return this.setCompoundTag(tag)
+	return ItemUtils.storeMetadata(this, key.toString(), data)
 }
 
 @Deprecated(message = "Please use ItemExtensions.getCompoundTag()")
 fun ItemStack.getStorageData(key: UUID): String? {
-	val tag = this.getCompoundTag() ?: return null
-	val compound = tag.getCompound(NbtTagsUtils.SERVER_DATA_COMPOUND_NAME) ?: return null
-
-	return compound.getString(key.toString())
+	return ItemUtils.getStoredMetadata(this, key.toString())
 }
 
 fun ItemStack.toBase64(): String {
