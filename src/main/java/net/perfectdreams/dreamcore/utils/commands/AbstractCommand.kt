@@ -201,7 +201,7 @@ open class AbstractCommand(
 						}
 					}
 					injectArgumentAnnotation != null && injectArgumentAnnotation.type == ArgumentType.ARGUMENT_LIST -> {
-						if (dynamicArgIdx != 0) {
+						if (arguments.isNotEmpty()) {
 							val duplicated = arguments.toMutableList()
 							for (idx in 0 until dynamicArgIdx) {
 								duplicated.removeAt(0)
