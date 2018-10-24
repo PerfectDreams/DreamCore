@@ -5,10 +5,13 @@ import net.perfectdreams.dreamcore.eventmanager.DreamEventManager
 import net.perfectdreams.dreamcore.listeners.EntityListener
 import net.perfectdreams.dreamcore.listeners.SocketListener
 import net.perfectdreams.dreamcore.network.socket.SocketServer
+import net.perfectdreams.dreamcore.tables.Users
 import net.perfectdreams.dreamcore.utils.*
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.plugin.java.JavaPlugin
+import org.jetbrains.exposed.sql.SchemaUtils
+import org.jetbrains.exposed.sql.transactions.transaction
 import kotlin.concurrent.thread
 
 class DreamCore : JavaPlugin() {
@@ -53,6 +56,10 @@ class DreamCore : JavaPlugin() {
 		if (dreamConfig.socketPort != -1) {
 			thread { SocketServer(dreamConfig.socketPort).start() }
 			Bukkit.getPluginManager().registerEvents(SocketListener(), this)
+		}
+
+		transaction(Databases.databaseNetwork) {
+			SchemaUtils.createMissingTablesAndColumns(Users)
 		}
 
 		PhoenixScoreboard.init()
