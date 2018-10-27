@@ -9,6 +9,7 @@ import org.bukkit.Bukkit
 import org.bukkit.command.Command
 import org.bukkit.command.CommandMap
 import org.bukkit.command.CommandSender
+import org.bukkit.command.SimpleCommandMap
 import org.bukkit.entity.Player
 import java.lang.reflect.AnnotatedElement
 import java.lang.reflect.InvocationTargetException
@@ -36,11 +37,9 @@ open class AbstractCommand(
 
     fun unregister() {
         val cmd = this.getCommandMap().getCommand(reflectCommand.name)
+
         try {
-            val clazz = this.getCommandMap().javaClass
-            val f = clazz.getDeclaredField("knownCommands")
-            f.isAccessible = true
-            val knownCommands = f.get(this.getCommandMap()) as MutableMap<String, Command>
+	        val knownCommands = this.getCommandMap().knownCommands
             val toRemove = ArrayList<String>()
             for ((key, value) in knownCommands) {
                 if (value === cmd) {
