@@ -34,6 +34,27 @@ open class AbstractCommand(
 		return this
 	}
 
+    fun unregister() {
+        val cmd = this.getCommandMap().getCommand(reflectCommand.name)
+        try {
+            val clazz = this.getCommandMap().javaClass
+            val f = clazz.getDeclaredField("knownCommands")
+            f.isAccessible = true
+            val knownCommands = f.get(this.getCommandMap()) as MutableMap<String, Command>
+            val toRemove = ArrayList<String>()
+            for ((key, value) in knownCommands) {
+                if (value === cmd) {
+                    toRemove.add(key)
+                }
+            }
+            for (str in toRemove) {
+                knownCommands.remove(str)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
 	fun getCommandMap(): CommandMap {
 		return Bukkit.getCommandMap()
 	}
