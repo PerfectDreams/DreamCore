@@ -36,7 +36,7 @@ open class AbstractCommand(
 	}
 
 	fun unregister() {
-		val cmd = this.getCommandMap().getCommand(reflectCommand.name)
+		val cmd = reflectCommand
 
 		try {
 			val knownCommands = this.getCommandMap().knownCommands
