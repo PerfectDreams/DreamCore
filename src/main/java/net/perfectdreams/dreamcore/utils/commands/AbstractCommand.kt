@@ -9,6 +9,7 @@ import org.bukkit.Bukkit
 import org.bukkit.command.Command
 import org.bukkit.command.CommandMap
 import org.bukkit.command.CommandSender
+import org.bukkit.command.SimpleCommandMap
 import org.bukkit.entity.Player
 import java.lang.reflect.AnnotatedElement
 import java.lang.reflect.InvocationTargetException
@@ -34,26 +35,25 @@ open class AbstractCommand(
 		return this
 	}
 
-    fun unregister() {
-        val cmd = this.getCommandMap().getCommand(reflectCommand.name)
-        try {
-            val clazz = this.getCommandMap().javaClass
-            val f = clazz.getDeclaredField("knownCommands")
-            f.isAccessible = true
-            val knownCommands = f.get(this.getCommandMap()) as MutableMap<String, Command>
-            val toRemove = ArrayList<String>()
-            for ((key, value) in knownCommands) {
-                if (value === cmd) {
-                    toRemove.add(key)
-                }
-            }
-            for (str in toRemove) {
-                knownCommands.remove(str)
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-    }
+	fun unregister() {
+		val cmd = reflectCommand
+
+		try {
+			val knownCommands = this.getCommandMap().knownCommands
+			val toRemove = ArrayList<String>()
+			for ((key, value) in knownCommands) {
+				if (value == cmd) {
+					toRemove.add(key)
+				}
+			}
+			for (str in toRemove) {
+				println("Desregistrando ${str}...")
+				knownCommands.remove(str)
+			}
+		} catch (e: Exception) {
+			e.printStackTrace()
+		}
+	}
 
 	fun getCommandMap(): CommandMap {
 		return Bukkit.getCommandMap()
@@ -243,7 +243,7 @@ open class AbstractCommand(
 						params.add(arguments.getOrNull(dynamicArgIdx))
 						dynamicArgIdx++
 					}
-				// Sim, é necessário usar os nomes assim, já que podem ser tipos primitivos ou objetos
+					// Sim, é necessário usar os nomes assim, já que podem ser tipos primitivos ou objetos
 					typeName == "int" || typeName == "integer" -> {
 						params.add(arguments.getOrNull(dynamicArgIdx)?.toIntOrNull())
 						dynamicArgIdx++
