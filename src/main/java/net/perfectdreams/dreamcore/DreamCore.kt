@@ -45,6 +45,7 @@ class DreamCore : JavaPlugin() {
 			this.postgreSqlPort = config.getInt("postgresql-port", 5432)
 			this.postgreSqlUser = config.getString("postgresql-user", "postgres")
 			this.postgreSqlPassword = config.getString("postgresql-password", "")
+			this.enablePostgreSql = config.getBoolean("enable-postgresql", true)
 			if (config.contains("spawn-location"))
 				this.spawn = config.getSerializable("spawn-location", Location::class.java)
 			this.pantufaWebhook = config.getString("webhooks.warn")
@@ -58,8 +59,12 @@ class DreamCore : JavaPlugin() {
 			Bukkit.getPluginManager().registerEvents(SocketListener(), this)
 		}
 
-		transaction(Databases.databaseNetwork) {
-			SchemaUtils.createMissingTablesAndColumns(Users)
+		if (dreamConfig.enablePostgreSql) {
+			transaction(Databases.databaseNetwork) {
+				SchemaUtils.createMissingTablesAndColumns(Users)
+			}
+		} else {
+			logger.warning { "Suporte ao PostgreSQL está desativado!" }
 		}
 
 		PhoenixScoreboard.init()
