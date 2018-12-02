@@ -19,7 +19,7 @@ object WorldGuardUtils {
 	fun isWithinRegion(loc: Location, region: String): Boolean {
 		val regionContainer = WorldGuard.getInstance().platform.regionContainer
 		val regionManager = regionContainer[BukkitAdapter.adapt(loc.world)] ?: return false
-		val set = regionManager.getApplicableRegions(BukkitAdapter.adapt(loc).toVector())
+		val set = regionManager.getApplicableRegions(BukkitAdapter.adapt(loc).toVector().toBlockPoint())
 		return set.any { it.id.equals(region, ignoreCase = true) }
 	}
 
@@ -31,7 +31,7 @@ object WorldGuardUtils {
 	fun getRegionsAt(loc: Location): ApplicableRegionSet {
 		val regionContainer = WorldGuard.getInstance().platform.regionContainer
 		val regionManager = regionContainer[BukkitAdapter.adapt(loc.world)]!!
-		return regionManager.getApplicableRegions(BukkitAdapter.adapt(loc).toVector())
+		return regionManager.getApplicableRegions(BukkitAdapter.adapt(loc).toVector().toBlockPoint())
 	}
 
 	/**
