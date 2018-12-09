@@ -25,6 +25,9 @@ class DreamScriptManager(val m: DreamCore) {
 		m.logger.info("Carregando DreamScript \"${file.name}\"...")
 		val content = file.readText()
 
+		val cl = m.javaClass.classLoader
+		Thread.currentThread().contextClassLoader = cl
+
 		val graalContext = Context.newBuilder()
 				.allowAllAccess(true) // Permite usar coisas da JVM dentro do GraalJS (e várias outras coisas)
 				.build()
