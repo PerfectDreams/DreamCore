@@ -24,7 +24,12 @@ class DreamScriptManager(val m: DreamCore) {
 	fun loadScript(file: File) {
 		m.logger.info("Carregando DreamScript \"${file.name}\"...")
 		val content = file.readText()
-
+		val script = """
+			var Material = Java.type("org.bukkit.Material")
+			var EventPriority = Java.type("org.bukkit.event.EventPriority")
+			var ItemStack = Java.type("org.bukkit.inventory.ItemStack")
+			$content
+			"""
 		val cl = m.javaClass.classLoader
 		Thread.currentThread().contextClassLoader = cl
 
@@ -37,7 +42,7 @@ class DreamScriptManager(val m: DreamCore) {
 			val bindings = graalContext.getBindings("js")
 			bindings.putMember("server", Bukkit.getServer())
 			bindings.putMember("script", dreamScript)
-			graalContext.eval("js", content)
+			graalContext.eval("js", script)
 
 			dreamScript.enable()
 

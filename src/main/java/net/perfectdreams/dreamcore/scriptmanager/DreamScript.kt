@@ -33,8 +33,8 @@ class DreamScript(val fileName: String) {
 		listeners.clear()
 	}
 
-	fun onCommand(label: String, callback: DreamScriptCommandCallback) {
-		val command = object: AbstractCommand(label) {
+	fun onCommand(label: String, callback: DreamScriptCommandCallback, aliases: Array<String>?) {
+		val command = object: AbstractCommand(label, (aliases ?: arrayOf()).toMutableList()) {
 			@Subcommand
 			fun stuff(sender: CommandSender) {
 				callback.execute(sender)
@@ -45,12 +45,16 @@ class DreamScript(val fileName: String) {
 	}
 
 	fun onEvent(event: String, priority: String, ignoreCancelled: Boolean, callback: DreamScriptGenericCallback) {
+		onEvent(event, EventPriority.valueOf(priority), ignoreCancelled, callback)
+	}
+
+	fun onEvent(event: String, priority: EventPriority, ignoreCancelled: Boolean, callback: DreamScriptGenericCallback) {
 		val globalListener = object: RegisteredListener(object: Listener {}, EventExecutor { p0, p1 ->
 			if (p1.eventName != event)
 				return@EventExecutor
 
 			callback.execute(p1)
-		}, EventPriority.valueOf(priority), DreamCore.INSTANCE, ignoreCancelled) {}
+		}, priority, DreamCore.INSTANCE, ignoreCancelled) {}
 
 		for (handler in HandlerList.getHandlerLists()) {
 			handler.register(globalListener)
