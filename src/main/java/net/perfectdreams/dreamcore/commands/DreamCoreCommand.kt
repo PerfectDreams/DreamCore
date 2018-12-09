@@ -26,13 +26,10 @@ class DreamCoreCommand(val m: DreamCore) : AbstractCommand("dreamcore", permissi
 			executor.sendMessage("§aProntinho! ${m.dreamScriptManager.scripts.size} scripts foram carregados ^-^")
 		} else {
 			val script = m.dreamScriptManager.scripts.firstOrNull { it.fileName == fileName }
-			if (script == null) {
-				executor.sendMessage("§cO script ${fileName} não existe! (Ou não está carregado, vai que né)")
-				return
-			}
 
 			executor.sendMessage("§aRecarregando script $fileName!")
-			m.dreamScriptManager.unloadScript(script)
+			if (script != null)
+				m.dreamScriptManager.unloadScript(script)
 			m.dreamScriptManager.loadScript(File(m.dataFolder, "scripts/$fileName"))
 			executor.sendMessage("§aProntinho! $fileName foi carregado com sucesso!")
 		}
