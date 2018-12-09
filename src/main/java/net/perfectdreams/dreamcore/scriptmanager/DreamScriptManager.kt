@@ -26,13 +26,8 @@ class DreamScriptManager(val m: DreamCore) {
 		val content = file.readText()
 
 		val graalContext = Context.newBuilder()
-				.allowAllAccess(true)
-				.allowHostAccess(true) // Permite usar coisas da JVM dentro do GraalJS
-				.option("js.nashorn-compat", "true")
-				.option("jvm.cp", DreamCore.INSTANCE.dataFolder.parent.toString())
+				.allowAllAccess(true) // Permite usar coisas da JVM dentro do GraalJS (e várias outras coisas)
 				.build()
-
-		m.logger.info("Utilizando ${DreamCore.INSTANCE.dataFolder.parent} como pasta para carregar as JARs!")
 
 		try {
 			val dreamScript = DreamScript(file.name)
