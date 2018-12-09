@@ -5,6 +5,7 @@ import net.perfectdreams.dreamcore.eventmanager.DreamEventManager
 import net.perfectdreams.dreamcore.listeners.EntityListener
 import net.perfectdreams.dreamcore.listeners.SocketListener
 import net.perfectdreams.dreamcore.network.socket.SocketServer
+import net.perfectdreams.dreamcore.scriptmanager.DreamScriptManager
 import net.perfectdreams.dreamcore.tables.Users
 import net.perfectdreams.dreamcore.utils.*
 import org.bukkit.Bukkit
@@ -22,6 +23,7 @@ class DreamCore : JavaPlugin() {
 	}
 
 	val dreamEventManager = DreamEventManager()
+	lateinit var dreamScriptManager: DreamScriptManager
 
 	override fun onEnable() {
 		saveDefaultConfig()
@@ -81,6 +83,9 @@ class DreamCore : JavaPlugin() {
 		try { VaultUtils.setupPermissions() } catch (e: NoClassDefFoundError) {}
 
 		DreamCoreCommand(this).register()
+
+		dreamScriptManager = DreamScriptManager(this)
+		dreamScriptManager.loadScripts()
 
 		ArmorStandHologram.loadArmorStandsIdsMarkedForRemoval()
 		dreamEventManager.startEventsTask()

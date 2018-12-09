@@ -213,6 +213,26 @@
             <artifactId>http-request</artifactId>
             <version>6.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.oracle.graaljs</groupId>
+            <artifactId>graal-js</artifactId>
+            <version>1.0.0-rc9</version>
+        </dependency>
+        <dependency>
+            <groupId>com.oracle.tregex</groupId>
+            <artifactId>tregex</artifactId>
+            <version>1.0.0-rc9</version>
+        </dependency>
+        <dependency>
+            <groupId>com.oracle.truffle</groupId>
+            <artifactId>truffle-api</artifactId>
+            <version>1.0.0-rc7</version>
+        </dependency>
+        <dependency>
+            <groupId>org.graalvm</groupId>
+            <artifactId>graal-sdk</artifactId>
+            <version>1.0.0-rc7</version>
+        </dependency>
         <!-- https://mvnrepository.com/artifact/org.mindrot/jbcrypt -->
         <dependency>
             <groupId>org.mindrot</groupId>

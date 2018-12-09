@@ -3,6 +3,7 @@ package net.perfectdreams.dreamcore.commands
 import net.perfectdreams.dreamcore.DreamCore
 import net.perfectdreams.dreamcore.utils.commands.AbstractCommand
 import net.perfectdreams.dreamcore.utils.commands.annotation.Subcommand
+import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
 class DreamCoreCommand(val m: DreamCore) : AbstractCommand("dreamcore", permission = "dreamcore.setup") {
@@ -13,5 +14,10 @@ class DreamCoreCommand(val m: DreamCore) : AbstractCommand("dreamcore", permissi
 		m.saveConfig()
 
 		player.sendMessage("§aSpawn atualizado!")
+	}
+
+	@Subcommand(["reload scripts"])
+	fun reloadScripts(executor: CommandSender) {
+		// m.dreamScriptManager
 	}
 }
