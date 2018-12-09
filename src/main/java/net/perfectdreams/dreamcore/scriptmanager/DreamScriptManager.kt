@@ -48,4 +48,17 @@ class DreamScriptManager(val m: DreamCore) {
 			e.printStackTrace()
 		}
 	}
+
+	fun unloadScripts() {
+		scripts.forEach {
+			unloadScript(it, false)
+		}
+		scripts.clear()
+	}
+
+	fun unloadScript(script: DreamScript, removeFromList: Boolean = true) {
+		script.disable()
+		if (removeFromList)
+			scripts.remove(script)
+	}
 }

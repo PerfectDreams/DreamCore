@@ -12,15 +12,15 @@ import org.bukkit.plugin.RegisteredListener
 class DreamScript(val fileName: String) {
 	val commands = mutableListOf<AbstractCommand>()
 	val listeners = mutableListOf<RegisteredListener>()
-	var onLoadCallback: DreamScriptGenericCallback? = null
-	var onUnloadCallback: DreamScriptGenericCallback? = null
+	var onLoad: DreamScriptGenericCallback? = null
+	var onUnload: DreamScriptGenericCallback? = null
 
 	fun enable() {
-		onLoadCallback?.execute()
+		onLoad?.execute()
 	}
 
 	fun disable() {
-		onUnloadCallback?.execute()
+		onUnload?.execute()
 		commands.forEach {
 			it.unregister()
 		}
