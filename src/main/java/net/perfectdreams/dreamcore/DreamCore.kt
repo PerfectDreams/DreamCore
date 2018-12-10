@@ -74,6 +74,7 @@ class DreamCore : JavaPlugin() {
 			SignGUIUtils.registerSignGUIListener()
 
 		Bukkit.getPluginManager().registerEvents(EntityListener(), this)
+		Bukkit.getPluginManager().registerEvents(DreamMenuListener(), this)
 
 		// Iniciar funções do Vault dentro de um try ... catch
 		// É necessário ficar dentro de um try ... catch para caso o servidor não tenha algum

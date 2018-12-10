@@ -4,9 +4,14 @@ import net.perfectdreams.dreamcore.DreamCore
 import org.bukkit.Bukkit
 import org.graalvm.polyglot.Context
 import java.io.File
+import java.nio.file.Files
+import java.nio.file.Paths
+import java.security.MessageDigest
 
 class DreamScriptManager(val m: DreamCore) {
 	val scripts = mutableListOf<DreamScript>()
+	val scriptsFolder = File(m.dataFolder, "scripts")
+	val scriptTemplateFile = File(m.dataFolder, "template.kts")
 
 	fun loadScripts() {
 		m.logger.info("Carregando DreamScripts...")
@@ -14,7 +19,7 @@ class DreamScriptManager(val m: DreamCore) {
 
 		scriptsFolder.mkdirs()
 		scriptsFolder.listFiles().forEach {
-			if (it.extension == "js") {
+			if (it.extension == "kt" || it.extension == "kts") {
 				loadScript(it)
 			}
 		}
@@ -22,14 +27,20 @@ class DreamScriptManager(val m: DreamCore) {
 	}
 
 	fun loadScript(file: File) {
+		System.setProperty("idea.use.native.fs.for.win", "false") // Necessário para não ficar dando problemas no Windows
+
 		m.logger.info("Carregando DreamScript \"${file.name}\"...")
+
+		if (!scriptTemplateFile.exists()) {
+			m.logger.warning("Arquivo \"template.kts\" não existe!")
+			return
+		}
+
+		val templateContent = scriptTemplateFile.readText()
 		val content = file.readText()
-		val script = """
-			var Material = Java.type("org.bukkit.Material")
-			var EventPriority = Java.type("org.bukkit.event.EventPriority")
-			var ItemStack = Java.type("org.bukkit.inventory.ItemStack")
-			$content
-			"""
+		val className = file.nameWithoutExtension.replace("_", "").toLowerCase().capitalize()
+		val script = templateContent.replace("{{ code }}", content).replace("{{ className }}", className)
+
 		val cl = m.javaClass.classLoader
 		Thread.currentThread().contextClassLoader = cl
 
