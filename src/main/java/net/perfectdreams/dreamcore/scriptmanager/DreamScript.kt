@@ -16,7 +16,6 @@ open class DreamScript : Listener {
 	lateinit var fileName: String
 
 	val commands = mutableListOf<AbstractCommand>()
-	val listeners = mutableListOf<RegisteredListener>()
 
 	open fun enable() {
 	}
@@ -35,12 +34,9 @@ open class DreamScript : Listener {
 			it.unregister()
 		}
 		commands.clear()
-		listeners.forEach {
-			for (handler in HandlerList.getHandlerLists()) {
-				handler.unregister(this)
-			}
+		for (handler in HandlerList.getHandlerLists()) {
+			handler.unregister(this)
 		}
-		listeners.clear()
 	}
 
 	fun registerCommand(command: AbstractCommand) {
