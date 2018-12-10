@@ -215,7 +215,7 @@ open class AbstractCommand(
 							params.add(value)
 						}
 					}
-					injectArgumentAnnotation != null && injectArgumentAnnotation.type == ArgumentType.ARGUMENT_LIST -> {
+					injectArgumentAnnotation != null && (injectArgumentAnnotation.type == ArgumentType.ARGUMENT_LIST || injectArgumentAnnotation.type == ArgumentType.ARGUMENTS_AS_STRING) -> {
 						if (arguments.isNotEmpty()) {
 							val duplicated = arguments.toMutableList()
 							for (idx in 0 until dynamicArgIdx) {
@@ -225,8 +225,11 @@ open class AbstractCommand(
 								params.add(duplicated.joinToString(" "))
 						}
 					}
-					injectArgumentAnnotation != null && injectArgumentAnnotation.type == ArgumentType.ALL_ARGUMENTS_LIST -> {
+					injectArgumentAnnotation != null && (injectArgumentAnnotation.type == ArgumentType.ALL_ARGUMENTS_LIST || injectArgumentAnnotation.type == ArgumentType.ALL_ARGUMENTS_AS_STRING) -> {
 						params.add(arguments.joinToString(" "))
+					}
+					injectArgumentAnnotation != null && (injectArgumentAnnotation.type == ArgumentType.ALL_ARGUMENTS_ARRAY) -> {
+						params.add(arguments.toTypedArray())
 					}
 					CommandManager.contexts.any { it.clazz == param.type && it.name == null } -> {
 						val customInjector = CommandManager.contexts.firstOrNull { it.clazz == param.type && it.name == null }

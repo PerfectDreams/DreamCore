@@ -2,20 +2,21 @@ package net.perfectdreams.dreamcore.scriptmanager
 
 import net.perfectdreams.dreamcore.DreamCore
 import net.perfectdreams.dreamcore.utils.commands.AbstractCommand
+import net.perfectdreams.dreamcore.utils.commands.annotation.ArgumentType
+import net.perfectdreams.dreamcore.utils.commands.annotation.InjectArgument
 import net.perfectdreams.dreamcore.utils.commands.annotation.Subcommand
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
+import org.bukkit.entity.Player
 import org.bukkit.event.*
 import org.bukkit.plugin.EventExecutor
 import org.bukkit.plugin.RegisteredListener
 
-open class DreamScript {
+open class DreamScript : Listener {
 	lateinit var fileName: String
 
 	val commands = mutableListOf<AbstractCommand>()
 	val listeners = mutableListOf<RegisteredListener>()
-	var onLoad: DreamScriptGenericCallback? = null
-	var onUnload: DreamScriptGenericCallback? = null
 
 	open fun enable() {
 	}
@@ -25,6 +26,7 @@ open class DreamScript {
 
 	fun enableScript() {
 		enable()
+		Bukkit.getPluginManager().registerEvents(this, DreamCore.INSTANCE)
 	}
 
 	fun disableScript() {
@@ -35,7 +37,7 @@ open class DreamScript {
 		commands.clear()
 		listeners.forEach {
 			for (handler in HandlerList.getHandlerLists()) {
-				handler.unregister(it)
+				handler.unregister(this)
 			}
 		}
 		listeners.clear()
@@ -46,32 +48,13 @@ open class DreamScript {
 		commands.add(command)
 	}
 
-	fun onEvent(event: String, priority: String, ignoreCancelled: Boolean, callback: DreamScriptGenericCallback) {
-		onEvent(event, EventPriority.valueOf(priority), ignoreCancelled, callback)
-	}
-
-	fun onEvent(event: String, priority: EventPriority, ignoreCancelled: Boolean, callback: DreamScriptGenericCallback) {
-		val globalListener = object: RegisteredListener(object: Listener {}, EventExecutor { p0, p1 ->
-			if (p1.eventName != event)
-				return@EventExecutor
-
-			callback.execute(p1)
-		}, priority, DreamCore.INSTANCE, ignoreCancelled) {}
-
-		for (handler in HandlerList.getHandlerLists()) {
-			handler.register(globalListener)
+	fun registerCommand(label: String, aliases: List<String> = listOf(), permission: String? = null, callback: (CommandSender, Array<String>) -> (Unit)) {
+		registerCommand(object: AbstractCommand(label) {
+			@Subcommand
+			fun root(sender: CommandSender, @InjectArgument(ArgumentType.ALL_ARGUMENTS_ARRAY) arguments: Array<String>) {
+				callback.invoke(sender, arguments)
+			}
 		}
-
-		listeners.add(globalListener)
-	}
-
-	@FunctionalInterface
-	interface DreamScriptCommandCallback {
-		fun execute(sender: CommandSender)
-	}
-
-	@FunctionalInterface
-	interface DreamScriptGenericCallback {
-		fun execute(vararg any: Any)
+		)
 	}
 }
