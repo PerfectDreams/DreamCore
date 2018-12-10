@@ -1,7 +1,9 @@
 package net.perfectdreams.dreamcore.scriptmanager
 
 import net.perfectdreams.dreamcore.DreamCore
+import net.perfectdreams.dreamcore.utils.KtsObjectLoader
 import org.bukkit.Bukkit
+import org.bukkit.plugin.Plugin
 import org.graalvm.polyglot.Context
 import java.io.File
 import java.nio.file.Files
@@ -77,5 +79,20 @@ class DreamScriptManager(val m: DreamCore) {
 		script.disable()
 		if (removeFromList)
 			scripts.remove(script)
+	}
+
+	companion object {
+		inline fun <reified T> evaluate(plugin: Plugin, code: String): T {
+			// Necessário para encontrar as classes
+			val cl = plugin.javaClass.classLoader
+			Thread.currentThread().contextClassLoader = cl
+
+			val pluginsFolder = File("./plugins").listFiles().filter { it.extension == "jar" }.joinToString(File.pathSeparator, transform = { "plugins/${it.name}" })
+			val propClassPath = "cache/patched_1.13.2.jar${File.pathSeparator}$pluginsFolder"
+
+			System.setProperty("kotlin.script.classpath", propClassPath)
+
+			return KtsObjectLoader().load<T>(code)
+		}
 	}
 }

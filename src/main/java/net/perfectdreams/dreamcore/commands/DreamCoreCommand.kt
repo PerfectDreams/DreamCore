@@ -1,10 +1,16 @@
 package net.perfectdreams.dreamcore.commands
 
 import net.perfectdreams.dreamcore.DreamCore
+import net.perfectdreams.dreamcore.scriptmanager.DreamScriptManager
+import net.perfectdreams.dreamcore.scriptmanager.Imports
 import net.perfectdreams.dreamcore.utils.commands.AbstractCommand
+import net.perfectdreams.dreamcore.utils.commands.ExecutedCommandException
 import net.perfectdreams.dreamcore.utils.commands.annotation.Subcommand
+import net.perfectdreams.dreamcore.utils.stripColorCode
+import org.bukkit.Material
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
+import org.bukkit.inventory.meta.BookMeta
 import java.io.File
 
 class DreamCoreCommand(val m: DreamCore) : AbstractCommand("dreamcore", permission = "dreamcore.setup") {
@@ -54,5 +60,40 @@ class DreamCoreCommand(val m: DreamCore) : AbstractCommand("dreamcore", permissi
 			executor.sendMessage("§aProntinho! $fileName foi descarregado com sucesso!")
 		}
 		// m.dreamScriptManager
+	}
+
+	@Subcommand(["eval"])
+	fun evaluate(player: Player) {
+		val heldItem = player.inventory.itemInMainHand
+
+		if (heldItem.type != Material.WRITABLE_BOOK && heldItem.type != Material.WRITTEN_BOOK) {
+			throw ExecutedCommandException("§cVocê precisa estar segurando um livro!")
+		}
+
+		val bookMeta = heldItem.itemMeta as BookMeta
+		val lines = bookMeta.pages.map { it.stripColorCode() }.joinToString("\n")
+
+		player.sendMessage("§dExecutando...")
+		player.sendMessage(lines)
+
+		val content = """
+			${Imports.IMPORTS}
+
+			class EvaluatedCode {
+				fun doStuff(player: Player) {
+					${lines}
+				}
+			}
+
+			EvaluatedCode()
+		""".trimIndent()
+
+		try {
+			val result = DreamScriptManager.evaluate<Any>(m, content)
+			result::class.java.getMethod("doStuff", Player::class.java).invoke(result, player)
+		} catch (e: Exception) {
+			e.printStackTrace()
+			player.sendMessage("§dDeu ruim! ${e.message}")
+		}
 	}
 }
