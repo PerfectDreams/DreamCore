@@ -2,13 +2,8 @@ package net.perfectdreams.dreamcore.scriptmanager
 
 import net.perfectdreams.dreamcore.DreamCore
 import net.perfectdreams.dreamcore.utils.KtsObjectLoader
-import org.bukkit.Bukkit
 import org.bukkit.plugin.Plugin
-import org.graalvm.polyglot.Context
 import java.io.File
-import java.nio.file.Files
-import java.nio.file.Paths
-import java.security.MessageDigest
 
 class DreamScriptManager(val m: DreamCore) {
 	val scripts = mutableListOf<DreamScript>()
@@ -17,7 +12,6 @@ class DreamScriptManager(val m: DreamCore) {
 
 	fun loadScripts() {
 		m.logger.info("Carregando DreamScripts...")
-		val scriptsFolder = File(m.dataFolder, "scripts")
 
 		scriptsFolder.mkdirs()
 		scriptsFolder.listFiles().forEach {
@@ -46,22 +40,10 @@ class DreamScriptManager(val m: DreamCore) {
 		val cl = m.javaClass.classLoader
 		Thread.currentThread().contextClassLoader = cl
 
-		val graalContext = Context.newBuilder()
-				.allowAllAccess(true) // Permite usar coisas da JVM dentro do GraalJS (e várias outras coisas)
-				.build()
-
 		try {
-			val dreamScript = DreamScript(file.name)
-			val bindings = graalContext.getBindings("js")
-			bindings.putMember("server", Bukkit.getServer())
-			bindings.putMember("script", dreamScript)
-			graalContext.eval("js", script)
-
+			val dreamScript = evaluate<DreamScript>(m, script)
 			dreamScript.enable()
-
 			scripts.add(dreamScript)
-
-			m.logger.info("DreamScript \"${file.name}\" carregado com sucesso!")
 		} catch (e: Exception) {
 			m.logger.warning("Erro ao carregar o script  \"${file.name}\"!")
 			e.printStackTrace()

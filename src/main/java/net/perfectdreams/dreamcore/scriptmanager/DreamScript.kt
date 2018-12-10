@@ -9,7 +9,7 @@ import org.bukkit.event.*
 import org.bukkit.plugin.EventExecutor
 import org.bukkit.plugin.RegisteredListener
 
-class DreamScript(val fileName: String) {
+open class DreamScript(val fileName: String) {
 	val commands = mutableListOf<AbstractCommand>()
 	val listeners = mutableListOf<RegisteredListener>()
 	var onLoad: DreamScriptGenericCallback? = null
