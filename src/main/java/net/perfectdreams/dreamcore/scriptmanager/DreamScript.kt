@@ -17,11 +17,17 @@ open class DreamScript {
 	var onLoad: DreamScriptGenericCallback? = null
 	var onUnload: DreamScriptGenericCallback? = null
 
-	fun enable() {
+	open fun enable() {
+	}
+
+	open fun disable() {
+	}
+
+	fun enableScript() {
 		onLoad?.execute()
 	}
 
-	fun disable() {
+	fun disableScript() {
 		onUnload?.execute()
 		commands.forEach {
 			it.unregister()

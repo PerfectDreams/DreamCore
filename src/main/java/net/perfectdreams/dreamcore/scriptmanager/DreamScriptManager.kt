@@ -33,7 +33,11 @@ class DreamScriptManager(val m: DreamCore) {
 		}
 
 		val templateContent = scriptTemplateFile.readText()
-		val content = file.readText()
+		val _content = file.readText()
+		var content = _content
+		if (file.extension == "kts") {
+			content = "override fun enable() {\n$_content\n}"
+		}
 		val className = file.nameWithoutExtension.replace("_", "").toLowerCase().capitalize()
 		val script = templateContent.replace("{{ code }}", content).replace("{{ className }}", className)
 
@@ -43,7 +47,7 @@ class DreamScriptManager(val m: DreamCore) {
 		try {
 			val dreamScript = evaluate<DreamScript>(m, script)
 			dreamScript.fileName = file.name
-			dreamScript.enable()
+			dreamScript.enableScript()
 			scripts.add(dreamScript)
 		} catch (e: Exception) {
 			m.logger.warning("Erro ao carregar o script  \"${file.name}\"!")
@@ -59,7 +63,7 @@ class DreamScriptManager(val m: DreamCore) {
 	}
 
 	fun unloadScript(script: DreamScript, removeFromList: Boolean = true) {
-		script.disable()
+		script.disableScript()
 		if (removeFromList)
 			scripts.remove(script)
 	}
