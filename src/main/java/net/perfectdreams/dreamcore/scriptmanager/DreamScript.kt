@@ -41,13 +41,7 @@ open class DreamScript {
 		listeners.clear()
 	}
 
-	fun onCommand(label: String, callback: DreamScriptCommandCallback, aliases: Array<String>?) {
-		val command = object: AbstractCommand(label, (aliases ?: arrayOf()).toMutableList()) {
-			@Subcommand
-			fun stuff(sender: CommandSender) {
-				callback.execute(sender)
-			}
-		}
+	fun registerCommand(command: AbstractCommand) {
 		command.register()
 		commands.add(command)
 	}
