@@ -42,6 +42,7 @@ class DreamScriptManager(val m: DreamCore) {
 
 		try {
 			val dreamScript = evaluate<DreamScript>(m, script)
+			dreamScript.fileName = file.name
 			dreamScript.enable()
 			scripts.add(dreamScript)
 		} catch (e: Exception) {
