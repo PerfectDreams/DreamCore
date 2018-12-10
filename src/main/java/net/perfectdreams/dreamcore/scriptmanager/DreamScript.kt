@@ -24,11 +24,11 @@ open class DreamScript {
 	}
 
 	fun enableScript() {
-		onLoad?.execute()
+		enable()
 	}
 
 	fun disableScript() {
-		onUnload?.execute()
+		disable()
 		commands.forEach {
 			it.unregister()
 		}
