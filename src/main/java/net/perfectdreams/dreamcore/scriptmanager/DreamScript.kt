@@ -1,5 +1,9 @@
 package net.perfectdreams.dreamcore.scriptmanager
 
+import com.okkero.skedule.BukkitSchedulerController
+import com.okkero.skedule.CoroutineTask
+import com.okkero.skedule.SynchronizationContext
+import com.okkero.skedule.schedule
 import net.perfectdreams.dreamcore.DreamCore
 import net.perfectdreams.dreamcore.utils.commands.AbstractCommand
 import net.perfectdreams.dreamcore.utils.commands.annotation.ArgumentType
@@ -16,6 +20,7 @@ open class DreamScript : Listener {
 	lateinit var fileName: String
 
 	val commands = mutableListOf<AbstractCommand>()
+	val tasks = mutableListOf<CoroutineTask>()
 
 	open fun enable() {
 	}
@@ -34,6 +39,10 @@ open class DreamScript : Listener {
 			it.unregister()
 		}
 		commands.clear()
+		tasks.forEach {
+			it.cancel()
+		}
+		tasks.clear()
 		for (handler in HandlerList.getHandlerLists()) {
 			handler.unregister(this)
 		}
@@ -52,5 +61,10 @@ open class DreamScript : Listener {
 			}
 		}
 		)
+	}
+
+	fun schedule(initialContext: SynchronizationContext = SynchronizationContext.SYNC, task: suspend BukkitSchedulerController.() -> Unit) {
+		val corotuineTask = Bukkit.getScheduler().schedule(DreamCore.INSTANCE, initialContext, task)
+		tasks.add(corotuineTask)
 	}
 }
