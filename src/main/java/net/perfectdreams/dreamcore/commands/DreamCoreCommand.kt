@@ -1,12 +1,15 @@
 package net.perfectdreams.dreamcore.commands
 
+import com.okkero.skedule.schedule
 import net.perfectdreams.dreamcore.DreamCore
 import net.perfectdreams.dreamcore.scriptmanager.DreamScriptManager
 import net.perfectdreams.dreamcore.scriptmanager.Imports
 import net.perfectdreams.dreamcore.utils.commands.AbstractCommand
 import net.perfectdreams.dreamcore.utils.commands.ExecutedCommandException
 import net.perfectdreams.dreamcore.utils.commands.annotation.Subcommand
+import net.perfectdreams.dreamcore.utils.scheduler
 import net.perfectdreams.dreamcore.utils.stripColorCode
+import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -73,12 +76,24 @@ class DreamCoreCommand(val m: DreamCore) : AbstractCommand("dreamcore", permissi
 			run {
 				executor.sendMessage("§aCompilando $pluginName...")
 				val processBuilder = ProcessBuilder("mvn", "install")
+						.redirectErrorStream(true)
 						.directory(outputFolder)
 
 				val process = processBuilder.start()
 				process.waitFor()
 				process.inputStream.bufferedReader().forEachLine {
 					m.logger.info(it)
+				}
+			}
+
+			run {
+				executor.sendMessage("§aCopiando target do projeto para a pasta de plugins do servidor...")
+			}
+
+			run {
+				executor.sendMessage("§aRecarregando $pluginName...")
+				scheduler().schedule(m) {
+					Bukkit.dispatchCommand(executor, "plugman reload $pluginName")
 				}
 			}
 		}
