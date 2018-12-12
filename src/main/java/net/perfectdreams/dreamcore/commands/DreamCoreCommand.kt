@@ -33,7 +33,7 @@ class DreamCoreCommand(val m: DreamCore) : AbstractCommand("dreamcore", permissi
 
 			if (!outputFolder.exists()) {
 				executor.sendMessage("§aClonando projeto $pluginName...")
-				val processBuilder = ProcessBuilder("git clone https://github.com/PerfectDreams/$pluginName.git")
+				val processBuilder = ProcessBuilder("git", "clone", "https://github.com/PerfectDreams/$pluginName.git")
 						.redirectErrorStream(true)
 						.directory(File("/home/dreamcore_compile/"))
 
@@ -46,7 +46,7 @@ class DreamCoreCommand(val m: DreamCore) : AbstractCommand("dreamcore", permissi
 
 			run {
 				executor.sendMessage("§aFetcheando a origin de $pluginName...")
-				val processBuilder = ProcessBuilder("git fetch origin")
+				val processBuilder = ProcessBuilder("git", "fetch", "origin")
 						.redirectErrorStream(true)
 						.directory(outputFolder)
 
@@ -59,7 +59,7 @@ class DreamCoreCommand(val m: DreamCore) : AbstractCommand("dreamcore", permissi
 
 			run {
 				executor.sendMessage("§aResetando para a origin/development de $pluginName...")
-				val processBuilder = ProcessBuilder("git reset --hard origin/development")
+				val processBuilder = ProcessBuilder("git", "reset", "--hard", "origin/development")
 						.redirectErrorStream(true)
 						.directory(outputFolder)
 
@@ -72,7 +72,7 @@ class DreamCoreCommand(val m: DreamCore) : AbstractCommand("dreamcore", permissi
 
 			run {
 				executor.sendMessage("§aCompilando $pluginName...")
-				val processBuilder = ProcessBuilder("mvn install")
+				val processBuilder = ProcessBuilder("mvn", "install")
 						.directory(outputFolder)
 
 				val process = processBuilder.start()
