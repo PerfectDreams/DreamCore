@@ -12,6 +12,7 @@ import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.inventory.meta.BookMeta
 import java.io.File
+import kotlin.concurrent.thread
 
 class DreamCoreCommand(val m: DreamCore) : AbstractCommand("dreamcore", permission = "dreamcore.setup") {
 	@Subcommand(["set_spawn"])
@@ -21,6 +22,66 @@ class DreamCoreCommand(val m: DreamCore) : AbstractCommand("dreamcore", permissi
 		m.saveConfig()
 
 		player.sendMessage("§aSpawn atualizado!")
+	}
+
+	@Subcommand(["plreload"])
+	fun reloadAndRecompilePlugin(executor: CommandSender, pluginName: String) {
+		// A maior gambiarra já vista na face da terra:tm:
+		// Iremos compilar e recarregar o plugin automaticamente, magicamente!
+		thread {
+			val outputFolder = File("/home/dreamcore_compile/$pluginName")
+
+			if (!outputFolder.exists()) {
+				executor.sendMessage("§aClonando projeto $pluginName...")
+				val processBuilder = ProcessBuilder("git clone https://github.com/PerfectDreams/$pluginName.git")
+						.redirectErrorStream(true)
+						.directory(File("/home/dreamcore_compile/"))
+
+				val process = processBuilder.start()
+				process.waitFor()
+				process.inputStream.bufferedReader().forEachLine {
+					m.logger.info(it)
+				}
+			}
+
+			run {
+				executor.sendMessage("§aFetcheando a origin de $pluginName...")
+				val processBuilder = ProcessBuilder("git fetch origin")
+						.redirectErrorStream(true)
+						.directory(outputFolder)
+
+				val process = processBuilder.start()
+				process.waitFor()
+				process.inputStream.bufferedReader().forEachLine {
+					m.logger.info(it)
+				}
+			}
+
+			run {
+				executor.sendMessage("§aResetando para a origin/development de $pluginName...")
+				val processBuilder = ProcessBuilder("git reset --hard origin/development")
+						.redirectErrorStream(true)
+						.directory(outputFolder)
+
+				val process = processBuilder.start()
+				process.waitFor()
+				process.inputStream.bufferedReader().forEachLine {
+					m.logger.info(it)
+				}
+			}
+
+			run {
+				executor.sendMessage("§aCompilando $pluginName...")
+				val processBuilder = ProcessBuilder("mvn install")
+						.directory(outputFolder)
+
+				val process = processBuilder.start()
+				process.waitFor()
+				process.inputStream.bufferedReader().forEachLine {
+					m.logger.info(it)
+				}
+			}
+		}
 	}
 
 	@Subcommand(["reload"])
