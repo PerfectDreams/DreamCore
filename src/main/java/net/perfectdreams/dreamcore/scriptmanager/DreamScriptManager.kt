@@ -22,7 +22,7 @@ class DreamScriptManager(val m: DreamCore) {
 		m.logger.info("DreamScripts carregados com sucesso! ${scripts.size} scripts foram carregados!")
 	}
 
-	fun loadScript(file: File) {
+	fun loadScript(file: File, throwException: Boolean = false) {
 		System.setProperty("idea.use.native.fs.for.win", "false") // Necessário para não ficar dando problemas no Windows
 
 		m.logger.info("Carregando DreamScript \"${file.name}\"...")
@@ -50,6 +50,8 @@ class DreamScriptManager(val m: DreamCore) {
 			dreamScript.enableScript()
 			scripts.add(dreamScript)
 		} catch (e: Exception) {
+			if (throwException)
+				throw e
 			m.logger.warning("Erro ao carregar o script  \"${file.name}\"!")
 			e.printStackTrace()
 		}
