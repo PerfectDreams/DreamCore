@@ -29,7 +29,7 @@ class DreamCoreCommand(val m: DreamCore) : AbstractCommand("dreamcore", permissi
 	}
 
 	@Subcommand(["plreload"])
-	fun reloadAndRecompilePlugin(executor: CommandSender, pluginName: String) {
+	fun reloadAndRecompilePlugin(executor: CommandSender, pluginName: String, branch: String? = "development") {
 		// A maior gambiarra já vista na face da terra:tm:
 		// Iremos compilar e recarregar o plugin automaticamente, magicamente!
 		thread {
@@ -66,8 +66,8 @@ class DreamCoreCommand(val m: DreamCore) : AbstractCommand("dreamcore", permissi
 			}
 
 			run {
-				executor.sendMessage("§aResetando para a origin/development de $pluginName...")
-				val processBuilder = ProcessBuilder("git", "reset", "--hard", "origin/development")
+				executor.sendMessage("§aResetando para a origin/$branch de $pluginName...")
+				val processBuilder = ProcessBuilder("git", "reset", "--hard", "origin/$branch")
 						.redirectErrorStream(true)
 						.directory(outputFolder)
 
@@ -107,9 +107,16 @@ class DreamCoreCommand(val m: DreamCore) : AbstractCommand("dreamcore", permissi
 			}
 
 			run {
-				executor.sendMessage("§aRecarregando $pluginName...")
-				scheduler().schedule(m) {
-					Bukkit.dispatchCommand(executor, "plugman reload $pluginName")
+				if (Bukkit.getPluginManager().getPlugin(pluginName) == null) {
+					executor.sendMessage("§aCarregando $pluginName...")
+					scheduler().schedule(m) {
+						Bukkit.dispatchCommand(executor, "plugman load $pluginName.jar")
+					}
+				} else {
+					executor.sendMessage("§aRecarregando $pluginName...")
+					scheduler().schedule(m) {
+						Bukkit.dispatchCommand(executor, "plugman reload $pluginName.jar")
+					}
 				}
 			}
 		}
