@@ -29,7 +29,8 @@ class DreamCoreCommand(val m: DreamCore) : AbstractCommand("dreamcore", permissi
 	}
 
 	@Subcommand(["plreload"])
-	fun reloadAndRecompilePlugin(executor: CommandSender, pluginName: String, branch: String? = "development") {
+	fun reloadAndRecompilePlugin(executor: CommandSender, pluginName: String, _branch: String?) {
+		val branch = _branch ?: "development"
 		// A maior gambiarra já vista na face da terra:tm:
 		// Iremos compilar e recarregar o plugin automaticamente, magicamente!
 		thread {
