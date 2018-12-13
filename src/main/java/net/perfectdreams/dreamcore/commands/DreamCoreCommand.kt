@@ -14,6 +14,7 @@ import org.bukkit.Material
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.inventory.meta.BookMeta
+import java.io.BufferedReader
 import java.io.File
 import kotlin.concurrent.thread
 
@@ -33,6 +34,14 @@ class DreamCoreCommand(val m: DreamCore) : AbstractCommand("dreamcore", permissi
 		// Iremos compilar e recarregar o plugin automaticamente, magicamente!
 		thread {
 			val outputFolder = File("/home/dreamcore_compile/$pluginName")
+			val targetFolder = File("/home/dreamcore_compile/$pluginName/target")
+
+			if (targetFolder.exists()) {
+				targetFolder.listFiles().forEach {
+					if (it.extension == "jar")
+						it.delete()
+				}
+			}
 
 			if (!outputFolder.exists()) {
 				executor.sendMessage("§aClonando projeto $pluginName...")
@@ -41,10 +50,8 @@ class DreamCoreCommand(val m: DreamCore) : AbstractCommand("dreamcore", permissi
 						.directory(File("/home/dreamcore_compile/"))
 
 				val process = processBuilder.start()
+				readProcessInput(process, executor)
 				process.waitFor()
-				process.inputStream.bufferedReader().forEachLine {
-					m.logger.info(it)
-				}
 			}
 
 			run {
@@ -54,10 +61,8 @@ class DreamCoreCommand(val m: DreamCore) : AbstractCommand("dreamcore", permissi
 						.directory(outputFolder)
 
 				val process = processBuilder.start()
+				readProcessInput(process, executor)
 				process.waitFor()
-				process.inputStream.bufferedReader().forEachLine {
-					m.logger.info(it)
-				}
 			}
 
 			run {
@@ -67,10 +72,8 @@ class DreamCoreCommand(val m: DreamCore) : AbstractCommand("dreamcore", permissi
 						.directory(outputFolder)
 
 				val process = processBuilder.start()
+				readProcessInput(process, executor)
 				process.waitFor()
-				process.inputStream.bufferedReader().forEachLine {
-					m.logger.info(it)
-				}
 			}
 
 			run {
@@ -80,14 +83,27 @@ class DreamCoreCommand(val m: DreamCore) : AbstractCommand("dreamcore", permissi
 						.directory(outputFolder)
 
 				val process = processBuilder.start()
+				readProcessInput(process, executor)
 				process.waitFor()
-				process.inputStream.bufferedReader().forEachLine {
-					m.logger.info(it)
-				}
 			}
 
 			run {
 				executor.sendMessage("§aCopiando target do projeto para a pasta de plugins do servidor...")
+				if (targetFolder.exists()) {
+					val jar = targetFolder.listFiles().firstOrNull {it.extension == "jar" }
+
+					if (jar == null) {
+						executor.sendMessage("§cJAR não existe!")
+						return@thread
+					} else {
+						val output = File("./plugins/$pluginName.jar")
+						output.delete()
+						jar.copyTo(output, true)
+					}
+				} else {
+					executor.sendMessage("§cTarget folder não existe!")
+					return@thread
+				}
 			}
 
 			run {
@@ -96,6 +112,16 @@ class DreamCoreCommand(val m: DreamCore) : AbstractCommand("dreamcore", permissi
 					Bukkit.dispatchCommand(executor, "plugman reload $pluginName")
 				}
 			}
+		}
+	}
+
+	fun readProcessInput(process: Process, executor: CommandSender) {
+		val reader = process.inputStream.bufferedReader()
+
+		var line : String? = ""
+		while (line != null) {
+			line = reader.readLine()
+			executor.sendMessage(line)
 		}
 	}
 
