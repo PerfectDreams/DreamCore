@@ -79,7 +79,7 @@ class DreamCoreCommand(val m: DreamCore) : AbstractCommand("dreamcore", permissi
 
 			run {
 				executor.sendMessage("§aCompilando $pluginName...")
-				val processBuilder = ProcessBuilder("mvn", "install")
+				val processBuilder = ProcessBuilder("mvn", "package")
 						.redirectErrorStream(true)
 						.directory(outputFolder)
 
