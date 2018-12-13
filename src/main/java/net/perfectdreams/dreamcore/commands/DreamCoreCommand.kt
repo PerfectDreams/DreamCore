@@ -116,7 +116,7 @@ class DreamCoreCommand(val m: DreamCore) : AbstractCommand("dreamcore", permissi
 				} else {
 					executor.sendMessage("§aRecarregando $pluginName...")
 					scheduler().schedule(m) {
-						Bukkit.dispatchCommand(executor, "plugman reload $pluginName.jar")
+						Bukkit.dispatchCommand(executor, "plugman reload $pluginName")
 					}
 				}
 			}
