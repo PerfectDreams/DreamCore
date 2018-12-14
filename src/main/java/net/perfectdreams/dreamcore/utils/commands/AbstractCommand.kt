@@ -109,16 +109,17 @@ open class AbstractCommand(
 
 			val methods = this.abstractCommand::class.java.methods
 
+			val currentArgumentIndex = args.size
+			val currentArgument = args.last()
+
 			for (method in methods.filter { it.isAnnotationPresent(Subcommand::class.java) }.sortedByDescending { it.parameterCount }) {
 				val annotation = method.getAnnotation(Subcommand::class.java)
 				for (value in annotation.values) {
 					val split = value.split(" ")
-					for ((index, v) in split.withIndex()) {
-						val arg = args.getOrNull(index) ?: continue
+					val arg = split.getOrNull(currentArgumentIndex) ?: continue
 
-						if (v.startsWith(arg, true))
-							completions.add(v)
-					}
+					if (arg.startsWith(currentArgument, true))
+						completions.add(arg)
 				}
 			}
 
