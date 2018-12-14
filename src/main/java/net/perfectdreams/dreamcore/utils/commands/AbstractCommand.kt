@@ -104,8 +104,27 @@ open class AbstractCommand(
 			return true
 		}
 
-		override fun tabComplete(sender: CommandSender, alias: String, args: Array<String>): List<String>? {
-			return listOf()
+		override fun tabComplete(sender: CommandSender, alias: String, args: Array<String>): List<String> {
+			val completions = mutableListOf<String>()
+
+			val methods = this.abstractCommand::class.java.methods
+
+			for (method in methods.filter { it.isAnnotationPresent(Subcommand::class.java) }.sortedByDescending { it.parameterCount }) {
+				val annotation = method.getAnnotation(Subcommand::class.java)
+				for (value in annotation.values) {
+					val split = value.split(" ")
+					for ((index, v) in split.withIndex()) {
+						val arg = args.getOrNull(index) ?: continue
+
+						if (v.startsWith(arg, true))
+							completions.add(v)
+					}
+				}
+			}
+
+			completions.addAll(super.tabComplete(sender, alias, args))
+
+			return completions
 		}
 
 		fun executeMethod(baseClass: Class<out AbstractCommand>, method: Method, sender: CommandSender, commandLabel: String, args: Array<String>, skipArgs: Int): Boolean {
