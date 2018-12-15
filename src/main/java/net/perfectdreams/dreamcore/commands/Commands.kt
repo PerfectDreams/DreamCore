@@ -20,7 +20,7 @@ import java.io.File
 import kotlin.concurrent.thread
 
 class Commands(val m: DreamCore) {
-	fun createDreamCoreCommand() = command("dreamcore", m) {
+	fun createDreamCoreCommand() = command("dreamcore", plugin = m) {
 		permission = "dreamcore.setup"
 		permissionMessage = DreamCore.dreamConfig.withoutPermission
 
