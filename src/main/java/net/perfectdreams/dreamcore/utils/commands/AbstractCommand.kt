@@ -17,6 +17,7 @@ import java.lang.reflect.Method
 import kotlin.reflect.full.valueParameters
 import kotlin.reflect.jvm.kotlinFunction
 
+@Deprecated("Please use Command DSL")
 open class AbstractCommand(
 		val label: String,
 		val aliases: List<String> = listOf(),

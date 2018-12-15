@@ -1,5 +1,8 @@
 package net.perfectdreams.dreamcore.utils
 
+import br.com.devsrsouza.kotlinbukkitapi.dsl.command.KCommand
+import br.com.devsrsouza.kotlinbukkitapi.dsl.command.register
+import br.com.devsrsouza.kotlinbukkitapi.dsl.command.unregister
 import co.aikar.commands.BaseCommand
 import co.aikar.commands.PaperCommandManager
 import net.perfectdreams.dreamcore.utils.commands.AbstractCommand
@@ -14,6 +17,7 @@ import org.bukkit.plugin.java.JavaPlugin
 open class KotlinPlugin : JavaPlugin() {
 	// Lista de comandos registrados por este plugin
 	val commandList = mutableListOf<AbstractCommand>()
+	val commands = mutableListOf<KCommand>()
 	val commandManager by lazy { PaperCommandManager(this) }
 
 	override fun onEnable() {
@@ -30,10 +34,13 @@ open class KotlinPlugin : JavaPlugin() {
 
 	open fun softDisable() {
 		// Primeiro nós iremos desregistrar todos os comandos deste plugin
-		commandList.forEach{
+		commandList.forEach {
             it.unregister()
 		}
 
+		commands.forEach {
+			it.unregister()
+		}
 		// E depois nós iremos desregistrar todos os eventos ao desligar
 		HandlerList.getHandlerLists().forEach{
 			it.unregister(this)
@@ -45,6 +52,7 @@ open class KotlinPlugin : JavaPlugin() {
 	/**
 	 * Registra um comando
 	 */
+	@Deprecated(message = "Usar command DSL")
 	fun registerCommand(command: AbstractCommand) {
 		command.register()
 		commandList.add(command)
@@ -55,7 +63,15 @@ open class KotlinPlugin : JavaPlugin() {
 	 *
 	 * @param command comando
 	 */
+	@Deprecated(message = "Usar command DSL")
 	fun registerCommand(command: BaseCommand) {
 		commandManager.registerCommand(command)
+	}
+
+	/**
+	 * Registra um comando
+	 */
+	fun registerCommand(command: KCommand) {
+		command.register(this)
 	}
 }
