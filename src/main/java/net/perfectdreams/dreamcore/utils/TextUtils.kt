@@ -11,8 +11,7 @@ object TextUtils {
 		return this.replace("`", "")
 	}
 
-	fun Int.convertToNumeroNomeAdjetivo(): String? {
-		when (this) {
+	fun Int.convertToNumeroNomeAdjetivo() = when (this) {
 			1 -> "Primeiro"
 			2 -> "Segundo"
 			3 -> "Terceiro"
