@@ -114,7 +114,6 @@ object TextUtils {
 			100 -> "Cent\u00e9simo"
 			else -> null
 		}
-	}
 
 	fun getCenteredMessage(message: String): String {
 		return getCenteredMessage(message, 154, false)
