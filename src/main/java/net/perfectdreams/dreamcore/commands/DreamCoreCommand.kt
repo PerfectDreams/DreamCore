@@ -19,6 +19,11 @@ import java.io.File
 import kotlin.concurrent.thread
 
 class DreamCoreCommand(val m: DreamCore) : SparklyCommand(arrayOf("dreamcore"), permission = "dreamcore.setup") {
+	@Subcommand
+	fun root(sender: CommandSender) {
+		sender.sendMessage("§aDreamCore! Powered by PerfectDreams's Command Framework :3")
+	}
+
 	@Subcommand(["set_spawn"])
 	fun setSpawn(sender: Player) {
 		DreamCore.dreamConfig.spawn = sender.location
