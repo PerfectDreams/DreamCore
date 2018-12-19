@@ -11,313 +11,109 @@ object TextUtils {
 		return this.replace("`", "")
 	}
 
-	fun Int.convertToNumeroNomeAdjetivo(): String? {
-		when (this) {
-			1 -> {
-				return "Primeiro"
-			}
-			2 -> {
-				return "Segundo"
-			}
-			3 -> {
-				return "Terceiro"
-			}
-			4 -> {
-				return "Quarto"
-			}
-			5 -> {
-				return "Quinto"
-			}
-			6 -> {
-				return "Sexto"
-			}
-			7 -> {
-				return "S\u00e9timo"
-			}
-			8 -> {
-				return "Oitavo"
-			}
-			9 -> {
-				return "Nono"
-			}
-			10 -> {
-				return "D\u00e9cimo"
-			}
-			11 -> {
-				return "D\u00e9cimo primeiro"
-			}
-			12 -> {
-				return "D\u00e9cimo segundo"
-			}
-			13 -> {
-				return "D\u00e9cimo terceiro"
-			}
-			14 -> {
-				return "D\u00e9cimo quarto"
-			}
-			15 -> {
-				return "D\u00e9cimo quinto"
-			}
-			16 -> {
-				return "D\u00e9cimo sexto"
-			}
-			17 -> {
-				return "D\u00e9cimo s\u00e9timo"
-			}
-			18 -> {
-				return "D\u00e9cimo oitavo"
-			}
-			19 -> {
-				return "D\u00e9cimo nono"
-			}
-			20 -> {
-				return "Vig\u00e9simo"
-			}
-			21 -> {
-				return "Vig\u00e9simo primeiro"
-			}
-			22 -> {
-				return "Vig\u00e9simo segundo"
-			}
-			23 -> {
-				return "Vig\u00e9simo terceiro"
-			}
-			24 -> {
-				return "Vig\u00e9simo quarto"
-			}
-			25 -> {
-				return "Vig\u00e9simo quinto"
-			}
-			26 -> {
-				return "Vig\u00e9simo sexto"
-			}
-			27 -> {
-				return "Vig\u00e9simo s\u00e9timo"
-			}
-			28 -> {
-				return "Vig\u00e9simo oitavo"
-			}
-			29 -> {
-				return "Vig\u00e9simo nono"
-			}
-			30 -> {
-				return "Trig\u00e9simo"
-			}
-			31 -> {
-				return "Trig\u00e9simo primeiro"
-			}
-			32 -> {
-				return "Trig\u00e9simo segundo"
-			}
-			33 -> {
-				return "Trig\u00e9simo terceiro"
-			}
-			34 -> {
-				return "Trig\u00e9simo quarto"
-			}
-			35 -> {
-				return "Trig\u00e9simo quinto"
-			}
-			36 -> {
-				return "Trig\u00e9simo sexto"
-			}
-			37 -> {
-				return "Trig\u00e9simo s\u00e9timo"
-			}
-			38 -> {
-				return "Trig\u00e9simo oitavo"
-			}
-			39 -> {
-				return "Trig\u00e9simo nono"
-			}
-			40 -> {
-				return "Quadrag\u00e9simo"
-			}
-			41 -> {
-				return "Quadrag\u00e9simo primeiro"
-			}
-			42 -> {
-				return "Quadrag\u00e9simo segundo"
-			}
-			43 -> {
-				return "Quadrag\u00e9simo terceiro"
-			}
-			44 -> {
-				return "Quadrag\u00e9simo quarto"
-			}
-			45 -> {
-				return "Quadrag\u00e9simo quinto"
-			}
-			46 -> {
-				return "Quadrag\u00e9simo sexto"
-			}
-			47 -> {
-				return "Quadrag\u00e9simo s\u00e9timo"
-			}
-			48 -> {
-				return "Quadrag\u00e9simo oitavo"
-			}
-			49 -> {
-				return "Quadrag\u00e9simo nono"
-			}
-			50 -> {
-				return "Quinquag\u00e9simo"
-			}
-			51 -> {
-				return "Quinquag\u00e9simo primeiro"
-			}
-			52 -> {
-				return "Quinquag\u00e9simo segundo"
-			}
-			53 -> {
-				return "Quinquag\u00e9simo terceiro"
-			}
-			54 -> {
-				return "Quinquag\u00e9simo quarto"
-			}
-			55 -> {
-				return "Quinquag\u00e9simo quinto"
-			}
-			56 -> {
-				return "Quinquag\u00e9simo sexto"
-			}
-			57 -> {
-				return "Quinquag\u00e9simo s\u00e9timo"
-			}
-			58 -> {
-				return "Quinquag\u00e9simo oitavo"
-			}
-			59 -> {
-				return "Quinquag\u00e9simo nono"
-			}
-			60 -> {
-				return "Sexag\u00e9simo"
-			}
-			61 -> {
-				return "Sexag\u00e9simo primeiro"
-			}
-			62 -> {
-				return "Sexag\u00e9simo segundo"
-			}
-			63 -> {
-				return "Sexag\u00e9simo terceiro"
-			}
-			64 -> {
-				return "Sexag\u00e9simo quarto"
-			}
-			65 -> {
-				return "Sexag\u00e9simo quinto"
-			}
-			66 -> {
-				return "Sexag\u00e9simo sexto"
-			}
-			67 -> {
-				return "Sexag\u00e9simo s\u00e9timo"
-			}
-			68 -> {
-				return "Sexag\u00e9simo oitavo"
-			}
-			69 -> {
-				return "Sexag\u00e9simo nono"
-			}
-			70 -> {
-				return "Septuag\u00e9simo"
-			}
-			71 -> {
-				return "Septuag\u00e9simo primeiro"
-			}
-			72 -> {
-				return "Septuag\u00e9simo segundo"
-			}
-			73 -> {
-				return "Septuag\u00e9simo terceiro"
-			}
-			74 -> {
-				return "Septuag\u00e9simo quarto"
-			}
-			75 -> {
-				return "Septuag\u00e9simo quinto"
-			}
-			76 -> {
-				return "Septuag\u00e9simo sexto"
-			}
-			77 -> {
-				return "Septuag\u00e9simo s\u00e9timo"
-			}
-			78 -> {
-				return "Septuag\u00e9simo oitavo"
-			}
-			79 -> {
-				return "Septuag\u00e9simo nono"
-			}
-			80 -> {
-				return "Octog\u00e9simo"
-			}
-			81 -> {
-				return "Octog\u00e9simo primeiro"
-			}
-			82 -> {
-				return "Octog\u00e9simo segundo"
-			}
-			83 -> {
-				return "Octog\u00e9simo terceiro"
-			}
-			84 -> {
-				return "Octog\u00e9simo quarto"
-			}
-			85 -> {
-				return "Octog\u00e9simo quinto"
-			}
-			86 -> {
-				return "Octog\u00e9simo sexto"
-			}
-			87 -> {
-				return "Octog\u00e9simo s\u00e9timo"
-			}
-			88 -> {
-				return "Octog\u00e9simo oitavo"
-			}
-			89 -> {
-				return "Octog\u00e9simo nono"
-			}
-			90 -> {
-				return "Nonag\u00e9simo"
-			}
-			91 -> {
-				return "Nonag\u00e9simo primeiro"
-			}
-			92 -> {
-				return "Nonag\u00e9simo segundo"
-			}
-			93 -> {
-				return "Nonag\u00e9simo terceiro"
-			}
-			94 -> {
-				return "Nonag\u00e9simo quarto"
-			}
-			95 -> {
-				return "Nonag\u00e9simo quinto"
-			}
-			96 -> {
-				return "Nonag\u00e9simo sexto"
-			}
-			97 -> {
-				return "Nonag\u00e9simo s\u00e9timo"
-			}
-			98 -> {
-				return "Nonag\u00e9simo oitavo"
-			}
-			99 -> {
-				return "Nonag\u00e9simo nono"
-			}
-			100 -> {
-				return "Cent\u00e9simo"
-			}
-			else -> {
-				return null
-			}
+	fun Int.convertToNumeroNomeAdjetivo() = when (this) {
+			1 -> "Primeiro"
+			2 -> "Segundo"
+			3 -> "Terceiro"
+			4 -> "Quarto"
+			5 -> "Quinto"
+			6 -> "Sexto"
+			7 -> "S\u00e9timo"
+			8 -> "Oitavo"
+			9 -> "Nono"
+			10 -> "D\u00e9cimo"
+			11 -> "D\u00e9cimo primeiro"
+			12 -> "D\u00e9cimo segundo"
+			13 -> "D\u00e9cimo terceiro"
+			14 -> "D\u00e9cimo quarto"
+			15 -> "D\u00e9cimo quinto"
+			16 -> "D\u00e9cimo sexto"
+			17 -> "D\u00e9cimo s\u00e9timo"
+			18 -> "D\u00e9cimo oitavo"
+			19 -> "D\u00e9cimo nono"
+			20 -> "Vig\u00e9simo"
+			21 -> "Vig\u00e9simo primeiro"
+			22 -> "Vig\u00e9simo segundo"
+			23 -> "Vig\u00e9simo terceiro"
+			24 -> "Vig\u00e9simo quarto"
+			25 -> "Vig\u00e9simo quinto"
+			26 -> "Vig\u00e9simo sexto"
+			27 -> "Vig\u00e9simo s\u00e9timo"
+			28 -> "Vig\u00e9simo oitavo"
+			29 -> "Vig\u00e9simo nono"
+			30 -> "Trig\u00e9simo"
+			31 -> "Trig\u00e9simo primeiro"
+			32 -> "Trig\u00e9simo segundo"
+			33 -> "Trig\u00e9simo terceiro"
+			34 -> "Trig\u00e9simo quarto"
+			35 -> "Trig\u00e9simo quinto"
+			36 -> "Trig\u00e9simo sexto"
+			37 -> "Trig\u00e9simo s\u00e9timo"
+			38 -> "Trig\u00e9simo oitavo"
+			39 -> "Trig\u00e9simo nono"
+			40 -> "Quadrag\u00e9simo"
+			41 -> "Quadrag\u00e9simo primeiro"
+			42 -> "Quadrag\u00e9simo segundo"
+			43 -> "Quadrag\u00e9simo terceiro"
+			44 -> "Quadrag\u00e9simo quarto"
+			45 -> "Quadrag\u00e9simo quinto"
+			46 -> "Quadrag\u00e9simo sexto"
+			47 -> "Quadrag\u00e9simo s\u00e9timo"
+			48 -> "Quadrag\u00e9simo oitavo"
+			49 -> "Quadrag\u00e9simo nono"
+			50 -> "Quinquag\u00e9simo"
+			51 -> "Quinquag\u00e9simo primeiro"
+			52 -> "Quinquag\u00e9simo segundo"
+			53 -> "Quinquag\u00e9simo terceiro"
+			54 -> "Quinquag\u00e9simo quarto"
+			55 -> "Quinquag\u00e9simo quinto"
+			56 -> "Quinquag\u00e9simo sexto"
+			57 -> "Quinquag\u00e9simo s\u00e9timo"
+			58 -> "Quinquag\u00e9simo oitavo"
+			59 -> "Quinquag\u00e9simo nono"
+			60 -> "Sexag\u00e9simo"
+			61 -> "Sexag\u00e9simo primeiro"
+			62 -> "Sexag\u00e9simo segundo"
+			63 -> "Sexag\u00e9simo terceiro"
+			64 -> "Sexag\u00e9simo quarto"
+			65 -> "Sexag\u00e9simo quinto"
+			66 -> "Sexag\u00e9simo sexto"
+			67 -> "Sexag\u00e9simo s\u00e9timo"
+			68 -> "Sexag\u00e9simo oitavo"
+			69 -> "Sexag\u00e9simo nono"
+			70 -> "Septuag\u00e9simo"
+			71 -> "Septuag\u00e9simo primeiro"
+			72 -> "Septuag\u00e9simo segundo"
+			73 -> "Septuag\u00e9simo terceiro"
+			74 -> "Septuag\u00e9simo quarto"
+			75 -> "Septuag\u00e9simo quinto"
+			76 -> "Septuag\u00e9simo sexto"
+			77 -> "Septuag\u00e9simo s\u00e9timo"
+			78 -> "Septuag\u00e9simo oitavo"
+			79 -> "Septuag\u00e9simo nono"
+			80 -> "Octog\u00e9simo"
+			81 -> "Octog\u00e9simo primeiro"
+			82 -> "Octog\u00e9simo segundo"
+			83 -> "Octog\u00e9simo terceiro"
+			84 -> "Octog\u00e9simo quarto"
+			85 -> "Octog\u00e9simo quinto"
+			86 -> "Octog\u00e9simo sexto"
+			87 -> "Octog\u00e9simo s\u00e9timo"
+			88 -> "Octog\u00e9simo oitavo"
+			89 -> "Octog\u00e9simo nono"
+			90 -> "Nonag\u00e9simo"
+			91 -> "Nonag\u00e9simo primeiro"
+			92 -> "Nonag\u00e9simo segundo"
+			93 -> "Nonag\u00e9simo terceiro"
+			94 -> "Nonag\u00e9simo quarto"
+			95 -> "Nonag\u00e9simo quinto"
+			96 -> "Nonag\u00e9simo sexto"
+			97 -> "Nonag\u00e9simo s\u00e9timo"
+			98 -> "Nonag\u00e9simo oitavo"
+			99 -> "Nonag\u00e9simo nono"
+			100 -> "Cent\u00e9simo"
+			else -> null
 		}
-	}
 
 	fun getCenteredMessage(message: String): String {
 		return getCenteredMessage(message, 154, false)
