@@ -21,7 +21,7 @@ import kotlin.concurrent.thread
 class DreamCoreCommand(val m: DreamCore) : SparklyCommand(arrayOf("dreamcore"), permission = "dreamcore.setup") {
 	@Subcommand
 	fun root(sender: CommandSender) {
-		sender.sendMessage("§aDreamCore! Powered by PerfectDreams's Command Framework :3")
+		sender.sendMessage("§aDreamCore! Powered by PerfectDreams' Command Framework :3")
 	}
 
 	@Subcommand(["set_spawn"])
