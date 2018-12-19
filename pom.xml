@@ -144,9 +144,9 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>br.com.devsrsouza.kotlinbukkitapi</groupId>
-            <artifactId>core</artifactId>
-            <version>0.1.0-SNAPSHOT</version>
+            <groupId>net.perfectdreams.commands</groupId>
+            <artifactId>command-framework-core</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.github.ProtocolSupport</groupId>

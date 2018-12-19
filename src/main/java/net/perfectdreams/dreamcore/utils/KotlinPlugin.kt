@@ -1,10 +1,9 @@
 package net.perfectdreams.dreamcore.utils
 
-import br.com.devsrsouza.kotlinbukkitapi.dsl.command.KCommand
-import br.com.devsrsouza.kotlinbukkitapi.dsl.command.register
-import br.com.devsrsouza.kotlinbukkitapi.dsl.command.unregister
 import co.aikar.commands.BaseCommand
 import co.aikar.commands.PaperCommandManager
+import net.perfectdreams.commands.bukkit.BukkitCommandManager
+import net.perfectdreams.commands.bukkit.SparklyCommand
 import net.perfectdreams.dreamcore.utils.commands.AbstractCommand
 import org.bukkit.event.HandlerList
 import org.bukkit.plugin.java.JavaPlugin
@@ -17,8 +16,8 @@ import org.bukkit.plugin.java.JavaPlugin
 open class KotlinPlugin : JavaPlugin() {
 	// Lista de comandos registrados por este plugin
 	val commandList = mutableListOf<AbstractCommand>()
-	val commands = mutableListOf<KCommand>()
 	val commandManager by lazy { PaperCommandManager(this) }
+	val bukkitCommandManager by lazy { BukkitCommandManager(this) }
 
 	override fun onEnable() {
 		softEnable()
@@ -38,9 +37,8 @@ open class KotlinPlugin : JavaPlugin() {
             it.unregister()
 		}
 
-		commands.forEach {
-			it.unregister()
-		}
+		bukkitCommandManager.unregisterAllCommands()
+
 		// E depois nós iremos desregistrar todos os eventos ao desligar
 		HandlerList.getHandlerLists().forEach{
 			it.unregister(this)
@@ -71,7 +69,7 @@ open class KotlinPlugin : JavaPlugin() {
 	/**
 	 * Registra um comando
 	 */
-	fun registerCommand(command: KCommand) {
-		command.register(this)
+	fun registerCommand(command: SparklyCommand) {
+		bukkitCommandManager.registerCommand(command)
 	}
 }

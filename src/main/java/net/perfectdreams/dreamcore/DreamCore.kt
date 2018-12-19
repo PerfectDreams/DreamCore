@@ -1,7 +1,7 @@
 package net.perfectdreams.dreamcore
 
-import br.com.devsrsouza.kotlinbukkitapi.dsl.command.register
-import net.perfectdreams.dreamcore.commands.Commands
+import net.perfectdreams.commands.bukkit.BukkitCommandManager
+import net.perfectdreams.dreamcore.commands.DreamCoreCommand
 import net.perfectdreams.dreamcore.eventmanager.DreamEventManager
 import net.perfectdreams.dreamcore.listeners.EntityListener
 import net.perfectdreams.dreamcore.listeners.SocketListener
@@ -84,7 +84,10 @@ class DreamCore : JavaPlugin() {
 		try { VaultUtils.setupEconomy() } catch (e: NoClassDefFoundError) {}
 		try { VaultUtils.setupPermissions() } catch (e: NoClassDefFoundError) {}
 
-		Commands(this).createDreamCoreCommand().register(this)
+
+		BukkitCommandManager(this).registerCommand(
+				DreamCoreCommand(this)
+		)
 
 		dreamScriptManager = DreamScriptManager(this)
 		dreamScriptManager.loadScripts()
