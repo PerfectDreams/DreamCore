@@ -25,7 +25,7 @@ class BukkitCommandManager(val plugin: Plugin) : DispatchableCommandManager<Comm
 				}
 		)
 
-		commandListeners.onCommand { commandSender, sparklyCommand ->
+		commandListeners.addCommandListener { commandSender, sparklyCommand ->
 			// Permissões
 			if (sparklyCommand.permission != null && !commandSender.hasPermission(sparklyCommand.permission)) {
 				commandSender.sendMessage(DreamCore.dreamConfig.withoutPermission)
@@ -73,14 +73,14 @@ class BukkitCommandManager(val plugin: Plugin) : DispatchableCommandManager<Comm
 		}
 	}
 
-	override fun dispatch(sender: CommandSender, command: SparklyCommand, label: String, arguments: Array<String>, coroutineContext: CoroutineContext?): Boolean {
+	override suspend fun dispatch(sender: CommandSender, command: SparklyCommand, label: String, arguments: Array<String>): Boolean {
 		// O CraftBukkit já irá processar os comandos marotamente, não precisamos verificar a label pois já sabemos que o comando está certo
 
 		for (subCommand in command.subcommands) {
-			if (dispatch(sender, subCommand as SparklyCommand, arguments.drop(0).firstOrNull() ?: "", arguments.drop(1).toTypedArray(), coroutineContext))
+			if (dispatch(sender, subCommand as SparklyCommand, arguments.drop(0).firstOrNull() ?: "", arguments.drop(1).toTypedArray()))
 				return true
 		}
 
-		return execute(sender, command, arguments, coroutineContext)
+		return execute(sender, command, arguments)
 	}
 }

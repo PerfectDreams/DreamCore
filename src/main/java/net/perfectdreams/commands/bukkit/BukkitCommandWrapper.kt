@@ -17,7 +17,7 @@ class BukkitCommandWrapper(val commandManager: BukkitCommandManager, val sparkly
 	}
 
 	override fun execute(p0: CommandSender, p1: String, p2: Array<String>): Boolean {
-		commandManager.dispatch(p0, sparklyCommand, p1, p2)
+		commandManager.dispatchBlocking(p0, sparklyCommand, p1, p2)
 		return true
 	}
 
