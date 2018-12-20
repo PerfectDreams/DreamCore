@@ -23,7 +23,6 @@ class BukkitCommandWrapper(val commandManager: BukkitCommandManager, val sparkly
 	}
 
 	override fun tabComplete(sender: CommandSender, alias: String, args: Array<out String>): MutableList<String> {
-		println("Tab completing for $sender $alias ${args.joinToString(", ")}")
 		val completions = mutableListOf<String>()
 
 		val methods = sparklyCommand::class.members
