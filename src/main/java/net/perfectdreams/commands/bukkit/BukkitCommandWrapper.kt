@@ -5,6 +5,7 @@ import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.command.PluginIdentifiableCommand
 import org.bukkit.plugin.Plugin
+import kotlin.reflect.full.findAnnotation
 
 class BukkitCommandWrapper(val commandManager: BukkitCommandManager, val sparklyCommand: SparklyCommand) : Command(
 		sparklyCommand.labels.first(), // Label
@@ -22,21 +23,18 @@ class BukkitCommandWrapper(val commandManager: BukkitCommandManager, val sparkly
 	}
 
 	override fun tabComplete(sender: CommandSender, alias: String, args: Array<out String>): MutableList<String> {
+		println("Tab completing for $sender $alias ${args.joinToString(", ")}")
 		val completions = mutableListOf<String>()
 
-		val methods = sparklyCommand::class.java.methods
+		val methods = sparklyCommand::class.members
 
-		val currentArgumentIndex = args.size
 		val currentArgument = args.last()
 
-		for (method in methods.filter { it.isAnnotationPresent(Subcommand::class.java) }.sortedByDescending { it.parameterCount }) {
-			val annotation = method.getAnnotation(Subcommand::class.java)
+		for (method in methods.filter { it.findAnnotation<Subcommand>() != null }.sortedByDescending { it.parameters.size }) {
+			val annotation = method.findAnnotation<Subcommand>()!!
 			for (value in annotation.labels) {
-				val split = value.split(" ")
-				val arg = split.getOrNull(currentArgumentIndex) ?: continue
-
-				if (arg.startsWith(currentArgument, true))
-					completions.add(arg)
+				if (value.startsWith(currentArgument, true))
+					completions.add(value)
 			}
 		}
 
