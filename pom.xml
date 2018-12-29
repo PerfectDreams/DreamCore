@@ -146,7 +146,21 @@
         <dependency>
             <groupId>net.perfectdreams.commands</groupId>
             <artifactId>command-framework-core</artifactId>
-            <version>0.0.2-SNAPSHOT</version>
+            <version>0.0.4</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.jetbrains.kotlin</groupId>
+                    <artifactId>kotlin-stdlib</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.jetbrains.kotlin</groupId>
+                    <artifactId>kotlin-reflect</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>io.github.microutils</groupId>
+                    <artifactId>kotlin-logging</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>com.github.ProtocolSupport</groupId>
