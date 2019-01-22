@@ -16,6 +16,7 @@ import com.mongodb.event.ServerHeartbeatFailedEvent
 import com.mongodb.event.ServerHeartbeatStartedEvent
 import com.mongodb.event.ServerHeartbeatSucceededEvent
 import com.mongodb.event.ServerMonitorListener
+import com.sk89q.worldguard.WorldGuard
 import net.md_5.bungee.api.chat.BaseComponent
 import net.perfectdreams.dreamcore.DreamCore
 import net.perfectdreams.dreamcore.pojo.PlayerInfo
@@ -56,6 +57,8 @@ import java.util.logging.Level
 object DreamUtils {
 	@JvmStatic
 	val random = SplittableRandom()
+	@JvmStatic
+	val SLOW_RANDOM = Random()
 	@JvmStatic
 	private val mongoClientOptions by lazy {
 		MongoClientOptions.Builder()

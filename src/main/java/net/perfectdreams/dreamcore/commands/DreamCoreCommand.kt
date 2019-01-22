@@ -14,7 +14,6 @@ import org.bukkit.Material
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.inventory.meta.BookMeta
-import sun.audio.AudioPlayer
 import java.io.File
 import kotlin.concurrent.thread
 
@@ -101,7 +100,7 @@ class DreamCoreCommand(val m: DreamCore) : SparklyCommand(arrayOf("dreamcore"), 
 
 		try {
 			val result = DreamScriptManager.evaluate<Any>(m, content)
-			result::class.java.getMethod("doStuff", Player::class.java).invoke(result, AudioPlayer.player)
+			result::class.java.getMethod("doStuff", Player::class.java).invoke(result, sender)
 		} catch (e: Exception) {
 			e.printStackTrace()
 			sender.sendMessage("§dDeu ruim! ${e.message}")

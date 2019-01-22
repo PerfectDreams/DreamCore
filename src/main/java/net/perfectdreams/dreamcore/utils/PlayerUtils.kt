@@ -1,5 +1,9 @@
 package net.perfectdreams.dreamcore.utils
 
+import me.ryanhamshire.GriefPrevention.Claim
+import me.ryanhamshire.GriefPrevention.GriefPrevention
+import org.bukkit.Location
+import org.bukkit.Material
 import org.bukkit.attribute.Attribute
 import org.bukkit.entity.Player
 
@@ -12,5 +16,23 @@ object PlayerUtils {
 	fun healAndFeed(player: Player) {
 		player.health = player.getAttribute(Attribute.GENERIC_MAX_HEALTH).value
 		player.foodLevel = 20
+	}
+
+	fun canBreakAt(loc: Location, p: Player, m: Material): Boolean {
+		val claim = GriefPrevention.instance.dataStore.getClaimAt(loc, false, null as Claim?)
+		var canBuildClaim: String? = null
+		if (claim != null) {
+			canBuildClaim = claim.allowBreak(p, m)
+		}
+		return canBuildClaim == null && WorldGuardUtils.canBreakAt(loc, p)
+	}
+
+	fun canPlaceAt(loc: Location, p: Player, m: Material): Boolean {
+		val claim = GriefPrevention.instance.dataStore.getClaimAt(loc, false, null as Claim?)
+		var canBuildClaim: String? = null
+		if (claim != null) {
+			canBuildClaim = claim.allowBuild(p, m)
+		}
+		return canBuildClaim == null && WorldGuardUtils.canBuildAt(loc, p)
 	}
 }

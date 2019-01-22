@@ -1,9 +1,13 @@
 package net.perfectdreams.dreamcore.utils
 
+import net.minecraft.server.v1_13_R2.BlockPosition
+import net.minecraft.server.v1_13_R2.World
 import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.block.Block
 import org.bukkit.block.Sign
+import org.bukkit.craftbukkit.v1_13_R2.CraftWorld
+import org.bukkit.craftbukkit.v1_13_R2.util.CraftMagicNumbers
 
 object BlockUtils {
 	fun attachWallSignAt(l: Location): Block? {
@@ -18,5 +22,28 @@ object BlockUtils {
 		s.data = matSign
 		s.update()
 		return s.block
+	}
+
+	fun getDropCount(enchantmentLevel: Int, block: Block): Int {
+		val nmsWorld = (block.world as CraftWorld).handle
+		if (!block.type.name.contains("ORE")) {
+			return 1
+		}
+        val nmsBlock = CraftMagicNumbers.getBlock(block.type)
+        return nmsBlock.getDropCount(nmsBlock.blockData, enchantmentLevel, nmsWorld, BlockPosition(block.x, block.y, block.z), DreamUtils.SLOW_RANDOM)
+	}
+
+	fun getExpCount(block: Block, fortuneLevel: Int): Int {
+		val nmsBlock = CraftMagicNumbers.getBlock(block.type)
+		val nmsWorld = (block.world as CraftWorld).handle
+		return nmsBlock.getExpDrop(nmsBlock.blockData, nmsWorld as World, BlockPosition(block.x, block.y, block.z), fortuneLevel)
+	}
+
+	fun getDropType(block: Block): Material {
+		return getDropType(block.type)
+	}
+
+	fun getDropType(material: Material): Material {
+		return if (material == Material.COAL_ORE) Material.COAL else if (material == Material.DIAMOND_ORE) Material.DIAMOND else if (material == Material.LAPIS_ORE) Material.LAPIS_LAZULI else if (material == Material.EMERALD_ORE) Material.EMERALD else if (material == Material.NETHER_QUARTZ_ORE) Material.QUARTZ else if (material == Material.STONE) Material.COBBLESTONE else if (material == Material.REDSTONE_ORE) Material.REDSTONE else material
 	}
 }

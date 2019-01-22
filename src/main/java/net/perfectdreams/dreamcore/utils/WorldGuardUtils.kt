@@ -1,8 +1,13 @@
 package net.perfectdreams.dreamcore.utils
 
+import com.sk89q.worldedit.WorldEdit
 import com.sk89q.worldedit.bukkit.BukkitAdapter
+import com.sk89q.worldedit.bukkit.BukkitWorld
+import com.sk89q.worldedit.bukkit.WorldEditPlugin
 import com.sk89q.worldguard.WorldGuard
+import com.sk89q.worldguard.bukkit.WorldGuardPlugin
 import com.sk89q.worldguard.protection.ApplicableRegionSet
+import com.sk89q.worldguard.protection.flags.Flags
 import org.bukkit.Location
 import org.bukkit.block.Block
 import org.bukkit.entity.Player
@@ -42,5 +47,29 @@ object WorldGuardUtils {
 	 */
 	fun getRegionIdsAt(loc: Location): List<String> {
 		return getRegionsAt(loc).map { it.id }
+	}
+
+	fun canBuildAt(l: Location, p: Player): Boolean {
+		val query = WorldGuard.getInstance().platform.regionContainer.createQuery()
+		val loc = BukkitAdapter.adapt(l)
+		return if (!hasBypass(p, l)) {
+			query.testState(loc, WorldGuardPlugin.inst().wrapPlayer(p), Flags.BUILD)
+		} else {
+			true
+		}
+	}
+
+	fun canBreakAt(l: Location, p: Player): Boolean {
+		val query = WorldGuard.getInstance().platform.regionContainer.createQuery()
+		val loc = BukkitAdapter.adapt(l)
+		return if (!hasBypass(p, l)) {
+			query.testState(loc, WorldGuardPlugin.inst().wrapPlayer(p), Flags.BLOCK_BREAK)
+		} else {
+			true
+		}
+	}
+
+	fun hasBypass(p: Player, l: Location): Boolean {
+		return WorldGuard.getInstance().platform.sessionManager.hasBypass(WorldGuardPlugin.inst().wrapPlayer(p), BukkitWorld(l.world))
 	}
 }
