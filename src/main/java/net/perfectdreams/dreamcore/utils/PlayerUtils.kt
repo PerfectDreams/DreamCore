@@ -1,6 +1,5 @@
 package net.perfectdreams.dreamcore.utils
 
-import me.ryanhamshire.GriefPrevention.Claim
 import me.ryanhamshire.GriefPrevention.GriefPrevention
 import org.bukkit.Location
 import org.bukkit.Material
@@ -19,7 +18,7 @@ object PlayerUtils {
 	}
 
 	fun canBreakAt(loc: Location, p: Player, m: Material): Boolean {
-		val claim = GriefPrevention.instance.dataStore.getClaimAt(loc, false, null as Claim?)
+		val claim = GriefPrevention.instance.dataStore.getClaimAt(loc, false, null)
 		var canBuildClaim: String? = null
 		if (claim != null) {
 			canBuildClaim = claim.allowBreak(p, m)
@@ -28,7 +27,7 @@ object PlayerUtils {
 	}
 
 	fun canPlaceAt(loc: Location, p: Player, m: Material): Boolean {
-		val claim = GriefPrevention.instance.dataStore.getClaimAt(loc, false, null as Claim?)
+		val claim = GriefPrevention.instance.dataStore.getClaimAt(loc, false, null)
 		var canBuildClaim: String? = null
 		if (claim != null) {
 			canBuildClaim = claim.allowBuild(p, m)
