@@ -17,6 +17,7 @@ open class ServerEvent(val eventName: String, val prefix: String) {
 	var requiredPlayers: Int = 0
 	var discordAnnouncementRole: String? = null
 	var discordChannelId: String? = null
+
 	val webhook by lazy {
 		DiscordWebhook(discordAnnouncementRole!!)
 	}
@@ -59,5 +60,11 @@ open class ServerEvent(val eventName: String, val prefix: String) {
 
 	open fun getWarmUpAnnouncementMessage(idx: Int): Any {
 		return "${prefix} §eEvento ${eventName} irá iniciar em $idx segundos! §6$command"
+	}
+
+	open fun startNow(): Boolean {
+		val diff = System.currentTimeMillis() - (lastTime + delayBetween)
+
+		return diff >= 0 && Bukkit.getOnlinePlayers().size >= requiredPlayers
 	}
 }
