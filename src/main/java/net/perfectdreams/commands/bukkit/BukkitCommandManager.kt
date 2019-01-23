@@ -1,17 +1,14 @@
 package net.perfectdreams.commands.bukkit
 
-import net.perfectdreams.commands.dsl.BaseDSLCommand
 import net.perfectdreams.commands.manager.CommandContinuationType
 import net.perfectdreams.commands.manager.DispatchableCommandManager
 import net.perfectdreams.dreamcore.DreamCore
-import net.perfectdreams.dreamcore.utils.commands.AbstractCommand
 import org.bukkit.Bukkit
 import org.bukkit.command.Command
 import org.bukkit.command.CommandMap
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.plugin.Plugin
-import kotlin.coroutines.CoroutineContext
 import kotlin.reflect.KClass
 import kotlin.reflect.full.isSubclassOf
 
@@ -50,17 +47,16 @@ class BukkitCommandManager(val plugin: Plugin) : DispatchableCommandManager<Comm
 
 	override fun registerCommand(command: SparklyCommand) {
 		val cmd = BukkitCommandWrapper(this, command)
+		command.backedCommandWrapper = cmd
 		this.getCommandMap().register(cmd.label, cmd as Command)
 	}
 
 	override fun unregisterCommand(command: SparklyCommand) {
-		val cmd = command
-
 		try {
 			val knownCommands = this.getCommandMap().knownCommands
 			val toRemove = ArrayList<String>()
 			for ((key, value) in knownCommands) {
-				if (value == cmd) {
+				if (value == command.backedCommandWrapper) {
 					toRemove.add(key)
 				}
 			}
