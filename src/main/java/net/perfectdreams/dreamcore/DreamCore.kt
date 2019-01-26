@@ -55,6 +55,7 @@ class DreamCore : JavaPlugin() {
 			this.pantufaInfoWebhook = config.getString("webhooks.info")
 			this.pantufaErrorWebhook = config.getString("webhooks.error")
 			this.socketPort = config.getInt("socket-port", -1)
+			this.defaultEventChannelId = config.getString("default-event-channel-id", "477979549284564992")
 		}
 
 		if (dreamConfig.socketPort != -1) {

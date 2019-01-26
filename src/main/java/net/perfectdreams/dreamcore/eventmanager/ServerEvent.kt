@@ -5,22 +5,18 @@ import com.okkero.skedule.schedule
 import net.md_5.bungee.api.chat.BaseComponent
 import net.perfectdreams.dreamcore.DreamCore
 import net.perfectdreams.dreamcore.network.DreamNetwork
-import net.perfectdreams.dreamcore.utils.discord.DiscordWebhook
 import net.perfectdreams.dreamcore.utils.scheduler
 import org.bukkit.Bukkit
 
 open class ServerEvent(val eventName: String, val prefix: String) {
 	var lastTime: Long = System.currentTimeMillis()
 	var running = false
+	var countingDown = false
 	var command = "/loritta"
 	var delayBetween: Long = 0L
 	var requiredPlayers: Int = 0
 	var discordAnnouncementRole: String? = null
-	var discordChannelId: String? = null
-
-	val webhook by lazy {
-		DiscordWebhook(discordAnnouncementRole!!)
-	}
+	var discordChannelId: String? = DreamCore.dreamConfig.defaultEventChannelId
 
 	open fun preStart() {
 		countdown()
