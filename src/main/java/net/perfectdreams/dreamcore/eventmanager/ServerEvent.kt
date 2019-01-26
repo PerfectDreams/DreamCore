@@ -16,7 +16,7 @@ open class ServerEvent(val eventName: String, val prefix: String) {
 	var delayBetween: Long = 0L
 	var requiredPlayers: Int = 0
 	var discordAnnouncementRole: String? = null
-	var discordChannelId: String? = DreamCore.dreamConfig.defaultEventChannelId
+	var discordChannelId: String? = null
 
 	open fun preStart() {
 		countdown()
@@ -24,19 +24,19 @@ open class ServerEvent(val eventName: String, val prefix: String) {
 
 	open fun countdown() {
 		scheduler().schedule(DreamCore.INSTANCE) {
-			if (discordAnnouncementRole != null && discordChannelId != null) {
+			if (discordAnnouncementRole != null) {
 				DreamNetwork.PANTUFA.sendAsync(
 						jsonObject(
 								"type" to "sendEventStart",
 								"eventName" to eventName,
 								"roleId" to discordAnnouncementRole,
-								"channelId" to discordChannelId
+								"channelId" to (discordChannelId ?: DreamCore.dreamConfig.defaultEventChannelId)
 						)
 				)
 			}
 
 			for (i in 60 downTo 1) {
-				val announce = (i in 15..60 && i % 15 == 0) || (i in 14..0 && i % 5 == 0)
+				val announce = (i in 15..60 && i % 15 == 0) || (i in 0..14 && i % 5 == 0)
 
 				if (announce) {
 					val announcement = getWarmUpAnnouncementMessage(i)
