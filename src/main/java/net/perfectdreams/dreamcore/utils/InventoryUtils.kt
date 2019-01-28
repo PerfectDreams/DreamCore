@@ -68,9 +68,9 @@ fun Inventory.toBase64(i: Int): String {
 
 }
 
-fun String.fromBase64Inventory(): Inventory {
+fun String.fromBase64Inventory(s: String): Inventory {
 	try {
-		val inputStream = ByteArrayInputStream(Base64Coder.decodeLines(this))
+		val inputStream = ByteArrayInputStream(Base64Coder.decodeLines(s))
 		val dataInput = BukkitObjectInputStream(inputStream)
 		val type = dataInput.readInt()
 		val size = dataInput.readInt()
