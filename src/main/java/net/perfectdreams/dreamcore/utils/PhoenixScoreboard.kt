@@ -53,12 +53,12 @@ class PhoenixScoreboard {
 
 	fun setText(text: String, line: Int) {
 		val divided = Splitter.fixedLength(16).split(text).iterator()
-		scoreboard.getTeam("line" + line).prefix = divided.next()
+		scoreboard.getTeam("line$line").prefix = divided.next()
 		if (divided.hasNext()) {
-			val color = ChatColor.getLastColors(scoreboard.getTeam("line" + line).prefix)
-			scoreboard.getTeam("line" + line).suffix = color + divided.next()
+			val color = ChatColor.getLastColors(scoreboard.getTeam("line$line").prefix)
+			scoreboard.getTeam("line$line").suffix = color + divided.next()
 		} else {
-			scoreboard.getTeam("line" + line).suffix = ""
+			scoreboard.getTeam("line$line").suffix = ""
 		}
 		scoreboard.getObjective("alphys").getScore(getOfflinePlayerForLine(line)).score = line // easy
 	}
