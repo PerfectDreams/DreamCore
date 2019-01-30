@@ -1,9 +1,12 @@
 package net.perfectdreams.dreamcore
 
+import com.okkero.skedule.SynchronizationContext
+import com.okkero.skedule.schedule
 import net.perfectdreams.commands.bukkit.BukkitCommandManager
 import net.perfectdreams.dreamcore.commands.DreamCoreCommand
 import net.perfectdreams.dreamcore.commands.MeninaCommand
 import net.perfectdreams.dreamcore.commands.MeninoCommand
+import net.perfectdreams.dreamcore.dao.User
 import net.perfectdreams.dreamcore.eventmanager.DreamEventManager
 import net.perfectdreams.dreamcore.listeners.EntityListener
 import net.perfectdreams.dreamcore.listeners.SocketListener
@@ -88,12 +91,26 @@ class DreamCore : JavaPlugin() {
 		try { VaultUtils.setupEconomy() } catch (e: NoClassDefFoundError) {}
 		try { VaultUtils.setupPermissions() } catch (e: NoClassDefFoundError) {}
 
-
 		BukkitCommandManager(this).registerCommands(
 				DreamCoreCommand(this),
 				MeninaCommand(this),
 				MeninoCommand(this)
 		)
+
+		val scheduler = Bukkit.getScheduler()
+
+		scheduler.schedule(this, SynchronizationContext.ASYNC) {
+			while (true) {
+				val newGirls = transaction(Databases.databaseNetwork) {
+					User.find { Users.isGirl eq true }
+							.map { it.id.value }
+							.toMutableSet()
+				}
+
+				MeninaAPI.girls = newGirls
+				waitFor(6000)
+			}
+		}
 
 		dreamScriptManager = DreamScriptManager(this)
 		dreamScriptManager.loadScripts()
