@@ -2,6 +2,8 @@ package net.perfectdreams.dreamcore
 
 import net.perfectdreams.commands.bukkit.BukkitCommandManager
 import net.perfectdreams.dreamcore.commands.DreamCoreCommand
+import net.perfectdreams.dreamcore.commands.MeninaCommand
+import net.perfectdreams.dreamcore.commands.MeninoCommand
 import net.perfectdreams.dreamcore.eventmanager.DreamEventManager
 import net.perfectdreams.dreamcore.listeners.EntityListener
 import net.perfectdreams.dreamcore.listeners.SocketListener
@@ -42,6 +44,7 @@ class DreamCore : JavaPlugin() {
 			this.blacklistedRegionsTeleport = config.getStringList("blacklisted-regions-teleport")
 			this.isStaffPermission = config.getString("staff-permission", "perfectdreams.staff")
 			this.databaseName = config.getString("database-name", "perfectdreams")
+			this.tablePrefix = config.getString("table-prefix", "survival")
 			this.mongoDbIp = config.getString("mongodb-ip", "10.0.0.3")
 			this.serverDatabaseName = config.getString("server-database-name", "dummy")
 			this.postgreSqlIp = config.getString("postgresql-ip", "10.0.0.6")
@@ -86,8 +89,10 @@ class DreamCore : JavaPlugin() {
 		try { VaultUtils.setupPermissions() } catch (e: NoClassDefFoundError) {}
 
 
-		BukkitCommandManager(this).registerCommand(
-				DreamCoreCommand(this)
+		BukkitCommandManager(this).registerCommands(
+				DreamCoreCommand(this),
+				MeninaCommand(this),
+				MeninoCommand(this)
 		)
 
 		dreamScriptManager = DreamScriptManager(this)

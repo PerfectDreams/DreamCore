@@ -9,6 +9,7 @@ class DreamConfig(val serverName: String, val bungeeName: String) {
 	var isStaffPermission = "perfectdreams.staff"
 	var databaseName = "perfectdreams"
 	var serverDatabaseName = "perfectdreams_survival"
+	var tablePrefix = "survival"
 	var mongoDbIp = "10.0.0.3"
 	var postgreSqlIp = "10.0.0.6"
 	var postgreSqlPort = 5432

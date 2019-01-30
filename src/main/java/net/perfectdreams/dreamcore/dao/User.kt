@@ -1,13 +1,14 @@
 package net.perfectdreams.dreamcore.dao
 
 import net.perfectdreams.dreamcore.tables.Users
-import org.jetbrains.exposed.dao.Entity
-import org.jetbrains.exposed.dao.EntityClass
 import org.jetbrains.exposed.dao.EntityID
+import org.jetbrains.exposed.dao.UUIDEntity
+import org.jetbrains.exposed.dao.UUIDEntityClass
 import java.util.*
 
-class User(id: EntityID<UUID>) : Entity<UUID>(id) {
-	companion object : EntityClass<UUID, User>(Users)
+class User(id: EntityID<UUID>) : UUIDEntity(id) {
+	companion object : UUIDEntityClass<User>(Users)
 
 	var username by Users.username
+	var isGirl by Users.isGirl
 }

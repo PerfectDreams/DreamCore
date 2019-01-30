@@ -21,22 +21,13 @@ object Databases {
 		return@lazy config
 	}
 	val dataSource by lazy { HikariDataSource(hikariConfig) }
-	val hikariConfigServer by lazy {
-		val config = HikariConfig()
-		config.jdbcUrl = "jdbc:postgresql://${DreamCore.dreamConfig.postgreSqlIp}:${DreamCore.dreamConfig.postgreSqlPort}/${DreamCore.dreamConfig.serverDatabaseName}"
-		config.username = DreamCore.dreamConfig.postgreSqlUser
-		if (DreamCore.dreamConfig.postgreSqlPassword.isNotEmpty())
-		config.password = DreamCore.dreamConfig.postgreSqlPassword
-		config.driverClassName = "org.postgresql.Driver"
+	@Deprecated("Please use hikariConfig")
+	val hikariConfigServer = hikariConfig
 
-		config.maximumPoolSize = 10
-		config.addDataSourceProperty("cachePrepStmts", "true")
-		config.addDataSourceProperty("prepStmtCacheSize", "250")
-		config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048")
-		return@lazy config
-	}
-	val dataSourceServer by lazy { HikariDataSource(hikariConfigServer) }
+	@Deprecated("Please use dataSource")
+	val dataSourceServer = dataSource
 
 	val databaseNetwork by lazy { Database.connect(dataSource) }
-	val databaseServer by lazy { Database.connect(dataSourceServer) }
+	@Deprecated("Please use databaseNetwork")
+	val databaseServer = databaseNetwork
 }
