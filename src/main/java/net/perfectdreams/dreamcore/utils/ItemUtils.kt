@@ -24,6 +24,8 @@ object ItemUtils {
 		val tag = itemStack.getCompoundTag() ?: return null
 		if (!hasStoredMetadataWithKey(itemStack, NbtTagsUtils.SERVER_DATA_COMPOUND_NAME)) return null
 		val compound = tag.getCompound(NbtTagsUtils.SERVER_DATA_COMPOUND_NAME)
+		if (!compound.containsKey(key))
+			return null
 		return compound.getString(key)
 	}
 
