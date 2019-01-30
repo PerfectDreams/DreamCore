@@ -20,6 +20,9 @@ import java.math.BigInteger
 import java.util.*
 
 object ItemUtils {
+	/**
+	 * Returns the value of the [key] metadata in the [itemStack], if it doesn't exists, returns null
+	 */
 	fun getStoredMetadata(itemStack: ItemStack, key: String): String? {
 		val tag = itemStack.getCompoundTag() ?: return null
 		if (!hasStoredMetadataWithKey(itemStack, NbtTagsUtils.SERVER_DATA_COMPOUND_NAME)) return null
@@ -29,6 +32,9 @@ object ItemUtils {
 		return compound.getString(key)
 	}
 
+	/**
+	 * Stores the specific [value] on the [key] metadata in the [itemStack], returning a copy of the original [itemStack] with the modified NBT Tag
+	 */
 	fun storeMetadata(itemStack: ItemStack, key: String, value: String): ItemStack {
 		val tag = itemStack.getCompoundTag() ?: return itemStack
 		val compound = tag.getCompoundOrDefault(NbtTagsUtils.SERVER_DATA_COMPOUND_NAME)
@@ -40,6 +46,9 @@ object ItemUtils {
 		return itemStack.setCompoundTag(tag)
 	}
 
+	/**
+	 * Checks if the [itemStack] has the [key] metadata in it's NBT Tag
+	 */
 	fun hasStoredMetadataWithKey(itemStack: ItemStack, key: String): Boolean {
 		val tag = itemStack.getCompoundTag() ?: return false
 		return tag.containsKey(key)
