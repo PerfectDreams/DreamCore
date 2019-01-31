@@ -1,6 +1,7 @@
 package net.perfectdreams.dreamcore.utils
 
 import org.bukkit.Bukkit
+import org.bukkit.entity.HumanEntity
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -26,7 +27,7 @@ class DreamMenu(val size: Int, val title: String, val cancelItemMovement: Boolea
 		player.openInventory(createInventory())
 	}
 
-	class DreamMenuSlot(val position: Int, val item: ItemStack?, val onClick: (() -> Unit)?)
+	class DreamMenuSlot(val position: Int, val item: ItemStack?, val onClick: ((HumanEntity) -> Unit)?)
 
 	class DreamMenuHolder(val menu: DreamMenu) : InventoryHolder {
 		override fun getInventory(): Inventory? {
@@ -51,9 +52,9 @@ class DreamMenuBuilder(val size: Int, val title: String) {
 
 class DreamMenuSlotBuilder(val x: Int, val y: Int) {
 	var item: ItemStack? = null
-	private var onClick: (() -> Unit)? = null
+	private var onClick: ((HumanEntity) -> Unit)? = null
 
-	fun onClick(callback: () -> Unit) {
+	fun onClick(callback: (HumanEntity) -> Unit) {
 		onClick = callback
 	}
 
@@ -79,7 +80,7 @@ class DreamMenuListener : Listener {
 		val slot = dreamMenu.slots.firstOrNull { it.position == clickedSlot }
 
 		if (slot != null) {
-			slot.onClick?.invoke()
+			slot.onClick?.invoke(e.whoClicked)
 		}
 	}
 }
