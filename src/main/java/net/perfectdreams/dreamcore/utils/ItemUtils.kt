@@ -24,6 +24,9 @@ object ItemUtils {
 	 * Returns the value of the [key] metadata in the [itemStack], if it doesn't exists, returns null
 	 */
 	fun getStoredMetadata(itemStack: ItemStack, key: String): String? {
+		if (itemStack.type == Material.AIR) // ItemStacks representing air cannot store NMS information.
+			return null
+
 		val tag = itemStack.getCompoundTag() ?: return null
 		if (!hasStoredMetadataWithKey(itemStack, NbtTagsUtils.SERVER_DATA_COMPOUND_NAME)) return null
 		val compound = tag.getCompound(NbtTagsUtils.SERVER_DATA_COMPOUND_NAME)
