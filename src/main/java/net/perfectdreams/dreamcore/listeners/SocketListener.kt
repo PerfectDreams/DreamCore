@@ -2,13 +2,13 @@ package net.perfectdreams.dreamcore.listeners
 
 import com.github.salomonbrys.kotson.*
 import net.md_5.bungee.api.chat.BaseComponent
+import net.perfectdreams.dreamcore.network.socket.SocketReceivedEvent
+import net.perfectdreams.dreamcore.network.socket.SocketUtils
 import net.perfectdreams.dreamcore.utils.DreamUtils
 import net.perfectdreams.dreamcore.utils.DreamUtils.gson
 import net.perfectdreams.dreamcore.utils.SocketCode
 import net.perfectdreams.dreamcore.utils.VaultUtils
 import net.perfectdreams.dreamcore.utils.onlinePlayers
-import net.perfectdreams.dreamcore.network.socket.SocketReceivedEvent
-import net.perfectdreams.dreamcore.network.socket.SocketUtils
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.event.EventHandler
@@ -17,6 +17,7 @@ import org.bukkit.permissions.Permission
 import org.bukkit.permissions.PermissionAttachment
 import org.bukkit.permissions.PermissionAttachmentInfo
 import org.bukkit.plugin.Plugin
+import java.util.*
 
 class SocketListener : Listener {
 	@EventHandler
@@ -65,6 +66,14 @@ class SocketListener : Listener {
 				val player = e.json["player"].string
 				val quantity = e.json["quantity"].double
 				VaultUtils.econ.depositPlayer(player, quantity)
+				e.response = jsonObject(
+						"balance" to VaultUtils.econ.getBalance(player)
+				)
+			}
+			"giveBalanceUuid" -> {
+				val player = e.json["player"].string
+				val quantity = e.json["quantity"].double
+				VaultUtils.econ.depositPlayer(Bukkit.getOfflinePlayer(UUID.fromString(player)), quantity)
 				e.response = jsonObject(
 						"balance" to VaultUtils.econ.getBalance(player)
 				)
