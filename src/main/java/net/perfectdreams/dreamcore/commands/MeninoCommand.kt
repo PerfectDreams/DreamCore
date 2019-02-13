@@ -18,7 +18,7 @@ class MeninoCommand(val m: DreamCore) : SparklyCommand(arrayOf("menino", "homem"
             player.sendMessage(MeninaAPI.PREFIX_BOY + "§cVocê já é uma menino! Se você quiser voltar a ser um menina, use §6/menina")
         } else {
             scheduler.schedule(m, SynchronizationContext.ASYNC) {
-                player.girl = true
+                player.girl = false
 
                 player.sendMessage(MeninaAPI.PREFIX_BOY + "§aVocê virou um menino! Se você quiser voltar a ser uma menina, use §6/menina")
             }
