@@ -16,9 +16,10 @@ fun ItemStack.hasStoredMetadataWithKey(key: String) = ItemUtils.hasStoredMetadat
 fun ItemStack.getTranslatedDisplayName(player: Player) =  ItemUtils.getTranslatedDisplayName(this, player)
 fun ItemStack.getTranslatedDisplayName(locale: String) =  ItemUtils.getTranslatedDisplayName(this, locale)
 fun Material.toItemStack(amount: Int = 1) = ItemStack(this, amount)
-inline fun <reified T> ItemStack.meta(block: T.() -> Unit) {
+inline fun <reified T> ItemStack.meta(block: T.() -> Unit): ItemStack {
 	val itemMeta = (this.itemMeta as T).apply {
 		block.invoke(this)
 	}
 	this.itemMeta = itemMeta as ItemMeta
+	return this
 }
