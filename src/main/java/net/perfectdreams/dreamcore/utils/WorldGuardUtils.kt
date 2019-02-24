@@ -59,15 +59,7 @@ object WorldGuardUtils {
 		}
 	}
 
-	fun canBreakAt(l: Location, p: Player): Boolean {
-		val query = WorldGuard.getInstance().platform.regionContainer.createQuery()
-		val loc = BukkitAdapter.adapt(l)
-		return if (!hasBypass(p, l)) {
-			query.testState(loc, WorldGuardPlugin.inst().wrapPlayer(p), Flags.BLOCK_BREAK)
-		} else {
-			true
-		}
-	}
+	fun canBreakAt(l: Location, p: Player): Boolean  = canBuildAt(l, p)
 
 	fun hasBypass(p: Player, l: Location): Boolean {
 		return WorldGuard.getInstance().platform.sessionManager.hasBypass(WorldGuardPlugin.inst().wrapPlayer(p), BukkitWorld(l.world))
