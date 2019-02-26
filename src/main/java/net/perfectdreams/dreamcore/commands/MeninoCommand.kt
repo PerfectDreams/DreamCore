@@ -15,7 +15,7 @@ class MeninoCommand(val m: DreamCore) : SparklyCommand(arrayOf("menino", "homem"
     fun root(player: Player) {
         val scheduler = Bukkit.getScheduler()
         if (!player.girl) {
-            player.sendMessage(MeninaAPI.PREFIX_BOY + "§cVocê já é uma menino! Se você quiser voltar a ser um menina, use §6/menina")
+            player.sendMessage(MeninaAPI.PREFIX_BOY + "§cVocê já é um menino! Se você quiser voltar a ser um menina, use §6/menina")
         } else {
             scheduler.schedule(m, SynchronizationContext.ASYNC) {
                 player.girl = false
