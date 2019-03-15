@@ -4,6 +4,8 @@ import co.aikar.commands.BaseCommand
 import co.aikar.commands.PaperCommandManager
 import net.perfectdreams.commands.bukkit.BukkitCommandManager
 import net.perfectdreams.commands.bukkit.SparklyCommand
+import net.perfectdreams.dreamcore.DreamCore
+import net.perfectdreams.dreamcore.eventmanager.ServerEvent
 import net.perfectdreams.dreamcore.utils.commands.AbstractCommand
 import org.bukkit.event.HandlerList
 import org.bukkit.plugin.java.JavaPlugin
@@ -71,5 +73,19 @@ open class KotlinPlugin : JavaPlugin() {
 	 */
 	fun registerCommand(command: SparklyCommand) {
 		bukkitCommandManager.registerCommand(command)
+	}
+
+	/**
+	 * Registra um evento do servidor
+	 */
+	fun registerServerEvent(event: ServerEvent) {
+		DreamCore.INSTANCE.dreamEventManager.events.add(event)
+	}
+
+	/**
+	 * Remove um evento do servidor dos já registrados
+	 */
+	fun unregisterServerEvent(event: ServerEvent) {
+		DreamCore.INSTANCE.dreamEventManager.events.add(event)
 	}
 }
