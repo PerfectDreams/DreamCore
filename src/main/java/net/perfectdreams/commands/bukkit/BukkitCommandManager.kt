@@ -10,6 +10,7 @@ import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.plugin.Plugin
 import kotlin.reflect.KClass
+import kotlin.reflect.full.findAnnotation
 import kotlin.reflect.full.isSubclassOf
 
 class BukkitCommandManager(val plugin: Plugin) : DispatchableCommandManager<CommandSender, SparklyCommand, SparklyDSLCommand>() {
@@ -26,6 +27,26 @@ class BukkitCommandManager(val plugin: Plugin) : DispatchableCommandManager<Comm
 			// Permissões
 			if (sparklyCommand.permission != null && !commandSender.hasPermission(sparklyCommand.permission)) {
 				commandSender.sendMessage(DreamCore.dreamConfig.withoutPermission)
+				CommandContinuationType.CANCEL
+			} else {
+				CommandContinuationType.CONTINUE
+			}
+		}
+
+		commandListeners.addMethodListener { commandSender, sparklyCommand, kCallable ->
+			val subcommandPermissionAnnotation = kCallable.findAnnotation<SubcommandPermission>()
+
+			if (subcommandPermissionAnnotation != null && !commandSender.hasPermission(subcommandPermissionAnnotation.permission)) {
+				commandSender.sendMessage(DreamCore.dreamConfig.withoutPermission)
+				CommandContinuationType.CANCEL
+			} else {
+				CommandContinuationType.CONTINUE
+			}
+		}
+
+		commandListeners.addThrowableListener { commandSender, sparklyCommand, throwable ->
+			if (throwable is ExecutedCommandException) {
+				commandSender.sendMessage(throwable.minecraftMessage)
 				CommandContinuationType.CANCEL
 			} else {
 				CommandContinuationType.CONTINUE

@@ -1,5 +1,6 @@
 package net.perfectdreams.dreamcore.utils.commands.annotation
 
+@Deprecated(message = "Please use the new command framework")
 enum class ArgumentType {
 	PLAYER,
 	PLAYER_EXACT,

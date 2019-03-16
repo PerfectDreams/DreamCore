@@ -1,9 +1,7 @@
 package net.perfectdreams.dreamcore.utils
 
-import com.sk89q.worldedit.WorldEdit
 import com.sk89q.worldedit.bukkit.BukkitAdapter
 import com.sk89q.worldedit.bukkit.BukkitWorld
-import com.sk89q.worldedit.bukkit.WorldEditPlugin
 import com.sk89q.worldguard.WorldGuard
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin
 import com.sk89q.worldguard.protection.ApplicableRegionSet
