@@ -36,7 +36,7 @@ private object RomanNumeralHelper {
     		if(isBlank()) return 0
    		val roman = map.entries.first { string.startsWith(it.value) }
 
-    		return roman.key + string.removePrefix(roman.value).fromRoman()
+    		return roman.key + fromRoman(string.removePrefix(roman.value))
 	}
 
 }
@@ -44,6 +44,6 @@ private object RomanNumeralHelper {
 fun Int.toRomanNumeral(): String {
 	return RomanNumeralHelper.toRoman(this)
 }
-fun String.fromRomanNumeral(): String {
+fun String.fromRomanNumeral(): Int {
 	return RomanNumeralHelper.fromRoman(this)
 }
