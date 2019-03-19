@@ -29,11 +29,21 @@ private object RomanNumeralHelper {
 		if (number == l) {
 			return map[number]!!
 		}
-		return "${map[1]}${toRoman(number - 1)}"
+		return "${map[l]}${toRoman(number - l)}"
+	}
+
+	fun fromRoman(string: String): Int {
+    		if(isBlank()) return 0
+   		val roman = map.entries.first { string.startsWith(it.value) }
+
+    		return roman.key + fromRoman(string.removePrefix(roman.value))
 	}
 
 }
 
 fun Int.toRomanNumeral(): String {
 	return RomanNumeralHelper.toRoman(this)
+}
+fun String.fromRomanNumeral(): Int {
+	return RomanNumeralHelper.fromRoman(this)
 }
