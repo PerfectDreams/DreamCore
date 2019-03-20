@@ -8,9 +8,9 @@ import org.postgresql.util.PGobject
 import java.sql.PreparedStatement
 
 fun <T : Any> Table.jsonb(name: String, klass: Class<T>, jsonMapper: Gson): Column<T>
-		= registerColumn(name, Json(klass, jsonMapper))
+		= registerColumn(name, JsonColumnType(klass, jsonMapper))
 
-private class Json<out T : Any>(private val klass: Class<T>, private val jsonMapper: Gson) : ColumnType() {
+class JsonColumnType<out T : Any>(private val klass: Class<T>, private val jsonMapper: Gson) : ColumnType() {
 	override fun sqlType() = "jsonb"
 
 	override fun setParameter(stmt: PreparedStatement, index: Int, value: Any?) {
