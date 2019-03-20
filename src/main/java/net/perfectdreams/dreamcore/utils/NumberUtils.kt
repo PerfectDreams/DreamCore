@@ -33,7 +33,7 @@ private object RomanNumeralHelper {
 	}
 
 	fun fromRoman(string: String): Int {
-    		if(isBlank()) return 0
+    		if(string.isBlank()) return 0
    		val roman = map.entries.first { string.startsWith(it.value) }
 
     		return roman.key + fromRoman(string.removePrefix(roman.value))
