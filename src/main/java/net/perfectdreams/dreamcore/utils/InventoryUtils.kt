@@ -50,7 +50,7 @@ fun Inventory.toBase64(i: Int): String {
 		dataOutput.writeInt(i)
 		dataOutput.writeInt(this.size)
 		if (i == 1) {
-			dataOutput.writeUTF(this.name)
+			dataOutput.writeUTF("???")
 		}
 		for ((index, itemStack) in this.contents.withIndex()) {
 			if (itemStack != null) {

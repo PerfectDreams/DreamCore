@@ -13,7 +13,7 @@ object PlayerUtils {
 	 * @param player o jogador
 	 */
 	fun healAndFeed(player: Player) {
-		player.health = player.getAttribute(Attribute.GENERIC_MAX_HEALTH).value
+		player.health = player.getAttribute(Attribute.GENERIC_MAX_HEALTH)?.value ?: 10.0
 		player.foodLevel = 20
 	}
 

@@ -174,13 +174,15 @@ object DreamUtils {
 
 						if (enchantments != null) {
 							for ((enchantmentName, level) in it.context.deserialize<Map<String, Int>>(enchantments)) {
-								itemStack.addUnsafeEnchantment(Enchantment.getByName(enchantmentName), level)
+								itemStack.addUnsafeEnchantment(Enchantment.getByName(enchantmentName)!!, level)
 							}
 						}
 
 						if (jsonMeta != null) {
 							val meta = itemStack.itemMeta
-							meta.displayName = jsonMeta["displayName"].nullString
+							val displayName = jsonMeta["displayName"].nullString
+							if (displayName != null)
+								meta.setDisplayName(displayName)
 
 							val damage = jsonObject["damage"].nullInt
 
@@ -205,7 +207,7 @@ object DreamUtils {
 								val leatherMeta = jsonMeta["color"].obj
 
 								meta as LeatherArmorMeta
-								meta.color = Color.fromRGB(leatherMeta["r"].int, leatherMeta["g"].int, leatherMeta["b"].int)
+								meta.setColor(Color.fromRGB(leatherMeta["r"].int, leatherMeta["g"].int, leatherMeta["b"].int))
 							}
 
 							if (jsonMeta.has("map")) {
@@ -317,7 +319,7 @@ object DreamUtils {
 
 	class MongoServerMonitor : ServerMonitorListener {
 		override fun serverHeartbeatFailed(p0: ServerHeartbeatFailedEvent) {
-			Bukkit.getPluginManager().getPlugin("DreamCore").logger.log(Level.SEVERE, "Lost MongoDB connection! Shutting down...")
+			Bukkit.getPluginManager().getPlugin("DreamCore")?.logger?.log(Level.SEVERE, "Lost MongoDB connection! Shutting down...")
 			Bukkit.shutdown()
 		}
 
@@ -396,7 +398,7 @@ fun onlinePlayers(): Collection<Player> {
 }
 
 fun createInventory(holder: InventoryHolder? = null, size: Int = 9, name: String? = null): Inventory {
-	return Bukkit.createInventory(holder, size, name)
+	return Bukkit.createInventory(holder, size, name ?: "")
 }
 
 fun createBossBar(title: String, color: BarColor, style: BarStyle, vararg flags: BarFlag): BossBar {
@@ -439,7 +441,7 @@ val Location.blacklistedTeleport: Boolean
 		return regions.any { DreamCore.dreamConfig.blacklistedRegionsTeleport.contains(it) }
 	}
 
-fun String.toPlayerExact(): Player {
+fun String.toPlayerExact(): Player? {
 	return Bukkit.getPlayerExact(this)
 }
 

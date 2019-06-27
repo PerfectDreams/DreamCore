@@ -41,25 +41,25 @@ class DreamCore : JavaPlugin() {
 		}
 
 		// Carregar configuração
-		dreamConfig = DreamConfig(config.getString("server-name"), config.getString("bungee-name")).apply {
-			this.withoutPermission = config.getString("without-permission", "§cVocê não tem permissão para fazer isto!")
+		dreamConfig = DreamConfig(config.getString("server-name")!!, config.getString("bungee-name")!!).apply {
+			this.withoutPermission = config.getString("without-permission", "§cVocê não tem permissão para fazer isto!")!!
 			this.blacklistedWorldsTeleport = config.getStringList("blacklisted-worlds-teleport")
 			this.blacklistedRegionsTeleport = config.getStringList("blacklisted-regions-teleport")
-			this.isStaffPermission = config.getString("staff-permission", "perfectdreams.staff")
-			this.databaseName = config.getString("database-name", "perfectdreams")
-			this.tablePrefix = config.getString("table-prefix", "survival")
-			this.mongoDbIp = config.getString("mongodb-ip", "10.0.0.3")
-			this.serverDatabaseName = config.getString("server-database-name", "dummy")
-			this.postgreSqlIp = config.getString("postgresql-ip", "10.0.0.6")
+			this.isStaffPermission = config.getString("staff-permission", "perfectdreams.staff")!!
+			this.databaseName = config.getString("database-name", "perfectdreams")!!
+			this.tablePrefix = config.getString("table-prefix", "survival")!!
+			this.mongoDbIp = config.getString("mongodb-ip", "10.0.0.3")!!
+			this.serverDatabaseName = config.getString("server-database-name", "dummy")!!
+			this.postgreSqlIp = config.getString("postgresql-ip", "10.0.0.6")!!
 			this.postgreSqlPort = config.getInt("postgresql-port", 5432)
-			this.postgreSqlUser = config.getString("postgresql-user", "postgres")
-			this.postgreSqlPassword = config.getString("postgresql-password", "")
+			this.postgreSqlUser = config.getString("postgresql-user", "postgres")!!
+			this.postgreSqlPassword = config.getString("postgresql-password", "")!!
 			this.enablePostgreSql = config.getBoolean("enable-postgresql", true)
 			if (config.contains("spawn-location"))
-				this.spawn = config.getSerializable("spawn-location", Location::class.java)
-			this.pantufaWebhook = config.getString("webhooks.warn")
-			this.pantufaInfoWebhook = config.getString("webhooks.info")
-			this.pantufaErrorWebhook = config.getString("webhooks.error")
+				this.spawn = config.getSerializable("spawn-location", Location::class.java)!!
+			this.pantufaWebhook = config.getString("webhooks.warn")!!
+			this.pantufaInfoWebhook = config.getString("webhooks.info")!!
+			this.pantufaErrorWebhook = config.getString("webhooks.error")!!
 			this.socketPort = config.getInt("socket-port", -1)
 			this.defaultEventChannelId = config.getString("default-event-channel-id", "477979549284564992")
 		}

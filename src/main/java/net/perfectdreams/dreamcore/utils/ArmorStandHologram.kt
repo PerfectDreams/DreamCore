@@ -20,7 +20,7 @@ class ArmorStandHologram(var location: Location, internal var line: String?) {
 		val ARMOR_STANDS_UNIQUE_IDS = mutableMapOf<UUID, Boolean>()
 
 		private val ARMOR_STAND_FILE by lazy {
-			val plugin = Bukkit.getPluginManager().getPlugin("DreamCore")
+			val plugin = Bukkit.getPluginManager().getPlugin("DreamCore")!!
 			plugin.dataFolder.mkdirs()
 			File(plugin.dataFolder, "armor_stand_holograms")
 		}
@@ -38,7 +38,7 @@ class ArmorStandHologram(var location: Location, internal var line: String?) {
 
 		@Synchronized
 		fun updateFile() {
-			scheduler().schedule(Bukkit.getPluginManager().getPlugin("DreamCore"), SynchronizationContext.ASYNC) {
+			scheduler().schedule(Bukkit.getPluginManager().getPlugin("DreamCore")!!, SynchronizationContext.ASYNC) {
 				ARMOR_STAND_FILE.writeText(
 						ARMOR_STANDS_UNIQUE_IDS.keys.joinToString("\n")
 				)

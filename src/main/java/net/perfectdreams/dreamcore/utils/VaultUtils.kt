@@ -20,19 +20,19 @@ object VaultUtils {
 			return false
 		}
 		val rsp = Bukkit.getServicesManager().getRegistration(Economy::class.java) ?: return false
-		econ = rsp.getProvider()
+		econ = rsp.provider
 		return econ != null
 	}
 
 	fun setupChat(): Boolean {
 		val rsp = Bukkit.getServicesManager().getRegistration(Chat::class.java)
-		chat = rsp.getProvider()
+		chat = rsp!!.provider
 		return chat != null
 	}
 
 	fun setupPermissions(): Boolean {
 		val rsp = Bukkit.getServicesManager().getRegistration(Permission::class.java)
-		perms = rsp.getProvider()
+		perms = rsp!!.provider
 		return perms != null
 	}
 }

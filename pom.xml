@@ -127,8 +127,10 @@
         <dependency>
             <groupId>com.destroystokyo.paper</groupId>
             <artifactId>paper</artifactId>
-            <version>1.13.1-R0.1-SNAPSHOT</version>
-            <scope>provided</scope>
+            <version>1.14.3-R0.1-SNAPSHOT</version>
+            <!-- <scope>provided</scope> -->
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/patched_1.14.3.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>com.sk89q.worldedit</groupId>
@@ -281,6 +283,12 @@
              <artifactId>commons-codec</artifactId>
              <version>1.12</version>
          </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.9</version>
+        </dependency>
         <!-- https://mvnrepository.com/artifact/org.mindrot/jbcrypt -->
         <dependency>
             <groupId>org.mindrot</groupId>

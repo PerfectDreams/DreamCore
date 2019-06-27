@@ -30,8 +30,8 @@ class DreamMenu(val size: Int, val title: String, val cancelItemMovement: Boolea
 	class DreamMenuSlot(val position: Int, val item: ItemStack?, val onClick: ((HumanEntity) -> Unit)?)
 
 	class DreamMenuHolder(val menu: DreamMenu) : InventoryHolder {
-		override fun getInventory(): Inventory? {
-			return null
+		override fun getInventory(): Inventory {
+			throw UnsupportedOperationException()
 		}
 	}
 }

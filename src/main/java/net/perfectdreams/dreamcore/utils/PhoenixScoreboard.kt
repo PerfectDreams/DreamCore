@@ -18,57 +18,57 @@ class PhoenixScoreboard {
 	init {
 		scoreboard = Bukkit.getScoreboardManager().newScoreboard
 		scoreboard.registerNewObjective("alphys", "dummy")
-		scoreboard.getObjective("alphys").displaySlot = DisplaySlot.SIDEBAR
+		scoreboard.getObjective("alphys")!!.displaySlot = DisplaySlot.SIDEBAR
 		scoreboard.registerNewTeam("line1")
-		scoreboard.getTeam("line1").addPlayer(line1)
+		scoreboard.getTeam("line1")!!.addPlayer(line1)
 		scoreboard.registerNewTeam("line2")
-		scoreboard.getTeam("line2").addPlayer(line2)
+		scoreboard.getTeam("line2")!!.addPlayer(line2)
 		scoreboard.registerNewTeam("line3")
-		scoreboard.getTeam("line3").addPlayer(line3)
+		scoreboard.getTeam("line3")!!.addPlayer(line3)
 		scoreboard.registerNewTeam("line4")
-		scoreboard.getTeam("line4").addPlayer(line4)
+		scoreboard.getTeam("line4")!!.addPlayer(line4)
 		scoreboard.registerNewTeam("line5")
-		scoreboard.getTeam("line5").addPlayer(line5)
+		scoreboard.getTeam("line5")!!.addPlayer(line5)
 		scoreboard.registerNewTeam("line6")
-		scoreboard.getTeam("line6").addPlayer(line6)
+		scoreboard.getTeam("line6")!!.addPlayer(line6)
 		scoreboard.registerNewTeam("line7")
-		scoreboard.getTeam("line7").addPlayer(line7)
+		scoreboard.getTeam("line7")!!.addPlayer(line7)
 		scoreboard.registerNewTeam("line8")
-		scoreboard.getTeam("line8").addPlayer(line8)
+		scoreboard.getTeam("line8")!!.addPlayer(line8)
 		scoreboard.registerNewTeam("line9")
-		scoreboard.getTeam("line9").addPlayer(line9)
+		scoreboard.getTeam("line9")!!.addPlayer(line9)
 		scoreboard.registerNewTeam("line10")
-		scoreboard.getTeam("line10").addPlayer(line10)
+		scoreboard.getTeam("line10")!!.addPlayer(line10)
 		scoreboard.registerNewTeam("line11")
-		scoreboard.getTeam("line11").addPlayer(line11)
+		scoreboard.getTeam("line11")!!.addPlayer(line11)
 		scoreboard.registerNewTeam("line12")
-		scoreboard.getTeam("line12").addPlayer(line12)
+		scoreboard.getTeam("line12")!!.addPlayer(line12)
 		scoreboard.registerNewTeam("line13")
-		scoreboard.getTeam("line13").addPlayer(line13)
+		scoreboard.getTeam("line13")!!.addPlayer(line13)
 		scoreboard.registerNewTeam("line14")
-		scoreboard.getTeam("line14").addPlayer(line14)
+		scoreboard.getTeam("line14")!!.addPlayer(line14)
 		scoreboard.registerNewTeam("line15")
-		scoreboard.getTeam("line15").addPlayer(line15)
+		scoreboard.getTeam("line15")!!.addPlayer(line15)
 	}
 
 	fun setText(text: String, line: Int) {
 		val divided = Splitter.fixedLength(16).split(text).iterator()
-		scoreboard.getTeam("line$line").prefix = divided.next()
+		scoreboard.getTeam("line$line")!!.prefix = divided.next()
 		if (divided.hasNext()) {
-			val color = ChatColor.getLastColors(scoreboard.getTeam("line$line").prefix)
-			scoreboard.getTeam("line$line").suffix = color + divided.next()
+			val color = ChatColor.getLastColors(scoreboard.getTeam("line$line")!!.prefix)
+			scoreboard.getTeam("line$line")!!.suffix = color + divided.next()
 		} else {
-			scoreboard.getTeam("line$line").suffix = ""
+			scoreboard.getTeam("line$line")!!.suffix = ""
 		}
-		scoreboard.getObjective("alphys").getScore(getOfflinePlayerForLine(line)).score = line // easy
+		scoreboard.getObjective("alphys")!!.getScore(getOfflinePlayerForLine(line)!!).score = line // easy
 	}
 
 	fun removeLine(line: Int) {
-		scoreboard.resetScores(getOfflinePlayerForLine(line))
+		scoreboard.resetScores(getOfflinePlayerForLine(line)!!)
 	}
 
 	fun setTitle(title: String) {
-		scoreboard.getObjective("alphys").displayName = title
+		scoreboard.getObjective("alphys")!!.displayName = title
 	}
 
 	companion object {

@@ -51,5 +51,5 @@ fun String.translateColorCodes(ch: Char = '&'): String {
 }
 
 fun String.stripColorCode(ch: Char= '&'): String {
-	return ChatColor.stripColor(translateColorCodes(ch))
+	return ChatColor.stripColor(translateColorCodes(ch))!!
 }

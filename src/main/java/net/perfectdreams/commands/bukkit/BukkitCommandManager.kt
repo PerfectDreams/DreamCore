@@ -46,7 +46,7 @@ class BukkitCommandManager(val plugin: Plugin) : DispatchableCommandManager<Comm
 
 		commandListeners.addThrowableListener { commandSender, sparklyCommand, throwable ->
 			if (throwable is ExecutedCommandException) {
-				commandSender.sendMessage(throwable.minecraftMessage)
+				commandSender.sendMessage(throwable.minecraftMessage ?: "Alguma coisa deu errado!")
 				CommandContinuationType.CANCEL
 			} else {
 				CommandContinuationType.CONTINUE

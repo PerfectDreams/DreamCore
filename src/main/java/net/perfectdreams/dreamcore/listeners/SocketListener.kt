@@ -129,7 +129,6 @@ class SocketListener : Listener {
 
 				e.response = jsonObject(
 						"name" to Bukkit.getName(),
-						"serverName" to Bukkit.getServerName(),
 						"version" to Bukkit.getVersion(),
 						"apiVersion" to Bukkit.getBukkitVersion(),
 						"tps" to jsonObject("tps" to gson.toJsonTree(Bukkit.getServer().tps)),
@@ -148,6 +147,34 @@ class SocketListener : Listener {
 	}
 
 	class FakeCommandSender(val fakeName: String) : CommandSender {
+		override fun isPermissionSet(p0: Permission): Boolean {
+			TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+		}
+
+		override fun hasPermission(p0: Permission): Boolean {
+			TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+		}
+
+		override fun addAttachment(p0: Plugin, p1: String, p2: Boolean): PermissionAttachment {
+			TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+		}
+
+		override fun addAttachment(p0: Plugin): PermissionAttachment {
+			TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+		}
+
+		override fun addAttachment(p0: Plugin, p1: String, p2: Boolean, p3: Int): PermissionAttachment? {
+			TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+		}
+
+		override fun addAttachment(p0: Plugin, p1: Int): PermissionAttachment? {
+			TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+		}
+
+		override fun removeAttachment(p0: PermissionAttachment) {
+			TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+		}
+
 		val receivedMessages = mutableListOf<String>()
 		val spigot = Spigot(this)
 
@@ -179,37 +206,13 @@ class SocketListener : Listener {
 
 		override fun isPermissionSet(p0: String) = true
 
-		override fun isPermissionSet(p0: Permission?) = true
-
-		override fun addAttachment(p0: Plugin?, p1: String?, p2: Boolean): PermissionAttachment {
-			TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-		}
-
-		override fun addAttachment(p0: Plugin?): PermissionAttachment {
-			TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-		}
-
-		override fun addAttachment(p0: Plugin?, p1: String?, p2: Boolean, p3: Int): PermissionAttachment {
-			TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-		}
-
-		override fun addAttachment(p0: Plugin?, p1: Int): PermissionAttachment {
-			TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-		}
-
 		override fun getEffectivePermissions(): MutableSet<PermissionAttachmentInfo> {
 			TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
 		}
 
-		override fun removeAttachment(p0: PermissionAttachment?) {}
-
 		override fun recalculatePermissions() {}
 
 		override fun hasPermission(p0: String): Boolean {
-			return true
-		}
-
-		override fun hasPermission(p0: Permission?): Boolean {
 			return true
 		}
 

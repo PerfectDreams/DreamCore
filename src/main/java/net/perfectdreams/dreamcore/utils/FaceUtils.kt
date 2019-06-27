@@ -8,7 +8,7 @@ import org.bukkit.block.BlockFace
 
 object FaceUtils {
 	val BLOCKED_ATTACHMENTS = setOf<Material>(
-			Material.AIR, Material.WALL_SIGN, Material.SIGN, Material.CAKE, Material.COBWEB, Material.WATER, Material.LAVA
+			Material.AIR, Material.OAK_WALL_SIGN, Material.OAK_SIGN, Material.CAKE, Material.COBWEB, Material.WATER, Material.LAVA
 	)
 
 	fun getBlockFaceForWallSign(b: Block): BlockFace? {

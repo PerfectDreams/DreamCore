@@ -1,22 +1,23 @@
 package net.perfectdreams.dreamcore.utils
 
-import net.minecraft.server.v1_13_R2.BlockPosition
-import net.minecraft.server.v1_13_R2.World
+import net.minecraft.server.v1_14_R1.BlockPosition
+import net.minecraft.server.v1_14_R1.World
 import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.block.Block
 import org.bukkit.block.Sign
-import org.bukkit.craftbukkit.v1_13_R2.CraftWorld
-import org.bukkit.craftbukkit.v1_13_R2.util.CraftMagicNumbers
+import org.bukkit.craftbukkit.v1_14_R1.CraftWorld
+import org.bukkit.craftbukkit.v1_14_R1.inventory.CraftItemStack
+import org.bukkit.craftbukkit.v1_14_R1.util.CraftMagicNumbers
+import org.bukkit.enchantments.Enchantment
+import org.bukkit.inventory.ItemStack
 import java.util.*
-
-
 
 object BlockUtils {
 	fun attachWallSignAt(l: Location): Block? {
-		l.block.type = Material.WALL_SIGN
+		l.block.type = Material.OAK_WALL_SIGN
 		val s = l.block.state as Sign
-		val matSign = org.bukkit.material.Sign(Material.WALL_SIGN)
+		val matSign = org.bukkit.material.Sign(Material.OAK_WALL_SIGN)
 		val bf = FaceUtils.getBlockFaceForWallSign(s.block) ?: run {
 			l.block.type = Material.AIR
 			return null
@@ -32,14 +33,21 @@ object BlockUtils {
 		if (!block.type.name.contains("ORE")) {
 			return 1
 		}
+		// TODO: Fix
         val nmsBlock = CraftMagicNumbers.getBlock(block.type)
-        return nmsBlock.getDropCount(nmsBlock.blockData, enchantmentLevel, nmsWorld, BlockPosition(block.x, block.y, block.z), DreamUtils.SLOW_RANDOM)
+        // return nmsBlock.getDropCount(nmsBlock.blockData, enchantmentLevel, nmsWorld, BlockPosition(block.x, block.y, block.z), DreamUtils.SLOW_RANDOM)
+		return 1
 	}
 
+	@Deprecated("NMS now uses ItemStacks")
 	fun getExpCount(block: Block, fortuneLevel: Int): Int {
+		return getExpCount(block, ItemStack(Material.DIAMOND_PICKAXE).apply { this.addUnsafeEnchantment(Enchantment.LOOT_BONUS_BLOCKS, fortuneLevel) })
+	}
+
+	fun getExpCount(block: Block, itemStack: ItemStack): Int {
 		val nmsBlock = CraftMagicNumbers.getBlock(block.type)
 		val nmsWorld = (block.world as CraftWorld).handle
-		return nmsBlock.getExpDrop(nmsBlock.blockData, nmsWorld as World, BlockPosition(block.x, block.y, block.z), fortuneLevel)
+		return nmsBlock.getExpDrop(nmsBlock.blockData, nmsWorld as World, BlockPosition(block.x, block.y, block.z), CraftItemStack.asNMSCopy(itemStack))
 	}
 
 	fun getDropType(block: Block): Material {

@@ -1,13 +1,13 @@
 package net.perfectdreams.dreamcore.utils
 
-import net.minecraft.server.v1_13_R2.NBTCompressedStreamTools
-import net.minecraft.server.v1_13_R2.NBTTagCompound
-import net.minecraft.server.v1_13_R2.NBTTagList
+import net.minecraft.server.v1_14_R1.NBTCompressedStreamTools
+import net.minecraft.server.v1_14_R1.NBTTagCompound
+import net.minecraft.server.v1_14_R1.NBTTagList
 import net.perfectdreams.dreamcore.utils.extensions.getCompoundTag
 import net.perfectdreams.dreamcore.utils.extensions.setCompoundTag
 import net.perfectdreams.dreamcore.utils.tags.NbtTagsUtils
 import org.bukkit.Material
-import org.bukkit.craftbukkit.v1_13_R2.inventory.CraftItemStack
+import org.bukkit.craftbukkit.v1_14_R1.inventory.CraftItemStack
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
@@ -72,7 +72,7 @@ object ItemUtils {
 
 fun ItemStack.rename(name: String): ItemStack {
 	val meta = this.itemMeta
-	meta.displayName = name
+	meta.setDisplayName(name)
 	this.itemMeta = meta
 	return this
 }
@@ -136,7 +136,7 @@ fun String.fromBase64Item(): ItemStack {
 		e.printStackTrace()
 	}
 
-	val nmsItem = net.minecraft.server.v1_13_R2.ItemStack.a(nbtTagCompoundRoot)
+	val nmsItem = net.minecraft.server.v1_14_R1.ItemStack.a(nbtTagCompoundRoot)
 	return CraftItemStack.asBukkitCopy(nmsItem)
 }
 
